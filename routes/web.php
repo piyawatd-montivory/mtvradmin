@@ -16,8 +16,8 @@ use App\Http\Controllers\WebController;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
+Route::get('/ckeditor', function () {
+    return view('ckeditor');
 });
 Route::get('/', [WebController::class, 'index'])->name('home');
 Route::get('/career', [WebController::class, 'career'])->name('career');

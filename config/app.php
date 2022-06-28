@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Mtvradmin'),
 
     /*
     |--------------------------------------------------------------------------
@@ -121,7 +121,7 @@ return [
     |
     */
 
-    'key' => env('APP_KEY'),
+    'key' => env('APP_KEY','base64:TactdCZECSm2NJjUvP3ER4ssRijMlvzXGL//x4FTTls='),
 
     'cipher' => 'AES-256-CBC',
 
