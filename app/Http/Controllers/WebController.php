@@ -27,6 +27,11 @@ class WebController extends Controller
     {
         return view('careerfinish');
     }
+
+    function ck()
+    {
+        return view('ckeditor');
+    }
 }
 ?>
 
