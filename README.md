@@ -69,3 +69,7 @@ Multi language cms use laravel framework.
     }
     
  - dump autoloader: `composer dump-autoload` 
+
+## Laravel file manager
+
+[Reference](https://unisharp.github.io/laravel-filemanager/installation)
