@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admins\DashboardController;
 use App\Http\Controllers\Admins\LoginController;
 use App\Http\Controllers\WebController;
-use App\Http\Controllers\GitController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +22,6 @@ Route::get('/ckeditor', function () {
 Route::get('/', [WebController::class, 'index'])->name('home');
 Route::get('/career', [WebController::class, 'career'])->name('career');
 Route::get('/careerfinish', [WebController::class, 'careerfinish'])->name('careerfinish');
-Route::get('/gitpull', [GitController::class, 'index'])->name('gitpull');
 
 Route::prefix('admins')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
