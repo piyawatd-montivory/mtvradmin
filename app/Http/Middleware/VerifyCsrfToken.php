@@ -14,6 +14,8 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         '/admins/users/list/*',
         '/admins/users/delete/*',
-        '/admins/users/checkemail'
+        '/admins/users/checkemail',
+        '/admins/partners/list/*',
+        '/admins/partners/delete/*',
     ];
 }

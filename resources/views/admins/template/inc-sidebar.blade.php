@@ -10,6 +10,10 @@
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-newspaper"></i></div>
                 Content
             </a>
+            <a class="nav-link @if (Route::currentRouteName() === 'partnerindex') active @endif" href="{{ route('partnerindex')}}">
+                <div class="sb-nav-link-icon"><i class="fa-solid fa-handshake"></i></div>
+                Partner
+            </a>
             <a class="nav-link @if (Route::currentRouteName() === 'userindex') active @endif" href="{{ route('userindex')}}">
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
                 User

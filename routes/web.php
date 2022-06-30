@@ -5,7 +5,7 @@ use App\Http\Controllers\Admins\DashboardController;
 use App\Http\Controllers\Admins\LoginController;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\Admins\UserController;
-
+use App\Http\Controllers\Admins\PartnerController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,6 +28,15 @@ Route::prefix('admins')->group(function () {
     Route::prefix('tags')->group(function () {
 
     });
+    Route::prefix('partners')->group(function () {
+        Route::get('/', [PartnerController::class, 'index'])->name('partnerindex');
+        Route::get('/new', [PartnerController::class, 'new'])->name('partnernew');
+        Route::get('/edit/{id}', [PartnerController::class, 'edit'])->name('partneredit');
+        Route::post('/create', [PartnerController::class, 'create'])->name('partnercreate');
+        Route::post('/update/{id}', [PartnerController::class, 'update'])->name('partnerupdate');
+        Route::delete('/delete/{id}', [PartnerController::class, 'delete'])->name('partnerdelete');
+        Route::get('/list', [PartnerController::class, 'list'])->name('partnerlist');
+    });
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('userindex');
         Route::get('/new', [UserController::class, 'new'])->name('usernew');
@@ -37,7 +46,6 @@ Route::prefix('admins')->group(function () {
         Route::delete('/delete/{id}', [UserController::class, 'delete'])->name('userdelete');
         Route::get('/list', [UserController::class, 'list'])->name('userlist');
         Route::post('/checkemail', [UserController::class, 'checkemail'])->name('checkemail');
-
     });
 });
 
