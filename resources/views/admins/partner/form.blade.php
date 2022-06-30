@@ -63,6 +63,12 @@
                     </div>
                 </div>
                 <div class="row mb-3">
+                    <label for="sortorder" class="col-sm-2 col-form-label">Order</label>
+                    <div class="col-md-10">
+                        <input type="number" step="1" class="form-control" id="sortorder" name="sortorder" value="{{$partner->sortorder}}" required>
+                    </div>
+                </div>
+                <div class="row mb-3">
                     <label for="description" class="col-sm-2 col-form-label">Description</label>
                     <div class="col-md-10">
                         <textarea class="form-control" rows="4" id="description" name="description">{{$partner->description}}</textarea>
@@ -93,6 +99,7 @@
     });
 
     function submitform(){
+        @if(empty($partner->id))
         if(isBlank($('#logo').val())){
             $('#logo').removeClass('is-valid');
             $('#logo').addClass('is-invalid');
@@ -101,6 +108,7 @@
             $('#logo').removeClass('is-invalid');
             $('#logo').addClass('is-valid');
         }
+        @endif
         if(validateName() && validateUrl()){
             $('#formdata').submit();
         }

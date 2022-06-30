@@ -81,6 +81,10 @@ Montivory
                 </div>
                 <div class="partner-list animate fadeInUp">
                     @foreach ($partners as $partner)
+                        @if(($loop->index % 4) == 0)
+                        </div>
+                        <div class="partner-list animate fadeInUp">
+                        @endif
                     <a href="{{ $partner->url }}"><img alt="" src="{{ asset($partner->logo)}}"></a>
                     @endforeach
                 </div>

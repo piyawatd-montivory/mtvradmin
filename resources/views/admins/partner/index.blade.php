@@ -22,7 +22,8 @@ Partner
         <thead>
             <tr>
                 <th class="col-3">Logo</th>
-                <th class="col-6">Name</th>
+                <th class="col-5">Name</th>
+                <th class="col-1">Order</th>
                 <th class="col-3"></th>
             </tr>
         </thead>
@@ -52,6 +53,7 @@ Partner
             columns: [
                 { data: null },
                 { data: 'name' },
+                { data: 'sortorder' },
                 { data: null }
             ],
             columnDefs: [
@@ -65,7 +67,7 @@ Partner
                 },
                 {
                     orderable: false,
-                    targets:   2,
+                    targets:   3,
                     render: function(data){
                         var toolsstr = '<a href="/admins/partners/edit/'+data.id+'" class="btn btn-outline-primary">Edit</a> ';
                         toolsstr += '<a href="javascript:deleteuser(\''+data.id+'\',\''+data.name+'\');" class="btn btn-outline-danger">Delete</a>';
@@ -73,7 +75,7 @@ Partner
                     }
                 }
             ],
-            order: [[ 1, 'asc' ]]
+            order: [[ 2, 'asc' ]]
         });
     });
 

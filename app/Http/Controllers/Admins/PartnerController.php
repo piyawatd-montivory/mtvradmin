@@ -25,7 +25,9 @@ class PartnerController extends Controller
 
     public function new()
     {
-        return view('admins.partner.form', [ 'partner' => new Partner()]);
+        $partner = new Partner();
+        $partner->sortorder = 1;
+        return view('admins.partner.form', [ 'partner' => $partner]);
     }
 
     public function edit($id)
@@ -49,10 +51,13 @@ class PartnerController extends Controller
 
     public function updateDatabase(Partner $partner, Request $request,$mode)
     {
-        $partner->logo = $request->logo;
+        if(!empty($request->logo)){
+            $partner->logo = $request->logo;
+        }
         $partner->name = $request->name;
         $partner->description = $request->description;
         $partner->url = $request->url;
+        $partner->sortorder = $request->sortorder;
         $partner->save();
     }
 
@@ -67,7 +72,8 @@ class PartnerController extends Controller
         // https://shareurcodes.com/blog/laravel%20datatables%20server%20side%20processing
         $columns = array(
             0 => 'logo',
-            1 => 'name'
+            1 => 'name',
+            2 => 'sortorder',
         );
 
         $totalData = Partner::count();
@@ -97,6 +103,7 @@ class PartnerController extends Controller
                 $nestedData['id'] = $partner->id;
                 $nestedData['logo'] = $partner->logo;
                 $nestedData['name'] = $partner->name;
+                $nestedData['sortorder'] = $partner->sortorder;
                 $data[] = $nestedData;
             }
         }

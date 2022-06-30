@@ -16,7 +16,7 @@ class WebController extends Controller
 {
     function index()
     {
-        return view('index',['partners'=>Partner::all()]);
+        return view('index',['partners'=>Partner::orderBy('sortorder','asc')->get()]);
     }
 
     function career()

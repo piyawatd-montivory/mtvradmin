@@ -105,7 +105,6 @@ Montivory
                                 <li id="6">Sales Representative</li>
                                 <li id="7">Data Visualize</li>
                             </ul>
-                            <button type="button" class="btn" id="skillbtn">APPLY</button>
                         </div>
                     </div>
                     <div class="skill-box">
@@ -122,7 +121,7 @@ Montivory
                                 <li id="6">Sales Representative</li>
                                 <li id="7">Data Visualize</li>
                             </ul>
-                        <button type="button" class="btn" id="interestbtn">APPLY</button>
+                        <button type="button" class="btn" id="applybtn">APPLY</button>
                         </div>
                     </div>
                     <div class="skill-result d-none" id="skill-result-block">
@@ -210,10 +209,7 @@ Montivory
 <script src="{{asset('/js/theme.js')}}" type="text/javascript"></script>
 <script>
     $(function(){
-        $('#skillbtn').on('click',function(){
-            searchJob();
-        });
-        $('#interestbtn').on('click',function(){
+        $('#applybtn').on('click',function(){
             searchJob();
         });
         $('.interest-title').on('click',function(){
@@ -234,10 +230,9 @@ Montivory
             show = false;
         }
         if(!show){
+            $('#applybtn').removeClass('d-none');
             $('#interesttoolbar').attr('class','skill-toggle');
-            $('#interestbtn').removeClass('d-none');
             $('#skilltoolbar').attr('class','skill-toggle');
-            $('#skillbtn').removeClass('d-none');
             $('#skill-result-block').addClass('d-none');
         }
     }
@@ -262,8 +257,7 @@ Montivory
         data.interest = interest;
         $('#skilltoolbar').attr('class','skill-edit choose');
         $('#interesttoolbar').attr('class','skill-edit choose');
-        $('#skillbtn').addClass('d-none');
-        $('#interestbtn').addClass('d-none');
+        $('#applybtn').addClass('d-none');
         $('#skill-result-block').removeClass('d-none');
     }
 </script>

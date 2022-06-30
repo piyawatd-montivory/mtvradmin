@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('logo');
             $table->text('description')->nullable(true);
             $table->text('url');
+            $table->number('sortorder')->default(0)->nullable(true);
             $table->timestamps();
         });
     }
