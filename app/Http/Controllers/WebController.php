@@ -10,12 +10,13 @@ use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Http;
 use Response;
+use App\Models\Partner;
 
 class WebController extends Controller
 {
     function index()
     {
-        return view('index');
+        return view('index',['partners'=>Partner::all()]);
     }
 
     function career()

@@ -80,11 +80,9 @@ Montivory
                     <h2 class="sc-headline">Partner</h2>
                 </div>
                 <div class="partner-list animate fadeInUp">
-                    <a href="#"><img alt="" src="{{ asset('/images/frontend/brand-logo-01.png')}}"></a>
-                    <a href="#"><img alt="" src="{{ asset('/images/frontend/brand-logo-02.png')}}"></a>
-                    <a href="#"><img alt="" src="{{ asset('/images/frontend/brand-logo-03.png')}}"></a>
-                    <a href="#"><img alt="" src="{{ asset('/images/frontend/brand-logo-04.png')}}"></a>
-                    <a href="#"><img alt="" src="{{ asset('/images/frontend/brand-logo-05.png')}}"></a>
+                    @foreach ($partners as $partner)
+                    <a href="{{ $partner->url }}"><img alt="" src="{{ asset($partner->logo)}}"></a>
+                    @endforeach
                 </div>
             </div>
         </div>
