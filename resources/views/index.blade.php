@@ -214,4 +214,7 @@ Montivory
 
 <!-- Custom Script -->
 <script src="{{asset('/js/theme.js')}}" type="text/javascript"></script>
+<script type="text/javascript">
+
+</script>
 @endsection

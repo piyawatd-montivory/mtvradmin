@@ -92,37 +92,46 @@ Montivory
                 </div>
                 <div class="career-content animate fadeInUp">
                     <div class="skill-box">
-                        <div class="skill-toggle">
-                            <h3 class="skill-toggle-text">I have skill in</h3>
+                        <div class="skill-toggle" id="skilltoolbar">
+                            <h3 class="skill-toggle-text skill-title">I have skill in</h3>
                         </div>
                         <div class="skill-panel">
-                            <ul class="skill-list">
-                                <li>Data Analytic</li>
-                                <li>UI Design</li>
-                                <li>Search Engine Optimization</li>
-                                <li>E-Marketing</li>
-                                <li>Software Developer</li>
-                                <li>Sales Representative</li>
-                                <li>Data Visualize</li>
+                            <ul class="skill-list" id="skill-list">
+                                <li id="1">Data Analytic</li>
+                                <li id="2">UI Design</li>
+                                <li id="3">Search Engine Optimization</li>
+                                <li id="4">E-Marketing</li>
+                                <li id="5">Software Developer</li>
+                                <li id="6">Sales Representative</li>
+                                <li id="7">Data Visualize</li>
                             </ul>
-                        <button type="submit" class="btn">APPLY</button>
+                            <button type="button" class="btn" id="skillbtn">APPLY</button>
                         </div>
                     </div>
                     <div class="skill-box">
-                        <div class="skill-toggle">
-                            <h3 class="skill-toggle-text">And I'm interest in</h3>
+                        <div class="skill-toggle" id="interesttoolbar">
+                            <h3 class="skill-toggle-text interest-title">And I'm interest in</h3>
                         </div>
                         <div class="skill-panel">
-                            <ul class="skill-list">
-                                <li>Data Analytic</li>
-                                <li>UI Design</li>
-                                <li>Search Engine Optimization</li>
-                                <li>E-Marketing</li>
-                                <li>Software Developer</li>
-                                <li>Sales Representative</li>
-                                <li>Data Visualize</li>
+                            <ul class="skill-list" id="interest-list">
+                                <li id="1">Data Analytic</li>
+                                <li id="2">UI Design</li>
+                                <li id="3">Search Engine Optimization</li>
+                                <li id="4">E-Marketing</li>
+                                <li id="5">Software Developer</li>
+                                <li id="6">Sales Representative</li>
+                                <li id="7">Data Visualize</li>
                             </ul>
-                        <button type="submit" class="btn">APPLY</button>
+                        <button type="button" class="btn" id="interestbtn">APPLY</button>
+                        </div>
+                    </div>
+                    <div class="skill-result d-none" id="skill-result-block">
+                        <p class="total-result">4 Results</p>
+                        <x-career-item id="1" title="Position A" skill="Skill Require: Lorem Ipsum, Sme Osum" description="“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
+                        <x-career-item id="2" title="Position B" skill="Skill Require: Lorem Ipsum, Sme Osum" description="“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
+                        <div class="skill-result-remark">
+                            <p>Can't find the right one?</p>
+                            <a href="#" class="und und-blue">CONTACT US</a>
                         </div>
                     </div>
                 </div>
@@ -199,4 +208,63 @@ Montivory
 
 <!-- Custom Script -->
 <script src="{{asset('/js/theme.js')}}" type="text/javascript"></script>
+<script>
+    $(function(){
+        $('#skillbtn').on('click',function(){
+            searchJob();
+        });
+        $('#interestbtn').on('click',function(){
+            searchJob();
+        });
+        $('.interest-title').on('click',function(){
+            changetoolbar();
+        });
+        $('.skill-title').on('click',function(){
+            changetoolbar();
+        });
+
+    })
+
+    function changetoolbar(){
+        var show = true;
+        if($('#interesttoolbar').attr('class') == 'skill-edit choose'){
+            show = false;
+        }
+        if($('#skilltoolbar').attr('class') == 'skill-edit choose'){
+            show = false;
+        }
+        if(!show){
+            $('#interesttoolbar').attr('class','skill-toggle');
+            $('#interestbtn').removeClass('d-none');
+            $('#skilltoolbar').attr('class','skill-toggle');
+            $('#skillbtn').removeClass('d-none');
+            $('#skill-result-block').addClass('d-none');
+        }
+    }
+
+    function searchJob(){
+        //skill
+        var data = {};
+        var skill = [];
+        var interest = [];
+        $.each($('#skill-list li'),function(key,value){
+            if($(value).attr('class') == 'clicked'){
+                skill.push($(value).attr('id'));
+            }
+        });
+        data.skill = skill;
+        //interest
+        $.each($('#interest-list li'),function(key,value){
+            if($(value).attr('class') == 'clicked'){
+                interest.push($(value).attr('id'));
+            }
+        });
+        data.interest = interest;
+        $('#skilltoolbar').attr('class','skill-edit choose');
+        $('#interesttoolbar').attr('class','skill-edit choose');
+        $('#skillbtn').addClass('d-none');
+        $('#interestbtn').addClass('d-none');
+        $('#skill-result-block').removeClass('d-none');
+    }
+</script>
 @endsection

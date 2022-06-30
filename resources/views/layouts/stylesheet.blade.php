@@ -7,3 +7,4 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{{asset('/css/theme.css')}}" type="text/css">
 <link rel="stylesheet" href="{{asset('/css/theme-rwd.css')}}" type="text/css">
+<link rel="stylesheet" href="{{asset('/css/web.css')}}" type="text/css">
