@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admins\DashboardController;
 use App\Http\Controllers\Admins\LoginController;
 use App\Http\Controllers\WebController;
+use App\Http\Controllers\Admins\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +25,18 @@ Route::get('/ck', [WebController::class, 'ck'])->name('ck');
 Route::prefix('admins')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/login', [LoginController::class, 'index'])->name('samplelogin');
-    Route::prefix('products')->group(function () {
+    Route::prefix('tags')->group(function () {
+
+    });
+    Route::prefix('users')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('userindex');
+        Route::get('/new', [UserController::class, 'new'])->name('usernew');
+        Route::get('/edit/{id}', [UserController::class, 'edit'])->name('useredit');
+        Route::post('/create', [UserController::class, 'create'])->name('usercreate');
+        Route::post('/update/{id}', [UserController::class, 'update'])->name('userupdate');
+        Route::delete('/delete/{id}', [UserController::class, 'delete'])->name('userdelete');
+        Route::get('/list', [UserController::class, 'list'])->name('userlist');
+        Route::post('/checkemail', [UserController::class, 'checkemail'])->name('checkemail');
 
     });
 });
