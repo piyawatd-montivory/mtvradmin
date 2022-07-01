@@ -9,6 +9,7 @@ use App\Http\Controllers\Admins\PartnerController;
 use App\Http\Controllers\Admins\PositionController;
 use App\Http\Controllers\Admins\SkillInterestController;
 use App\Http\Controllers\Admins\ContentController;
+use App\Http\Controllers\Admins\ContentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,7 +85,6 @@ Route::prefix('admins')->group(function () {
         Route::get('/', [UserController::class, 'profile'])->name('profile');
         Route::post('/update', [UserController::class, 'profileupdate'])->name('profileupdate');
     });
-
 });
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
