@@ -18,6 +18,15 @@ Content
             <a href="{{route('contentnew')}}" class="btn btn-outline-primary">Add</a>
         </div>
     </div>
+    <div class="row pb-3 mt-3">
+        <label for="contenttype" class="col-1 col-form-label">Type</label>
+        <div class="col-md-3">
+            <select class="form-select" id="contenttype" name="contenttype">
+                <option value="testimonial">Testimonial</option>
+                <option value="benefit">Benefit</option>
+            </select>
+        </div>
+    </div>
     <table id="contenttable" class="table table table-striped table-hover" style="width:100%">
         <thead>
             <tr>
@@ -42,7 +51,7 @@ Content
     $(document).ready(function () {
         oTable = $('#contenttable').DataTable({
             "ajax":{
-                    "url": "{{ route('contentlist') }}",
+                    "url": "{{ route('contentlist') }}?type="+$('#contenttype').val(),
                     "dataType": "json",
                     "type": "GET"
             },
@@ -68,6 +77,9 @@ Content
             ],
             order: [[ 1, 'asc' ]]
         });
+        $('#contenttype').on('change',function(){
+            oTable.ajax.url("{{ route('contentlist') }}?type="+$('#contenttype').val()).load();
+        })
     });
 
     function deleteuser(id,title) {
@@ -83,7 +95,7 @@ Content
                             dataType:"json",
                             success: function(response){
                                 $.alert('Delete success.');
-                                oTable.ajax.url("{{ route('contentlist') }}").load();
+                                oTable.ajax.url("{{ route('contentlist') }}?type="+$('#contenttype').val()).load();
                             }
                         });
                     }

@@ -122,12 +122,14 @@ class ContentController extends Controller
         $search = $request->input('search.value');
 
         $contents = Content::where('title', 'LIKE', "%{$search}%")
+            ->where('contenttype',$request->input('type'))
             ->offset($start)
             ->limit($limit)
             ->orderBy($order, $dir)
             ->get();
 
         $totalFiltered = Content::where('title', 'LIKE', "%{$search}%")
+            ->where('contenttype',$request->input('type'))
             ->count();
 
         $data = array();

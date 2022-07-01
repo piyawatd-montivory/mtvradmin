@@ -53,7 +53,7 @@
 <div class="row mb-3">
     <label for="contenttype" class="col-sm-2 col-form-label">Type</label>
     <div class="col-md-10">
-        <select class="form-control" id="contenttype" name="contenttype">
+        <select class="form-select" id="contenttype" name="contenttype">
             <option value="testimonial" @selected('testimonial' == $content->contenttype)>Testimonial</option>
             <option value="benefit" @selected('benefit' == $content->contenttype)>Benefit</option>
         </select>
