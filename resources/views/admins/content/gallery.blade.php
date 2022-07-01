@@ -93,6 +93,7 @@
 <script>
     var swaparea = document.getElementById('showgallery');
     var galleryModal = '';
+    var gModalEl = document.getElementById('galleryModal');
 
 new Sortable(swaparea, {
     swap: true,
@@ -104,6 +105,11 @@ $(document).ready(function () {
     $('#selimagebtn').filemanager('image');
     bliddelete();
     galleryModal =  new bootstrap.Modal(document.getElementById('galleryModal'), {backdrop:true});
+});
+
+gModalEl.addEventListener('hidden.bs.modal', function (event) {
+    $('#selimage').val('');
+    $('#selimage_preview').html('');
 });
 
 function addGalleryImage(){
