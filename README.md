@@ -1,6 +1,6 @@
-# PCMS
+# CMS
 
-Multi language cms use laravel framework.
+cms power by laravel framework.
 
 ## Requirements
 
