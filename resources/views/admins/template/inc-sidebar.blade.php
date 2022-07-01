@@ -6,7 +6,7 @@
                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                 Dashboard
             </a>
-            <a class="nav-link" href="#">
+            <a class="nav-link @if (Route::currentRouteName() === 'contentindex') active @endif" href="{{ route('contentindex')}}">
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-newspaper"></i></div>
                 Content
             </a>

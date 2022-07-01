@@ -6,6 +6,7 @@ use App\Http\Controllers\Admins\LoginController;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\Admins\UserController;
 use App\Http\Controllers\Admins\PartnerController;
+use App\Http\Controllers\Admins\ContentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,6 +28,15 @@ Route::prefix('admins')->group(function () {
     Route::get('/login', [LoginController::class, 'index'])->name('samplelogin');
     Route::prefix('tags')->group(function () {
 
+    });
+    Route::prefix('contents')->group(function () {
+        Route::get('/', [ContentController::class, 'index'])->name('contentindex');
+        Route::get('/new', [ContentController::class, 'new'])->name('contentnew');
+        Route::get('/edit/{id}', [ContentController::class, 'edit'])->name('contentedit');
+        Route::post('/create', [ContentController::class, 'create'])->name('contentcreate');
+        Route::post('/update/{id}', [ContentController::class, 'update'])->name('contentupdate');
+        Route::delete('/delete/{id}', [ContentController::class, 'delete'])->name('contentdelete');
+        Route::get('/list', [ContentController::class, 'list'])->name('contentlist');
     });
     Route::prefix('partners')->group(function () {
         Route::get('/', [PartnerController::class, 'index'])->name('partnerindex');
