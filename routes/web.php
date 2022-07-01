@@ -9,7 +9,6 @@ use App\Http\Controllers\Admins\PartnerController;
 use App\Http\Controllers\Admins\PositionController;
 use App\Http\Controllers\Admins\SkillInterestController;
 use App\Http\Controllers\Admins\ContentController;
-use App\Http\Controllers\Admins\ContentController;
 
 /*
 |--------------------------------------------------------------------------
