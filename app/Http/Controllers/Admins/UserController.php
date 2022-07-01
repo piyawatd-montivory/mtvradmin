@@ -18,23 +18,24 @@ class UserController extends Controller
         // $this->middleware('auth');
     }
 
-    // public function profile() {
-    //     return view('admins.user.profile', ['user'=>User::find(Auth::id())]);
-    // }
+    public function profile() {
+        return view('admins.user.profile', ['user'=>User::find(Auth::id())]);
+    }
 
-    // public function profileupdate(Request $request) {
-    //     $user = User::find(Auth::id());
-    //     if (!empty($request->input('password'))) {
-    //         $user->password = Hash::make($request->password);
-    //     }
-    //     $user->name = $request->name;
-    //     $user->save();
+    public function profileupdate(Request $request) {
+        $user = User::find(Auth::id());
+        if (!empty($request->input('password'))) {
+            $user->password = Hash::make($request->password);
+        }
+        $user->firstname = $request->firstname;
+        $user->lastname = $request->lastname;
+        $user->save();
 
-    //     Auth::guard('web')->logout();
-    //     $request->session()->invalidate();
-    //     $request->session()->regenerateToken();
-    //     return redirect('/login');
-    // }
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('login');
+    }
 
     public function index()
     {

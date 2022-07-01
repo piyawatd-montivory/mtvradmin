@@ -59,6 +59,12 @@ Route::prefix('admins')->group(function () {
         Route::get('/list', [UserController::class, 'list'])->name('userlist');
         Route::post('/checkemail', [UserController::class, 'checkemail'])->name('checkemail');
     });
+
+    Route::prefix('profile')->group(function () {
+        Route::get('/', [UserController::class, 'profile'])->name('profile');
+        Route::post('/update', [UserController::class, 'profileupdate'])->name('profileupdate');
+    });
+
 });
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {

@@ -79,28 +79,25 @@
 
     $(document).ready(function(){
         $('#imagebtn').filemanager('image');
-        $('#title').focusout(function(){
-            validateTitle();
-        });
-        // $('#url').focusout(function(){
-        //     validateUrl();
-        // });
     });
 
     function submitform(){
-        if(validateTitle()){
+        if(CKEDITOR.instances['description'].getData() == ''){
+            return false;
+        }
+        if(validateBlank('title') && validateBlank('alias') && validateBlank('shortdescription')){
             $('#formdata').submit();
         }
     }
 
-    function validateTitle(){
-        if(isBlank($('#title').val())){
-            $('#title').removeClass('is-valid');
-            $('#title').addClass('is-invalid');
+    function validateBlank(id){
+        if(isBlank($('#'+id).val())){
+            $('#'+id).removeClass('is-valid');
+            $('#'+id).addClass('is-invalid');
             return false;
         }else{
-            $('#title').removeClass('is-invalid');
-            $('#title').addClass('is-valid');
+            $('#'+id).removeClass('is-invalid');
+            $('#'+id).addClass('is-valid');
             return true;
         }
     }
