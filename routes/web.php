@@ -6,7 +6,10 @@ use App\Http\Controllers\Admins\LoginController;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\Admins\UserController;
 use App\Http\Controllers\Admins\PartnerController;
+use App\Http\Controllers\Admins\PositionController;
+use App\Http\Controllers\Admins\SkillInterestController;
 use App\Http\Controllers\Admins\ContentController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -59,12 +62,28 @@ Route::prefix('admins')->group(function () {
         Route::get('/list', [UserController::class, 'list'])->name('userlist');
         Route::post('/checkemail', [UserController::class, 'checkemail'])->name('checkemail');
     });
-
+    Route::prefix('positions')->group(function () {
+        Route::get('/', [PositionController::class, 'index'])->name('positionindex');
+        Route::get('/new', [PositionController::class, 'new'])->name('positionnew');
+        Route::get('/edit/{id}', [PositionController::class, 'edit'])->name('positionedit');
+        Route::post('/create', [PositionController::class, 'create'])->name('positioncreate');
+        Route::post('/update/{id}', [PositionController::class, 'update'])->name('positionupdate');
+        Route::delete('/delete/{id}', [PositionController::class, 'delete'])->name('positiondelete');
+        Route::get('/list', [PositionController::class, 'list'])->name('positionlist');
+    });
+    Route::prefix('skills')->group(function () {
+        Route::get('/', [SkillInterestController::class, 'index'])->name('skillindex');
+        Route::get('/new', [SkillInterestController::class, 'new'])->name('skillnew');
+        Route::get('/edit/{id}', [SkillInterestController::class, 'edit'])->name('skilledit');
+        Route::post('/create', [SkillInterestController::class, 'create'])->name('skillcreate');
+        Route::post('/update/{id}', [SkillInterestController::class, 'update'])->name('skillupdate');
+        Route::delete('/delete/{id}', [SkillInterestController::class, 'delete'])->name('skilldelete');
+        Route::get('/list', [SkillInterestController::class, 'list'])->name('skilllist');
+    });
     Route::prefix('profile')->group(function () {
         Route::get('/', [UserController::class, 'profile'])->name('profile');
         Route::post('/update', [UserController::class, 'profileupdate'])->name('profileupdate');
     });
-
 });
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {

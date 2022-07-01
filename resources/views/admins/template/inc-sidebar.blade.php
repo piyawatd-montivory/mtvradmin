@@ -18,6 +18,15 @@
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
                 User
             </a>
+            <a class="nav-link @if (Route::currentRouteName() === 'skillindex') active @endif" href="{{ route('skillindex')}}">
+                <div class="sb-nav-link-icon"><i class="fa-solid fa-book"></i></div>
+                Skill Interest
+            </a>
+            <a class="nav-link @if (Route::currentRouteName() === 'positionindex') active @endif" href="{{ route('positionindex')}}">
+                <div class="sb-nav-link-icon"><i class="fa-solid fa-check-to-slot"></i></div>
+                Position
+            </a>
+
             {{-- <a class="nav-link @if (Route::currentRouteName() === 'productindex') active @endif" href="{{ route('productindex') }}">
                 <div class="sb-nav-link-icon"><i class="fa-brands fa-product-hunt"></i></div>
                 Product
