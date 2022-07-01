@@ -33,6 +33,8 @@ Route::prefix('admins')->group(function () {
         Route::get('/', [ContentController::class, 'index'])->name('contentindex');
         Route::get('/new', [ContentController::class, 'new'])->name('contentnew');
         Route::get('/edit/{id}', [ContentController::class, 'edit'])->name('contentedit');
+        Route::get('/gallery/{id}', [ContentController::class, 'gallery'])->name('contentgallery');
+        Route::post('/gallery/{id}', [ContentController::class, 'updategallery'])->name('contentgalleryupdate');
         Route::post('/create', [ContentController::class, 'create'])->name('contentcreate');
         Route::post('/update/{id}', [ContentController::class, 'update'])->name('contentupdate');
         Route::delete('/delete/{id}', [ContentController::class, 'delete'])->name('contentdelete');

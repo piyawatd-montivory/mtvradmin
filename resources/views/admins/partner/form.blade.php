@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <label for="name" class="col-sm-2 col-form-label">name</label>
+                    <label for="name" class="col-sm-2 col-form-label">Name</label>
                     <div class="col-md-10">
                         <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{$partner->name}}" required>
                         <div class="invalid-feedback" id="validatename">

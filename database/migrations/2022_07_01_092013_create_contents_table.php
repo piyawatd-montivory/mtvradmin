@@ -26,6 +26,8 @@ return new class extends Migration
             $table->text('image')->nullable(true);
             $table->text('ogimage')->nullable(true);
             $table->text('twitterimage')->nullable(true);
+            $table->text('keywords')->nullable(true);
+            $table->text('gallery')->nullable(true);
             $table->timestamps();
         });
     }

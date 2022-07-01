@@ -61,18 +61,11 @@ Montivory
                 </div>
                 <div class="swiper-container loop multiple center benefit animate fadeInUp">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide benefit-card">
-                            <div class="image object-fit"><img alt="" src="{{ asset('images/frontend/preview.png')}}"></div>
-                        </div>
-                        <div class="swiper-slide benefit-card">
-                            <div class="image object-fit"><img alt="" src="{{ asset('images/frontend/preview.png')}}"></div>
-                        </div>
-                        <div class="swiper-slide benefit-card">
-                            <div class="image object-fit"><img alt="" src="{{ asset('images/frontend/preview.png')}}"></div>
-                        </div>
-                        <div class="swiper-slide benefit-card">
-                            <div class="image object-fit"><img alt="" src="{{ asset('images/frontend/preview.png')}}"></div>
-                        </div>
+                        @foreach ($benefitGallery as $gallery)
+                            <div class="swiper-slide benefit-card">
+                                <div class="image object-fit"><img alt="" src="{{ asset($gallery->image)}}"></div>
+                            </div>
+                        @endforeach
                     </div>
                     <div class="swiper-navigation">
                         <div class="swiper-button-prev"></div>

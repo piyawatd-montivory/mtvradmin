@@ -35,10 +35,34 @@ class ContentController extends Controller
         return view('admins.content.form', [ 'content' => Content::find($id)]);
     }
 
+    public function gallery($id)
+    {
+        return view('admins.content.gallery', [ 'content' => Content::find($id)]);
+    }
+
+    public function updategallery($id,Request $request){
+        $content = Content::find($id);
+        $galleryArray = array();
+        if($request->image)
+        {
+            foreach ($request->image as $key=>$value)
+            {
+                $imageObject = new \stdClass;
+                $imageObject->image = $request->image[$key];
+                array_push($galleryArray,$imageObject);
+            }
+        }
+        $content->gallery = json_encode($galleryArray);
+        $content->save();
+        return redirect()->route('contentindex')->with('success', 'Update gallery success!');
+    }
+
     public function create(Request $request)
     {
         $content = new Content();
         $this->updateDatabase($content, $request,'new');
+        $galleryArray = array();
+        $content->gallery = json_encode($galleryArray);
         return redirect()->route('contentindex')->with('success', 'Content saved!');
     }
 
@@ -66,7 +90,7 @@ class ContentController extends Controller
         $content->position = $request->position;
         $content->shortdescription = $request->shortdescription;
         $content->description = $request->description;
-        $content->contenttype = $request->contenttype;
+        $content->contenttype = $request->contenttype?:'testimonial';
         $content->sortorder = $request->sortorder;
         $content->save();
     }
@@ -81,9 +105,8 @@ class ContentController extends Controller
     {
         // https://shareurcodes.com/blog/laravel%20datatables%20server%20side%20processing
         $columns = array(
-            0 => 'logo',
-            1 => 'name',
-            2 => 'sortorder',
+            0 => 'title',
+            1 => 'sortorder',
         );
 
         $totalData = Content::count();
@@ -111,7 +134,7 @@ class ContentController extends Controller
         if (!empty($contents)) {
             foreach ($contents as $content) {
                 $nestedData['id'] = $content->id;
-                $nestedData['title'] = $content->logo;
+                $nestedData['title'] = $content->title;
                 $nestedData['sortorder'] = $content->sortorder;
                 $data[] = $nestedData;
             }

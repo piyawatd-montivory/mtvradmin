@@ -57,9 +57,10 @@ Content
             columnDefs: [
                 {
                     orderable: false,
-                    targets:   3,
+                    targets:   2,
                     render: function(data){
-                        var toolsstr = '<a href="/admins/partners/edit/'+data.id+'" class="btn btn-outline-primary">Edit</a> ';
+                        var toolsstr = '<a href="/admins/contents/edit/'+data.id+'" class="btn btn-outline-primary">Edit</a> ';
+                        toolsstr += '<a href="/admins/contents/gallery/'+data.id+'" class="btn btn-outline-primary">Gallery</a> ';
                         toolsstr += '<a href="javascript:deleteuser(\''+data.id+'\',\''+data.title+'\');" class="btn btn-outline-danger">Delete</a>';
                         return toolsstr;
                     }
