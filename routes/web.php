@@ -6,12 +6,10 @@ use App\Http\Controllers\Admins\LoginController;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\Admins\UserController;
 use App\Http\Controllers\Admins\PartnerController;
-<<<<<<< HEAD
 use App\Http\Controllers\Admins\PositionController;
 use App\Http\Controllers\Admins\SkillInterestController;
-=======
 use App\Http\Controllers\Admins\ContentController;
->>>>>>> 16d9a1cc7c2224b23dd3bd03715f2fde7bfac6b5
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
