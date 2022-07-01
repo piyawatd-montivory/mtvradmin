@@ -60,9 +60,9 @@ class ContentController extends Controller
     public function create(Request $request)
     {
         $content = new Content();
-        $this->updateDatabase($content, $request,'new');
         $galleryArray = array();
         $content->gallery = json_encode($galleryArray);
+        $this->updateDatabase($content, $request,'new');
         return redirect()->route('contentindex')->with('success', 'Content saved!');
     }
 
