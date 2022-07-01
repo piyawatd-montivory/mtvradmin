@@ -21,7 +21,11 @@ Multi language cms use laravel framework.
 
 ## Laravel Command
 
-[Laravel](https://laravel.com)
+[Laravel](https://laravel.com/docs/9.x/eloquent#generating-model-classes)
+
+    //Generate a model, FlightController resource class, and form request classes...
+    php artisan make:model Flight --controller --resource --requests
+    php artisan make:model Flight -crR
 
     //สร้าง model พร้อม migrate
     php artisan make:model <modelname> -m

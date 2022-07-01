@@ -11,17 +11,26 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Http;
 use Response;
 use App\Models\Partner;
+use App\Models\Content;
 
 class WebController extends Controller
 {
     function index()
     {
-        return view('index',['partners'=>Partner::orderBy('sortorder','asc')->get()]);
+        $partners = Partner::orderBy('sortorder','asc')->get();
+        $testimonials = Content::where('contenttype','testimonial')
+            ->orderBy('sortorder','asc')->get();
+        return view('index',['partners'=>$partners,'testimonials'=>$testimonials]);
     }
 
     function career()
     {
-        return view('career');
+        $benefitGallery = [];
+        $benefit = Content::where('alias','benefit')->first();
+        if($benefit){
+            $benefitGallery = json_decode($benefit->gallery);
+        }
+        return view('career',['benefitGallery'=>$benefitGallery]);
     }
 
     function careerfinish()

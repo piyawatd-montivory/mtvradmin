@@ -6,8 +6,12 @@ use App\Http\Controllers\Admins\LoginController;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\Admins\UserController;
 use App\Http\Controllers\Admins\PartnerController;
+<<<<<<< HEAD
 use App\Http\Controllers\Admins\PositionController;
 use App\Http\Controllers\Admins\SkillInterestController;
+=======
+use App\Http\Controllers\Admins\ContentController;
+>>>>>>> 16d9a1cc7c2224b23dd3bd03715f2fde7bfac6b5
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,6 +33,17 @@ Route::prefix('admins')->group(function () {
     Route::get('/login', [LoginController::class, 'index'])->name('samplelogin');
     Route::prefix('tags')->group(function () {
 
+    });
+    Route::prefix('contents')->group(function () {
+        Route::get('/', [ContentController::class, 'index'])->name('contentindex');
+        Route::get('/new', [ContentController::class, 'new'])->name('contentnew');
+        Route::get('/edit/{id}', [ContentController::class, 'edit'])->name('contentedit');
+        Route::get('/gallery/{id}', [ContentController::class, 'gallery'])->name('contentgallery');
+        Route::post('/gallery/{id}', [ContentController::class, 'updategallery'])->name('contentgalleryupdate');
+        Route::post('/create', [ContentController::class, 'create'])->name('contentcreate');
+        Route::post('/update/{id}', [ContentController::class, 'update'])->name('contentupdate');
+        Route::delete('/delete/{id}', [ContentController::class, 'delete'])->name('contentdelete');
+        Route::get('/list', [ContentController::class, 'list'])->name('contentlist');
     });
     Route::prefix('partners')->group(function () {
         Route::get('/', [PartnerController::class, 'index'])->name('partnerindex');
@@ -67,6 +82,11 @@ Route::prefix('admins')->group(function () {
         Route::delete('/delete/{id}', [SkillInterestController::class, 'delete'])->name('skilldelete');
         Route::get('/list', [SkillInterestController::class, 'list'])->name('skilllist');
     });
+    Route::prefix('profile')->group(function () {
+        Route::get('/', [UserController::class, 'profile'])->name('profile');
+        Route::post('/update', [UserController::class, 'profileupdate'])->name('profileupdate');
+    });
+
 });
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {

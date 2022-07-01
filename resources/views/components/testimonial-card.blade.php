@@ -1,6 +1,6 @@
 <div class="swiper-slide testimonial-card">
     <div class="testimonial-text">
-        <p>{{ $description }}</p>
+        {!! html_entity_decode($description) !!}
     </div>
     <div class="testimonial-by">
         <img alt="" src="{{ $image }}">
