@@ -17,6 +17,7 @@ class VerifyCsrfToken extends Middleware
         '/admins/users/checkemail',
         '/admins/partners/list/*',
         '/admins/partners/delete/*',
+        '/admins/partners/reorder',
         '/admins/contents/list/*',
         '/admins/contents/delete/*',
     ];

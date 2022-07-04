@@ -51,6 +51,7 @@ Route::prefix('admins')->group(function () {
         Route::get('/edit/{id}', [PartnerController::class, 'edit'])->name('partneredit');
         Route::post('/create', [PartnerController::class, 'create'])->name('partnercreate');
         Route::post('/update/{id}', [PartnerController::class, 'update'])->name('partnerupdate');
+        Route::post('/reorder', [PartnerController::class, 'reorder'])->name('partnerreorder');
         Route::delete('/delete/{id}', [PartnerController::class, 'delete'])->name('partnerdelete');
         Route::get('/list', [PartnerController::class, 'list'])->name('partnerlist');
     });

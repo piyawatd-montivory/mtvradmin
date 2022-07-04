@@ -29,9 +29,14 @@ Montivory
                     <h2 class="sc-headline">Why Montivory</h2>
                 </div>
                 <div class="career-content animate fadeInUp">
-                    <p>Today, many organizations proudly tell us that they have successfully transformed themselves digitally. But no one shares the story of what they did before they were successful. So where should
-                        we start?</p>
-                    <p>And no one tells us that apart from implementing the technology, there’s still a very important phase that must be completed first. Before your organization can get up and set off on a real journey to success, you have to start by laying the foundation. At Montivory, we don't just provide you with the latest and best technology.</p>
+                    <h1>Header title h1</h1>
+                    <h2>Header title h2</h2>
+                    <h3>Header title h3</h3>
+                    <h4>Header title h4</h4>
+                    <h5>Header title h5</h5>
+                    <h6>Header title h6</h6>
+                    <p>Paragraph</p>
+                    <strong>Strong</strong>
                     <p>Our team are ready to listen to your specific needs and then share their in-depth knowledge, customer-oriented insights and hands-on experience to ensure we can achieve success together with you. We are the people you are looking for. We are the ones who will ask the right questions and then work with you to find the answer to what is most important to your success.</p>
                 </div>
             </div>

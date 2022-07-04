@@ -20,7 +20,7 @@ class PartnerController extends Controller
 
     public function index()
     {
-        return view('admins.partner.index');
+        return view('admins.partner.index',['partners'=>Partner::all()]);
     }
 
     public function new()
@@ -28,6 +28,16 @@ class PartnerController extends Controller
         $partner = new Partner();
         $partner->sortorder = 1;
         return view('admins.partner.form', [ 'partner' => $partner]);
+    }
+
+    public function reorder(Request $request)
+    {
+        foreach($request->id as $key=>$value){
+            $partner = Partner::find($value);
+            $partner->sortorder = $key + 1;
+            $partner->save();
+        }
+        return ['result'=>true];
     }
 
     public function edit($id)
