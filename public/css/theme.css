@@ -1605,13 +1605,18 @@ ul.menu > li > a:hover {
     font-size: 0.87rem;
     font-weight: 700;
 }
+.skill-result-description {
+    padding-bottom: 30px;
+    margin-bottom:0!important;
+}
 .skill-result-box .apply-job {
     color: #0D66D0;
     font-weight: 700;
     font-size: 0.87rem;
     letter-spacing: 1.25px;
-    margin-top: 30px;
-    display: block;
+    /* margin-top: 30px; */
+    /* display: block; */
+    margin-right: 32px;
 }
 .skill-result-remark {
     padding: 30px 0;
