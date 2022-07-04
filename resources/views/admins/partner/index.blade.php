@@ -16,7 +16,7 @@ Partner
             <h1>Partner</h1>
         </div>
         <div class="col-6 text-end">
-            <a href="{{route('partnernew')}}" class="btn btn-outline-primary">Add</a>
+            <a href="{{route('partnernew')}}" class="btn btn-outline-primary addnew-btn">Add</a>
             <a href="javascript:reorderform();" class="btn btn-outline-primary reorder-btn">Re Order</a>
             <a href="javascript:reorder();" class="btn btn-outline-primary reorder-update-btn d-none">Save</a>
             <a href="javascript:cancelreorder();" class="btn btn-outline-danger reorder-update-btn d-none">Cancel</a>
@@ -67,13 +67,16 @@ Partner
     function reorderform() {
         $('.reorder-update-btn').removeClass('d-none');
         $('.reorder-btn').addClass('d-none');
+        $('.addnew-btn').addClass('d-none');
         $('#sorttable').removeClass('d-none');
         $('#show-table').addClass('d-none');
+
     }
 
     function cancelreorder(){
         $('.reorder-update-btn').addClass('d-none');
         $('.reorder-btn').removeClass('d-none');
+        $('.addnew-btn').removeClass('d-none');
         $('#sorttable').addClass('d-none');
         $('#show-table').removeClass('d-none');
     }
