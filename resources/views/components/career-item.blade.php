@@ -4,5 +4,5 @@
     <div class="skill-result-description">
         <p>{{ $description }}</p>
     </div>
-    <a href="{{ $id }}" class="menu-scroll apply-job">APPLY NOW</a>
+    <a href="{{ $id }}" class="menu-scroll apply-job">APPLY NOW</a> <a href="{{ $id }}" class="menu-scroll apply-job">DETAIL</a>
 </div>
