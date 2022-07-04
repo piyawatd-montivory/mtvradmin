@@ -9,6 +9,7 @@ use App\Http\Controllers\Admins\PartnerController;
 use App\Http\Controllers\Admins\PositionController;
 use App\Http\Controllers\Admins\SkillInterestController;
 use App\Http\Controllers\Admins\ContentController;
+use App\Http\Controllers\Admins\MontivoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,6 +84,15 @@ Route::prefix('admins')->group(function () {
     Route::prefix('profile')->group(function () {
         Route::get('/', [UserController::class, 'profile'])->name('profile');
         Route::post('/update', [UserController::class, 'profileupdate'])->name('profileupdate');
+    });
+    Route::prefix('montivory')->group(function () {
+        Route::get('/', [MontivoryController::class, 'index'])->name('montivoryindex');
+        Route::get('/new', [MontivoryController::class, 'new'])->name('montivorynew');
+        Route::get('/edit/{id}', [MontivoryController::class, 'edit'])->name('montivoryedit');
+        Route::post('/create', [MontivoryController::class, 'create'])->name('montivorycreate');
+        Route::post('/update/{id}', [MontivoryController::class, 'update'])->name('montivoryupdate');
+        Route::delete('/delete/{id}', [MontivoryController::class, 'delete'])->name('montivorydelete');
+        Route::get('/list', [MontivoryController::class, 'list'])->name('montivorylist');
     });
 });
 

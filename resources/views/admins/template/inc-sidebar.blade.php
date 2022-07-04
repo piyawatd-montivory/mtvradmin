@@ -26,6 +26,10 @@
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-check-to-slot"></i></div>
                 Position
             </a>
+            <a class="nav-link @if (Route::currentRouteName() === 'montivoryindex') active @endif" href="{{ route('montivoryindex')}}">
+                <div class="sb-nav-link-icon"><i class="fa-solid fa-people-group"></i></div>
+                Team Montivory
+            </a>
 
             {{-- <a class="nav-link @if (Route::currentRouteName() === 'productindex') active @endif" href="{{ route('productindex') }}">
                 <div class="sb-nav-link-icon"><i class="fa-brands fa-product-hunt"></i></div>
