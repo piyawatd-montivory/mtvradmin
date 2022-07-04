@@ -90,8 +90,8 @@ class MontivoryController extends Controller
             1 => 'lastname',
             2 => 'image',
             3 => 'job_position',
-            4 => 'linkin_url',
-            5 => 'linkin_active',
+            4 => 'linkedin_url',
+            5 => 'linkedin_active',
             6 => 'status_active',
         );
 
@@ -124,8 +124,8 @@ class MontivoryController extends Controller
                 $nestedData['lastname'] = $skimontivoryll->lastname;
                 $nestedData['image'] = $montivory->image;
                 $nestedData['job_position'] = $montivory->job_position;
-                $nestedData['linkin_url'] = $skimontivoryll->linkin_url;
-                $nestedData['linkin_active'] = $montivory->linkin_active;
+                $nestedData['linkedin_url'] = $skimontivoryll->linkin_url;
+                $nestedData['linkedin_active'] = $montivory->linkin_active;
                 $nestedData['status_active'] = $montivory->status_active;
                 $data[] = $nestedData;
             }

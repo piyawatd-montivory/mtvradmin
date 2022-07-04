@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('lastname');
             $table->text('image');
             $table->string('job_position');
-            $table->text('linkin_url');
-            $table->boolean('linkin_active');
+            $table->text('linkedin_url');
+            $table->boolean('linkedin_active');
             $table->boolean('status_active');
             $table->timestamps();
         });
