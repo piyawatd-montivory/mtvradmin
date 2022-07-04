@@ -33,6 +33,11 @@ class WebController extends Controller
         return view('career',['benefitGallery'=>$benefitGallery]);
     }
 
+    function careerdetail()
+    {
+        return view('careerdetail');
+    }
+
     function careerfinish()
     {
         return view('careerfinish');
