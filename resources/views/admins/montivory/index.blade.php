@@ -25,8 +25,8 @@ Team Montivory
                 <th class="col-2">Lastname</th>
                 <th class="col-2">Image</th>
                 <th class="col-2">Job Position</th>
-                <th class="col-2">Linkin URL</th>
-                <th class="col-2">Linkin Active</th>
+                <th class="col-2">LinkedIn URL</th>
+                <th class="col-2">LinkedIn Active</th>
                 <th class="col-2">Status Active</th>
                 <th class="col-3"></th>
             </tr>
@@ -59,8 +59,8 @@ Team Montivory
                 { data: 'lastname' },
                 { data: 'image' },
                 { data: 'job_position' },
-                { data: 'linkin_url' },
-                { data: 'linkin_active' },
+                { data: 'linkedin_url' },
+                { data: 'linkedin_active' },
                 { data: 'status_active' },
                 { data: null }
 
