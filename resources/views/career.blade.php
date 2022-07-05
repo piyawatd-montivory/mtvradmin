@@ -252,7 +252,7 @@ Montivory
                         str += '<div class="skill-result-description">';
                         str += '<p>'+value.description+'</p>';
                         str += '</div>';
-                        str += '<a href="#joinus" position="'+value.id+'" class="menu-scroll apply-job">APPLY NOW</a> <a href="{{url('/career')}}/'+value.id+'" class="menu-scroll apply-job">DETAIL</a>';
+                        str += '<a href="#joinus" position="'+value.id+'" class="menu-scroll apply-job">APPLY NOW</a> <a href="{{url('/career')}}/'+value.alias+'" class="menu-scroll apply-job">DETAIL</a>';
                         str += '</div>';
                         $('#skill-result-block').append(str);
                         $('#job').append('<option value="'+value.id+'">'+value.position+'</option>').fadeIn(1000);

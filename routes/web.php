@@ -24,7 +24,7 @@ use App\Http\Controllers\Admins\MontivoryController;
 
 Route::get('/', [WebController::class, 'index'])->name('home');
 Route::get('/career', [WebController::class, 'career'])->name('career');
-Route::get('/career/{id}', [WebController::class, 'careerdetail'])->name('careerdetail');
+Route::get('/career/{alias}', [WebController::class, 'careerdetail'])->name('careerdetail');
 Route::get('/careerfinish', [WebController::class, 'careerfinish'])->name('careerfinish');
 Route::get('/ck', [WebController::class, 'ck'])->name('ck');
 

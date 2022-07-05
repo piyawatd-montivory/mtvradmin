@@ -39,9 +39,9 @@ class WebController extends Controller
         return view('career',['benefitGallery'=>$benefitGallery,'skills'=>$skills,'interests'=>$interests]);
     }
 
-    function careerdetail($id)
+    function careerdetail($alias)
     {
-        return view('careerdetail',['position'=>Position::find($id)]);
+        return view('careerdetail',['position'=>Position::where('alias',$alias)->get()->first()]);
     }
 
     function careerfinish()

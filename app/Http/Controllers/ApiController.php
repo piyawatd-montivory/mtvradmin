@@ -34,6 +34,7 @@ class ApiController extends Controller
             $job = new \stdClass;
             $job->id = $skill->id;
             $job->position = $skill->position;
+            $job->alias = $skill->alias;
             $job->short_description = $skill->short_description;
             $job->description = $skill->description;
             array_push($results,$job);
@@ -50,6 +51,7 @@ class ApiController extends Controller
                 $job = new \stdClass;
                 $job->id = $skill->id;
                 $job->position = $skill->position;
+                $job->alias = $skill->alias;
                 $job->short_description = $skill->short_description;
                 $job->description = $skill->description;
                 array_push($results,$job);

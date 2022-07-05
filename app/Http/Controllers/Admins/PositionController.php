@@ -26,7 +26,7 @@ class PositionController extends Controller
     public function new()
     {
         $position = new Position();
-        $position->status_active = true;
+        $position->status_active = 0;
         $skills = SkillInterest::where('type','skill')
         ->orderBy('name', 'asc')->get();
         $interests = SkillInterest::where('type','interest')
