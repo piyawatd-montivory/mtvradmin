@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Http;
 use Response;
 use App\Models\Partner;
 use App\Models\Content;
+use App\Models\SkillInterest;
+use App\Models\Position;
 
 class WebController extends Controller
 {
@@ -30,12 +32,16 @@ class WebController extends Controller
         if($benefit){
             $benefitGallery = json_decode($benefit->gallery);
         }
-        return view('career',['benefitGallery'=>$benefitGallery]);
+        $skills = SkillInterest::where('type','skill')
+        ->orderBy('name', 'asc')->get();
+        $interests = SkillInterest::where('type','interest')
+        ->orderBy('name', 'asc')->get();
+        return view('career',['benefitGallery'=>$benefitGallery,'skills'=>$skills,'interests'=>$interests]);
     }
 
-    function careerdetail()
+    function careerdetail($id)
     {
-        return view('careerdetail');
+        return view('careerdetail',['position'=>Position::find($id)]);
     }
 
     function careerfinish()

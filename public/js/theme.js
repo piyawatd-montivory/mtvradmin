@@ -31,7 +31,7 @@ jQuery(document).ready(function ($) {
         wScrollDiff     = 0;
 
     $window.on('scroll', function () {
-        
+
         elHeight        = $element.outerHeight();
         dHeight         = $document.height();
         wHeight         = $window.height();
@@ -40,7 +40,7 @@ jQuery(document).ready(function ($) {
         elTop           = parseInt($element.css('top')) + wScrollDiff;
 
         if ( wScrollCurrent <= 0 )
-        { 
+        {
             jQuery('html').removeClass("page-scrolling scroll-up scroll-down");
         }
         else if( wScrollDiff > 0 )
@@ -53,7 +53,7 @@ jQuery(document).ready(function ($) {
             jQuery('html').addClass("page-scrolling");
             jQuery('html').removeClass("scroll-up").addClass("scroll-down");
         }
-        
+
         wScrollBefore = wScrollCurrent;
     });
 
@@ -67,7 +67,7 @@ jQuery(document).ready(function ($) {
 /* Detect OS
 ======================================================= */
 jQuery(function($){
-    
+
     let isDevice = {
         Android: function() {
             return navigator.userAgent.match(/Android/i);
@@ -88,13 +88,13 @@ jQuery(function($){
             return (isDevice.Android() || isDevice.BlackBerry() || isDevice.iOS() || isDevice.Opera() || isDevice.Windows());
         }
     };
-    
+
     if( isDevice.any() ) {
         jQuery('html').addClass('is-device');
     } else {
         jQuery('html').removeClass('is-device');
     }
-    
+
 });
 
 /* Detect IE & Edge
@@ -153,13 +153,13 @@ jQuery(function($){
             document.documentElement.style.setProperty('--vh', vh + 'px');
         }
     }
-    
+
     function pageStyle() {
         if( jQuery('.header-fixed').length ){
             jQuery('#page').css('padding-top', jQuery('.header-fixed').outerHeight());
         }
     }
-    
+
     function bgChange(Obj) {
         bgImg = jQuery(Obj);
         bgImgSrc = jQuery(Obj).data('bgimg-src');
@@ -175,10 +175,10 @@ jQuery(function($){
     function bgChangeInit() {
         jQuery('.bg-img').each(function(){
             let Obj = jQuery(this);
-            bgChange( Obj ); 
+            bgChange( Obj );
         });
     }
-    
+
     function imgChange(Obj) {
         img = jQuery(Obj);
         imgSrc = jQuery(Obj).data('img-src');
@@ -194,18 +194,18 @@ jQuery(function($){
     function imgChangeInit() {
         jQuery('.img-change').each(function(){
             let Obj = jQuery(this);
-            imgChange( Obj ); 
+            imgChange( Obj );
         });
     }
-    
+
     setTimeout(function(){
         pageStyle();
     },100);
-    
+
     viewportHeight();
     bgChangeInit();
     imgChangeInit();
-    
+
     jQuery(window).resize(function(){
         viewportHeight();
         pageStyle();
@@ -222,17 +222,17 @@ jQuery(function($){
 /* Form
 ======================================================= */
 jQuery(function($){
-    
+
     let formElement = jQuery('input, textarea, select');
 
     // Blur Input
-    jQuery(document).ready(function($){    
+    jQuery(document).ready(function($){
         formElement.blur();
         jQuery('.search-form input').blur();
     });
 
     formElement.each(function(){
-        if( !jQuery(this).val() ) {	
+        if( !jQuery(this).val() ) {
             jQuery(this).closest('.input').removeClass('filled');
         } else {
             jQuery(this).closest('.input').addClass('filled');
@@ -240,24 +240,24 @@ jQuery(function($){
     });
     formElement.focusin(function(){
         jQuery(this).closest('.input').addClass('filled');
-    }); 
+    });
     formElement.focusout(function(){
-        if( !jQuery(this).val() ) {	
+        if( !jQuery(this).val() ) {
             jQuery(this).closest('.input').removeClass('filled');
         }
     });
-    
+
 
     // Select
     jQuery(".select").each(function(){
         let selectParent = jQuery(this),
             select = jQuery(this).find(".select2"),
             selectFilter = jQuery(this).find(".select2-filter");
-        
+
         let query = {};
         function markMatch (text, term) {
             let match = text.toUpperCase().indexOf(term.toUpperCase());
-            
+
             let jQueryresult = jQuery('<span></span>');
 
             if (match < 0) {
@@ -275,7 +275,7 @@ jQuery(function($){
 
             return jQueryresult;
         }
-        
+
         select.select2({
             width: '100%',
             minimumResultsForSearch: -1,
@@ -301,7 +301,7 @@ jQuery(function($){
         }).on("select2:unselect", function(e) {
             selectParent.closest('.input').removeClass('filled');
         });
-        
+
         selectFilter.select2({
             width: '100%',
             allowClear: true,
@@ -326,16 +326,16 @@ jQuery(function($){
             jQuery(this).data('state', 'unselected');
         }).on("select2:open", function(e) {
             if (jQuery(this).data('state') === 'unselected') {
-                jQuery(this).removeData('state'); 
+                jQuery(this).removeData('state');
                 let self = jQuery(this);
                 self.select2('close');
-            } 
+            }
         });
-        
+
         select.parent(".select").addClass("select2-parent");
         selectFilter.parent(".select").addClass("select2-parent");
-        
-        
+
+
         jQuery(this).find('select').click(function(){
             if (jQuery(this)[0].selectedIndex < 0) {
                 selectParent.closest('.input').removeClass('filled');
@@ -345,11 +345,11 @@ jQuery(function($){
             }
         });
     });
-    
-    
+
+
     jQuery('<button type="button" class="decrease">-</button>').insertBefore( jQuery('input[name="quantity"]')   );
     jQuery('<button type="button" class="increase">+</button>').insertAfter( jQuery('input[name="quantity"]')   );
-    
+
     jQuery('.increase').click(function () {
         if (jQuery(this).prev().val() < 10) {
             jQuery(this).prev().val(+jQuery(this).prev().val() + 1);
@@ -359,8 +359,8 @@ jQuery(function($){
         if (jQuery(this).next().val() > 1) {
             if (jQuery(this).next().val() > 1) jQuery(this).next().val(+jQuery(this).next().val() - 1);
         }
-    });   
-    
+    });
+
 });
 
 
@@ -372,11 +372,11 @@ jQuery(function($){
 
 /* Animate
 ======================================================= */
-jQuery(function($){       
-    jQuery('.entry .entry-header, .entry .entry-content > *').addClass('animate fadeIn'); 
-    
+jQuery(function($){
+    jQuery('.entry .entry-header, .entry .entry-content > *').addClass('animate fadeIn');
+
     if(jQuery(".animate").length){
-        let wow = new WOW({ 
+        let wow = new WOW({
             boxClass: 'animate'
         });
         wow.init();
@@ -391,7 +391,7 @@ jQuery(function($){
 /* Slide
 ======================================================= */
 jQuery(function(){
-    
+
     if(jQuery('.swiper-container.default').length){
         jQuery(".swiper-container.default").each(function(){
             let sliderWrapper = jQuery(this).find(".swiper-wrapper"),
@@ -399,13 +399,13 @@ jQuery(function(){
                 sliderButtonPrev = jQuery(this).find(".swiper-button-prev"),
                 sliderButtonNext = jQuery(this).find(".swiper-button-next"),
                 sliderScrollbar = jQuery(this).find(".swiper-scrollbar");
-            
+
             // Option
             let sliderFade = jQuery(this).hasClass("fade"),
                 sliderLoop = jQuery(this).hasClass("loop"),
                 sliderAutoplay = jQuery(this).hasClass("autoplay"),
                 sliderFraction = jQuery(this).hasClass("fraction");
-            
+
 
             let swiper = new Swiper(jQuery(this), {
                 pagination: {
@@ -433,31 +433,31 @@ jQuery(function(){
                 },
                 watchOverflow: true,
             });
-            
+
             if( !sliderAutoplay ) {
                 swiper.autoplay.stop();
             } else {
                 swiper.autoplay.start();
             }
-            
+
         });
     }
-    
-    
-    
+
+
+
     if(jQuery(".swiper-container.multiple").length){
         jQuery(".swiper-container.multiple").each(function(){
             let sliderWrapper = jQuery(this).find(".swiper-wrapper"),
                 sliderPagination = jQuery(this).find(".swiper-pagination"),
                 sliderButtonPrev = jQuery(this).find(".swiper-button-prev"),
                 sliderButtonNext = jQuery(this).find(".swiper-button-next");
-            
+
             // Option
             let sliderLoop = jQuery(this).hasClass("loop"),
                 sliderAutoplay = jQuery(this).hasClass("autoplay"),
                 slideCenter = jQuery(this).hasClass("center"),
                 slideClicked = jQuery(this).hasClass("clicked");
-            
+
             let swiper = new Swiper(jQuery(this), {
                 pagination: {
                     el: ( (sliderPagination.length) ? sliderPagination : '' ),
@@ -490,23 +490,23 @@ jQuery(function(){
                   }
                 }
             });
-            
+
             if( !sliderAutoplay ) {
                 swiper.autoplay.stop();
             } else {
                 swiper.autoplay.start();
             }
-            
+
         });
     }
-    
-    
-    
+
+
+
     if(jQuery('.thumb-gallery-slider').length){
         jQuery('.thumb-gallery-slider').each(function(){
             let sliderButtonPrev = jQuery(this).find(".swiper-button-prev"),
                 sliderButtonNext = jQuery(this).find(".swiper-button-next");
-            
+
             // Option
             let sliderAutoplay = jQuery(this).hasClass("autoplay"),
                 slideClicked = jQuery(this).hasClass("clicked");
@@ -544,7 +544,7 @@ jQuery(function(){
                 watchOverflow: true,
                 slideToClickedSlide: slideClicked,
             });
-            
+
             if( !sliderAutoplay ) {
                 swiper.autoplay.stop();
             } else {
@@ -553,7 +553,7 @@ jQuery(function(){
 
         });
     }
-    
+
 });
 
 
@@ -574,32 +574,30 @@ jQuery(function($){
     });
 });
 
-function onScroll(event){      
-    var menu = jQuery('.menu-scroll'),
-        scrollPos = jQuery(document).scrollTop();
-    
-    menu.each(function(){
-        var currLink = jQuery(this),
-            refElement = jQuery(currLink.attr('href')),
-            nav = jQuery('#header').outerHeight(),
-            h = nav;
-        
-        console.log( h );
-        
-        if(refElement.length){
-            if (refElement.position().top-h <= scrollPos && refElement.position().top-h + refElement.height() > scrollPos) {
-                menu.removeClass('active');
-                currLink.addClass('active');
-            }
-            else{
-                currLink.removeClass('active');
-            }
-        }
-    });
-}
+// function onScroll(event){
+//     var menu = jQuery('.menu-scroll'),
+//         scrollPos = jQuery(document).scrollTop();
+
+//     menu.each(function(){
+//         var currLink = jQuery(this),
+//             refElement = jQuery(currLink.attr('href')),
+//             nav = jQuery('#header').outerHeight(),
+//             h = nav;
+
+//         if(refElement.length){
+//             if (refElement.position().top-h <= scrollPos && refElement.position().top-h + refElement.height() > scrollPos) {
+//                 menu.removeClass('active');
+//                 currLink.addClass('active');
+//             }
+//             else{
+//                 currLink.removeClass('active');
+//             }
+//         }
+//     });
+// }
 
 jQuery(function($){
-    jQuery(document).on('scroll', onScroll);
+    // jQuery(document).on('scroll', onScroll);
 });
 
 
@@ -610,7 +608,7 @@ jQuery(function($){
 // Career Skill
 jQuery('.skill-toggle').click(function(e){
     jQuery(this).next('.skill-panel').slideToggle();
-    jQuery(this).toggleClass('open'); 
+    jQuery(this).toggleClass('open');
 });
 
 jQuery('.skill-list li').click(function(e){

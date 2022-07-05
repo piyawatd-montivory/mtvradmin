@@ -59,20 +59,22 @@ Montivory
                     <p>To ensure that our employees can grow together with the company, we provide knowledge sharing classes and training courses to develop the expertise and enhance the potential of employees at all levels.
                         Because we want the best for our employees, we continue to work towards creating better benefits for everyone in our team.</p>
                 </div>
-                <div class="swiper-container loop multiple center benefit animate fadeInUp">
-                    <div class="swiper-wrapper">
-                        @foreach ($benefitGallery as $gallery)
-                            <div class="swiper-slide benefit-card">
-                                <div class="image object-fit"><img alt="" src="{{ asset($gallery->image)}}"></div>
-                            </div>
-                        @endforeach
+                @if(count($benefitGallery) > 0)
+                    <div class="swiper-container loop multiple center benefit animate fadeInUp">
+                        <div class="swiper-wrapper">
+                            @foreach ($benefitGallery as $gallery)
+                                <div class="swiper-slide benefit-card">
+                                    <div class="image object-fit"><img alt="" src="{{ asset($gallery->image)}}"></div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="swiper-navigation">
+                            <div class="swiper-button-prev"></div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                        </div>
                     </div>
-                    <div class="swiper-navigation">
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-pagination"></div>
-                        <div class="swiper-button-next"></div>
-                    </div>
-                </div>
+                @endif
             </div>
         </div>
     </section>
@@ -90,13 +92,9 @@ Montivory
                         </div>
                         <div class="skill-panel">
                             <ul class="skill-list" id="skill-list">
-                                <li id="1">Data Analytic</li>
-                                <li id="2">UI Design</li>
-                                <li id="3">Search Engine Optimization</li>
-                                <li id="4">E-Marketing</li>
-                                <li id="5">Software Developer</li>
-                                <li id="6">Sales Representative</li>
-                                <li id="7">Data Visualize</li>
+                                @foreach ($skills as $skill)
+                                    <li id="{{ $skill->id }}" name="{{ $skill->name }}">{{ $skill->name }}</li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>
@@ -106,48 +104,38 @@ Montivory
                         </div>
                         <div class="skill-panel">
                             <ul class="skill-list" id="interest-list">
-                                <li id="1">Data Analytic</li>
-                                <li id="2">UI Design</li>
-                                <li id="3">Search Engine Optimization</li>
-                                <li id="4">E-Marketing</li>
-                                <li id="5">Software Developer</li>
-                                <li id="6">Sales Representative</li>
-                                <li id="7">Data Visualize</li>
+                                @foreach ($interests as $interests)
+                                    <li id="{{ $interests->id }}" name="{{ $interests->name }}">{{ $interests->name }}</li>
+                                @endforeach
                             </ul>
                         <button type="button" class="btn" id="applybtn">APPLY</button>
                         </div>
                     </div>
                     <div class="skill-result d-none" id="skill-result-block">
-                        <p class="total-result">4 Results</p>
-                        <x-career-item id="1" title="Position A" skill="Skill Require: Lorem Ipsum, Sme Osum" description="“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
-                        <x-career-item id="2" title="Position B" skill="Skill Require: Lorem Ipsum, Sme Osum" description="“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
-                        <div class="skill-result-remark">
-                            <p>Can't find the right one?</p>
-                            <a href="#" class="und und-blue">CONTACT US</a>
-                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="sc-contact animate fadeInUp">
+    <section class="sc-contact animate fadeInUp" id="joinus">
         <div class="container">
             <div class="sc-inner">
                 <div class="sc-heading">
                     <h2 class="sc-headline">Join us</h2>
                 </div>
                 <div class="contact-form">
-                    <form class="form">
+                    <form class="form" id="contactform">
                         <fieldset>
                             <div class="field">
                                 <div class="input select">
                                     <label class="label">Select position</label>
-                                    <select data-placeholder="Please select" class="select2">
+                                    <select data-placeholder="Please select" class="select2" id="job" name="job">
                                         <option value="">Please select</option>
-                                        <option value="option">Option 1</option>
+                                        {{-- <option value="option">Option 1</option>
                                         <option value="option">Option 2</option>
-                                        <option value="option">Option 3</option>
+                                        <option value="option">Option 3</option> --}}
                                      </select>
                                 </div>
                             </div>
@@ -211,7 +199,6 @@ Montivory
         $('.skill-title').on('click',function(){
             changetoolbar();
         });
-
     })
 
     function changetoolbar(){
@@ -248,10 +235,41 @@ Montivory
             }
         });
         data.interest = interest;
+        $( ".apply-job").unbind( "click" );
+        $('#skill-result-block').html('');
+        $('#job').html('');
+        $('#job').append('<option>Please select</option>');
+        $.ajax({
+            url:"{{route('apiposition')}}",
+            method:"POST",
+            data:data,
+            success:function(response){
+                $('#skill-result-block').append('<p class="total-result">'+response.total+' Results</p>');
+                $.each(response.data,function(key,value){
+                    var str = '<div class="skill-result-box fadeIn">';
+                        str += '<h3 class="skill-result-position">'+value.position+'</h3>';
+                        str += '<p class="skill-result-require">'+value.short_description+'</p>';
+                        str += '<div class="skill-result-description">';
+                        str += '<p>'+value.description+'</p>';
+                        str += '</div>';
+                        str += '<a href="#joinus" position="'+value.id+'" class="menu-scroll apply-job">APPLY NOW</a> <a href="{{url('/career')}}/'+value.id+'" class="menu-scroll apply-job">DETAIL</a>';
+                        str += '</div>';
+                        $('#skill-result-block').append(str);
+                        $('#job').append('<option value="'+value.id+'">'+value.position+'</option>').fadeIn(1000);
+
+                });
+                var lastblock = '<div class="skill-result-remark"><p>Can\'t find the right one?</p><a href="#" class="und und-blue">CONTACT US</a></div>';
+                $('#skill-result-block').append(lastblock);
+                $('.apply-job').on('click',function(){
+                    $('#job').val($(this).attr('position')).change();
+                });
+            }
+        });
         $('#skilltoolbar').attr('class','skill-edit choose');
         $('#interesttoolbar').attr('class','skill-edit choose');
         $('#applybtn').addClass('d-none');
         $('#skill-result-block').removeClass('d-none');
+
     }
 </script>
 @endsection

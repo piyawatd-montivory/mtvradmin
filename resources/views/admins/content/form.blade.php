@@ -38,8 +38,8 @@
                     <li class="nav-item" role="presentation">
                       <button class="nav-link" id="seo-tab" data-bs-toggle="tab" data-bs-target="#seo" type="button" role="tab" aria-controls="seo" aria-selected="false">SEO</button>
                     </li>
-                  </ul>
-                  <div class="tab-content" id="myTabContent">
+                </ul>
+                <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active pt-3" id="config" role="tabpanel" aria-labelledby="config-tab">
                         @include('admins.content.config')
                     </div>
@@ -49,7 +49,7 @@
                     <div class="tab-pane fade pt-3" id="seo" role="tabpanel" aria-labelledby="seo-tab">
                         @include('admins.content.seo')
                     </div>
-                  </div>
+                </div>
 
                 <hr class="mb-4">
                 <button class="btn btn-outline-primary btn-sm" type="button" onClick="submitform();">Save</button>
