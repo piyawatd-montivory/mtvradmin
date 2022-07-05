@@ -57,57 +57,29 @@ Team Montivory
                         </div>
                     </div>
                     <div class="col-md-4" id="image_preview">
-                        @if(!empty($position->image))
-                            <img class="col-6" src="{{ $position->image }}">
+                        @if(!empty($montivory->image))
+                            <img class="col-6" src="{{ $montivory->image }}">
                         @endif
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="job_position" class="col-sm-2 col-form-label">Job Position</label>
                     <div class="col-md-10">
-                        <select class="form-select" aria-label="Default select example" id="job_position" name="job_position" value="{{$montivory->job_position}}">
-                            <option value="Accountant">Accountant</option>
-                            <option value="Business Analysts">Business Analysts</option>
-                            <option value="Business Consultant – Data Privacy Specialist">Business Consultant – Data Privacy Specialist</option>
-                            <option value="Business Consultant Trainee">Business Consultant Trainee</option>
-                            <option value="Business Consultant">Business Consultant</option>
-                            <option value="Business Development Manager">Business Development Manager</option>
-                            <option value="Business Development">Business Development</option>
-                            <option value="Chief Executive Officer">Chief Executive Officer</option>
-                            <option value="Chief Executive Officer">Chief Executive Officer</option>
-                            <option value="Chief Experience Officer">Chief Experience Officer</option>
-                            <option value="Content Curator">Content Curator</option>
-                            <option value="Data Analyst Trainee">Data Analyst Trainee</option>
-                            <option value="Data Analyst">Data Analyst</option>
-                            <option value="Digital Marketing Strategist">Digital Marketing Strategist</option>
-                            <option value="Head Of Digital Operation">Head Of Digital Operation</option>
-                            <option value="Head of Marketing Technology">Head of Marketing Technology</option>
-                            <option value="Head of Research and Human Behavior">Head of Research and Human Behavior</option>
-                            <option value="Head of UX/UI and Authoring">Head of UX/UI and Authoring</option>
-                            <option value="Human behavior Researcher">Human behavior Researcher</option>
-                            <option value="Human Resources">Human Resources</option>
-                            <option value="IT Manager">IT Manager</option>
-                            <option value="Java Backend Developer">Java Backend Developer</option>
-                            <option value="Junior Data Scientist">Junior Data Scientist</option>
-                            <option value="Junior Technical Consultant">Junior Technical Consultant</option>
-                            <option value="Lead-Technical Consultant">Lead-Technical Consultant</option>
-                            <option value="Project Manager">Project Manager</option>
-                            <option value="Senior Human behavior Researcher">Senior Human behavior Researcher</option>
-                        </select>
+                        <input type="text" name="job_position" id="job_position" value="{{$montivory->job_position}}" class="form-control"/>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="linkin_url" class="col-sm-2 col-form-label">LinkedIn URL</label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control" id="linkin_url" name="linkin_url" placeholder="Linkin URL" value="{{$montivory->linkin_url}}" required>
+                        <input type="text" class="form-control" id="linkin_url" name="linkin_url" placeholder="Linkin URL" value="{{$montivory->linkedin_url}}" required>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="linkin_active" class="col-sm-2 col-form-label">LinkedIn Active</label>
                     <div class="col-md-9">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="linkin_active">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">Inactive</label>
+                            <input class="form-check-input" type="checkbox" id="linkin_active" name="linkin_active" @if( $montivory->linkedin_active == 0) checked @endif>
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Active</label>
                         </div>
                     </div>
                 </div>
@@ -115,8 +87,8 @@ Team Montivory
                     <label for="status_active" class="col-sm-2 col-form-label">Status Active</label>
                     <div class="col-md-9">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="status_active">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">Inactive</label>
+                            <input class="form-check-input" type="checkbox" id="status_active" name="status_active" @if( $montivory->status_active == 0) checked @endif>
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Active</label>
                         </div>
                     </div>
                 </div>
@@ -137,16 +109,19 @@ Team Montivory
 
     $(document).ready(function(){
         $('#imagebtn').filemanager('image');
-        $('#fisrtname').focusout(function(){
-            validateFirstName();
+        $('#firstname').focusout(function(){
+            validateText('firstname');
         });
         $('#lastname').focusout(function(){
-            validateLastName();
+            validateText('lastname');
+        });
+        $('#job_position').focusout(function(){
+            validateText('job_position');
         });
     });
 
     function submitform(){
-        @if(empty($position->id))
+        @if(empty($montivory->id))
         if(isBlank($('#image').val())){
             $('#image').removeClass('is-valid');
             $('#image').addClass('is-invalid');
@@ -156,30 +131,19 @@ Team Montivory
             $('#image').addClass('is-valid');
         }
         @endif
-        if(validateName()){
+        if(validateText('firstname') && validateText('lastname') && validateText('job_position')){
             $('#formdata').submit();
         }
     }
 
-    function validateFirtstName(){
-        if(isBlank($('#firstname').val())){
-            $('#firstname').removeClass('is-valid');
-            $('#firstname').addClass('is-invalid');
+    function validateText(id){
+        if(isBlank($('#'+id).val())){
+            $('#'+id).removeClass('is-valid');
+            $('#'+id).addClass('is-invalid');
             return false;
         }else{
-            $('#firstname').removeClass('is-invalid');
-            $('#firstname').addClass('is-valid');
-            return true;
-        }
-    }
-    function validateLastName(){
-        if(isBlank($('#lastname').val())){
-            $('#lastname').removeClass('is-valid');
-            $('#lastname').addClass('is-invalid');
-            return false;
-        }else{
-            $('#lastname').removeClass('is-invalid');
-            $('#lastname').addClass('is-valid');
+            $('#'+id).removeClass('is-invalid');
+            $('#'+id).addClass('is-valid');
             return true;
         }
     }

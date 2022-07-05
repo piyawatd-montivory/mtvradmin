@@ -18,15 +18,12 @@ Team Montivory
             <a href="{{route('montivorynew')}}" class="btn btn-outline-primary">Add</a>
         </div>
     </div>
-    <table id="team_montivorytable" class="table table table-striped table-hover" style="width:100%">
+    <table id="teammontivorytable" class="table table table-striped table-hover" style="width:100%">
         <thead>
             <tr>
                 <th class="col-2">Firstname</th>
                 <th class="col-2">Lastname</th>
-                <th class="col-2">Image</th>
                 <th class="col-2">Job Position</th>
-                <th class="col-2">LinkedIn URL</th>
-                <th class="col-2">LinkedIn Active</th>
                 <th class="col-2">Status Active</th>
                 <th class="col-3"></th>
             </tr>
@@ -43,9 +40,9 @@ Team Montivory
 <script src="{{asset('/js/select.bootstrap5.min.js')}}"></script>
 <script src="{{asset('/js/jquery-confirm.js')}}"></script>
 <script>
-    oTable = null;
-    $(document).ready(function () {        
-        oTable = $('#team_montivorytable').DataTable({
+    oTable = '';
+    $(document).ready(function () {
+        oTable = $('#teammontivorytable').DataTable({
             "ajax":{
                     "url": "{{ route('montivorylist') }}",
                     "dataType": "json",
@@ -57,21 +54,29 @@ Team Montivory
             columns: [
                 { data: 'firstname' },
                 { data: 'lastname' },
-                { data: 'image' },
                 { data: 'job_position' },
-                { data: 'linkedin_url' },
-                { data: 'linkedin_active' },
                 { data: 'status_active' },
                 { data: null }
-
             ],
             columnDefs: [
                 {
                     orderable: false,
-                    targets:   7,
+                    targets:   3,
                     render: function(data){
+                        var result = '<span class="text-secondary"><i class="fa-solid fa-circle-xmark"></i> In Active</span>';
+                        if(data == 0){
+                            result = '<span class="text-success"><i class="fa-solid fa-circle-check"></i> Active</span>';
+                        }
+                        return result;
+                    }
+                },
+                {
+                    orderable: false,
+                    targets:   4,
+                    render: function(data){
+                        var fullname = data.firstname+' '+data.lastname;
                         var toolsstr = '<a href="/admins/montivory/edit/'+data.id+'" class="btn btn-outline-primary">Edit</a> ';
-                        toolsstr += '<a href="javascript:deletemontivory(\''+data.id+'\',\''+data.firstname+' '+data.lastname'\');" class="btn btn-outline-danger">Delete</a>';
+                        toolsstr += '<a href="javascript:deletemontivory(\''+data.id+'\',\''+fullname+'\');" class="btn btn-outline-danger">Delete</a>';
                         return toolsstr;
                     }
                 }
@@ -80,10 +85,10 @@ Team Montivory
         });
     });
 
-    function deletemontivory(id,firstname, lastname) {
+    function deletemontivory(id,fullname) {
         $.confirm({
             title: 'Confirm!',
-            content: 'Confirm delete '+ firstname +' '+lastname' ?',
+            content: 'Confirm delete '+ fullname +' ?',
             buttons: {
                 confirm:{
                     action: function () {

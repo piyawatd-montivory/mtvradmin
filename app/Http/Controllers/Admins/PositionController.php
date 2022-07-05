@@ -132,18 +132,7 @@ class PositionController extends Controller
         // https://shareurcodes.com/blog/laravel%20datatables%20server%20side%20processing
         $columns = array(
             0 => 'position',
-            1 => 'short_description',
-            2 => 'description',
-            3 => 'status_active',
-            4 => 'image',
-            5 => 'og_title',
-            6 => 'og_description',
-            7 => 'og_image',
-            8 => 'og_locale',
-            9 => 'fb_pages',
-            10 => 'fb_app_id',
-            11 => 'fb_image',
-            12 => 'twitter_image',
+            1 => 'status_active',
         );
 
         $totalData = Position::count();

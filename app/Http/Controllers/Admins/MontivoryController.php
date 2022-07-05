@@ -24,6 +24,8 @@ class MontivoryController extends Controller
     public function new()
     {
         $montivory = new TeamMontivory();
+        $montivory->linkedin_active = 0;
+        $montivory->status_active = 0;
         return view('admins.montivory.form', [ 'montivory' => $montivory]);
     }
 
@@ -68,11 +70,13 @@ class MontivoryController extends Controller
     {
         $montivory->firstname = $request->firstname;
         $montivory->lastname = $request->lastname;
-        $montivory->image = $request->image;
+        if($request->image){
+            $montivory->image = $request->image;
+        }
         $montivory->job_position = $request->job_position;
-        $montivory->linkin_url = $request->linkin_url;
-        $montivory->linkin_active = $request->nlinkin_activeame;
-        $montivory->status_active = $request->status_active;
+        $montivory->linkedin_url = $request->linkin_url;
+        $montivory->linkedin_active = $request->linkin_active?:false;
+        $montivory->status_active = $request->status_active?:false;
         $montivory->save();
     }
 
@@ -88,11 +92,8 @@ class MontivoryController extends Controller
         $columns = array(
             0 => 'firstname',
             1 => 'lastname',
-            2 => 'image',
-            3 => 'job_position',
-            4 => 'linkedin_url',
-            5 => 'linkedin_active',
-            6 => 'status_active',
+            2 => 'job_position',
+            3 => 'status_active',
         );
 
         $totalData = TeamMontivory::count();
@@ -106,7 +107,7 @@ class MontivoryController extends Controller
 
         $search = $request->input('search.value');
 
-        $montivory = TeamMontivory::where('firstname', 'LIKE', "%{$search}%")
+        $montivories = TeamMontivory::where('firstname', 'LIKE', "%{$search}%")
              ->offset($start)
              ->limit($limit)
              ->orderBy($order, $dir)
@@ -121,11 +122,8 @@ class MontivoryController extends Controller
             foreach ($montivories as $montivory) {
                 $nestedData['id'] = $montivory->id;
                 $nestedData['firstname'] = $montivory->firstname;
-                $nestedData['lastname'] = $skimontivoryll->lastname;
-                $nestedData['image'] = $montivory->image;
+                $nestedData['lastname'] = $montivory->lastname;
                 $nestedData['job_position'] = $montivory->job_position;
-                $nestedData['linkedin_url'] = $skimontivoryll->linkin_url;
-                $nestedData['linkedin_active'] = $montivory->linkin_active;
                 $nestedData['status_active'] = $montivory->status_active;
                 $data[] = $nestedData;
             }
