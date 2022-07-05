@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admins;
 
 use App\Http\Controllers\Controller;
 use App\Models\Position;
+use App\Models\SkillInterest;
+use App\Models\PositionSkill;
 use Illuminate\Http\Request;
 
 class PositionController extends Controller
@@ -24,7 +26,12 @@ class PositionController extends Controller
     public function new()
     {
         $position = new Position();
-        return view('admins.position.form', [ 'position' => $position]);
+        $position->status_active = true;
+        $skills = SkillInterest::where('type','skill')
+        ->orderBy('name', 'asc')->get();
+        $interests = SkillInterest::where('type','interest')
+        ->orderBy('name', 'asc')->get();
+        return view('admins.position.form', [ 'position' => $position,'positionskills'=>[],'skills'=>$skills,'interests'=>$interests]);
     }
 
     /**
@@ -54,7 +61,12 @@ class PositionController extends Controller
      */
     public function edit($id)
     {
-        return view('admins.position.form', [ 'position' => Position::find($id)]);
+        $skills = SkillInterest::where('type','skill')
+        ->orderBy('name', 'asc')->get();
+        $interests = SkillInterest::where('type','interest')
+        ->orderBy('name', 'asc')->get();
+        $posSkill = PositionSkill::where('position',$id)->get();
+        return view('admins.position.form', [ 'position' => Position::find($id),'positionskills'=>$posSkill,'skills'=>$skills,'interests'=>$interests]);
     }
 
     /**
@@ -74,10 +86,13 @@ class PositionController extends Controller
     public function updateDatabase(Position $position, Request $request,$mode)
     {
         $position->position = $request->position;
+        $position->alias = $request->alias;
         $position->short_description = $request->short_description;
         $position->description = $request->description;
-        $position->status_active = $request->status_active;
-        $position->image = $request->image;
+        $position->status_active = $request->status_active?:false;
+        if($request->image){
+            $position->image = $request->image;
+        }
         $position->og_title = $request->og_title;
         $position->og_description = $request->og_description;
         $position->og_image = $request->og_image;
@@ -87,6 +102,23 @@ class PositionController extends Controller
         $position->fb_image = $request->fb_image;
         $position->twitter_image = $request->twitter_image;
         $position->save();
+        $positionskill = PositionSkill::where('position',$position->id)->delete();
+        if($request->skillid){
+            foreach($request->skillid as $key=>$value){
+                $positionskill = new PositionSkill();
+                $positionskill->position = $position->id;
+                $positionskill->skill = $request->skillid[$key];
+                $positionskill->save();
+            }
+        }
+        if($request->interestid){
+            foreach($request->interestid as $key=>$value){
+                $positionskill = new PositionSkill();
+                $positionskill->position = $position->id;
+                $positionskill->interest = $request->interestid[$key];
+                $positionskill->save();
+            }
+        }
     }
 
     public function delete($id, Request $request)

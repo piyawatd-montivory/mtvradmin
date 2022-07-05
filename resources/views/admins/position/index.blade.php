@@ -21,19 +21,8 @@ Position
     <table id="positiontable" class="table table table-striped table-hover" style="width:100%">
         <thead>
             <tr>
-                <th class="col-1">Position</th>
-                <th class="col-1">Short Description</th>
-                <th class="col-1">Description</th>
-                <th class="col-1">Status Active</th>
-                <th class="col-1">Image</th>
-                <th class="col-1">Og Title</th>
-                <th class="col-1">Og Description</th>
-                <th class="col-1">0g Image</th>
-                <th class="col-1">0g Locale</th>
-                <th class="col-1">Fb Pages</th>
-                <th class="col-1">Fb App Id</th>
-                <th class="col-1">Fb Image</th>
-                <th class="col-1">Twitter Image</th>
+                <th class="col-7">Position</th>
+                <th class="col-2">Status Active</th>
                 <th class="col-3"></th>
             </tr>
         </thead>
@@ -50,7 +39,7 @@ Position
 <script src="{{asset('/js/jquery-confirm.js')}}"></script>
 <script>
     oTable = null;
-    $(document).ready(function () {        
+    $(document).ready(function () {
         oTable = $('#positiontable').DataTable({
             "ajax":{
                     "url": "{{ route('positionlist') }}",
@@ -62,32 +51,24 @@ Position
             "pageLength": 25,
             columns: [
                 { data: 'position' },
-                { data: 'short_description' },
-                { data: 'description' },
                 { data: 'status_active' },
-                { data: 'image' },
-                { data: 'og_title' },
-                { data: 'og_description' },
-                { data: 'og_image' },
-                { data: 'og_locale' },
-                { data: 'fb_pages' },
-                { data: 'fb_app_id' },
-                { data: 'fb_image' },
-                { data: 'twitter_image' },
                 { data: null }
             ],
             columnDefs: [
                 {
                     orderable: false,
-                    targets:   4,
+                    targets:   1,
                     render: function(data){
-                        var toolsstr = '<img src="'+data.image+'" class="round table-thumbnail"/>';
-                        return toolsstr;
+                        var result = '<span class="text-secondary"><i class="fa-solid fa-circle-xmark"></i> In Active</span>';
+                        if(data == 0){
+                            result = '<span class="text-success"><i class="fa-solid fa-circle-check"></i> Active</span>';
+                        }
+                        return result;
                     }
                 },
                 {
                     orderable: false,
-                    targets:   13,
+                    targets:   2,
                     render: function(data){
                         var toolsstr = '<a href="/admins/positions/edit/'+data.id+'" class="btn btn-outline-primary">Edit</a> ';
                         toolsstr += '<a href="javascript:deleteposition(\''+data.id+'\',\''+data.position+'\');" class="btn btn-outline-danger">Delete</a>';

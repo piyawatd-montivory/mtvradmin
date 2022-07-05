@@ -6,7 +6,10 @@
 
 @endsection
 @section('stylesheet')
-
+<link href="{{asset('/css/tags.css')}}" rel="stylesheet" />
+<link href="{{asset('/css/datatables.min.css')}}" rel="stylesheet" />
+<link href="{{asset('/css/dataTables.bootstrap5.css')}}" rel="stylesheet" />
+<link href="{{asset('/css/select.bootstrap5.min.css')}}" rel="stylesheet" />
 @endsection
 @section('content')
 <div class="container mt-5">
@@ -28,158 +31,125 @@
             <form id="formdata" novalidate method="post" action="{{$linkurl}}">
                 @csrf
                 <input type="hidden" id="id" name="id" value="{{$position->id}}"/>
-                <div class="row mb-3">
-                    <label for="position" class="col-sm-2 col-form-label">Position</label>
-                    <div class="col-md-10">
-                        <input type="text" class="form-control" id="position" name="position" placeholder="Position" value="{{$position->position}}" required>
-                        <div class="invalid-feedback" id="validateposition">
-                            Valid Position is required.
-                        </div>
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link active" id="detail-tab" data-bs-toggle="tab" data-bs-target="#detailtab" type="button" role="tab" aria-controls="detail" aria-selected="true">Detail</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="description-tab" data-bs-toggle="tab" data-bs-target="#descriptiontab" type="button" role="tab" aria-controls="description" aria-selected="false">Description</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="seo-tab" data-bs-toggle="tab" data-bs-target="#seotab" type="button" role="tab" aria-controls="seo" aria-selected="false">SEO</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active pt-3" id="detailtab" role="tabpanel" aria-labelledby="detailtab">
+                        @include('admins.position.detail')
                     </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="short_description" class="col-sm-2 col-form-label">Short Description</label>
-                    <div class="col-md-10">
-                        <textarea class="form-control" rows="3" id="short_description" name="short_description">{{$position->short_description}}</textarea>
-                        <div class="invalid-feedback" id="validateshortdescription">
-                            Valid Short Description is required.
-                        </div>
+                    <div class="tab-pane fade pt-3" id="descriptiontab" role="tabpanel" aria-labelledby="descriptiontab">
+                        @include('admins.position.description')
                     </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="description" class="col-sm-2 col-form-label">Description</label>
-                    <div class="col-md-10">
-                        <textarea class="form-control" rows="4" id="description" name="description">{{$position->description}}</textarea>
-                        <div class="invalid-feedback" id="validatedescription">
-                            Valid Description is required.
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="image" class="col-md-2 col-form-label">Image</label>
-                    <div class="col-md-6">
-                        <div class="input-group">
-                            <a class="btn btn-primary" id="imagebtn" data-input="image" data-preview="image_preview">
-                                <i class="far fa-image"></i> Choose
-                            </a>
-                            <input id="image" class="form-control" type="text" name="image" readonly>
-                        </div>
-                    </div>
-                    <div class="col-md-4" id="image_preview">
-                        @if(!empty($position->image))
-                            <img class="col-6" src="{{ $position->image }}">
-                        @endif
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="og_title" class="col-sm-2 col-form-label">Og Title</label>
-                    <div class="col-md-10">
-                        <input type="text" class="form-control" id="og_title" name="og_title" placeholder="Og title" value="{{$position->og_title}}" required>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="og_description" class="col-sm-2 col-form-label">Og Description</label>
-                    <div class="col-md-10">
-                        <textarea class="form-control" rows="4" id="og_description" name="og_description">{{$position->og_description}}</textarea>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="og_image" class="col-md-2 col-form-label">Og Image</label>
-                    <div class="col-md-6">
-                        <div class="input-group">
-                            <a class="btn btn-primary" id="ogimagebtn" data-input="og_image" data-preview="og_image_preview">
-                                <i class="far fa-image"></i> Choose
-                            </a>
-                            <input id="og_image" class="form-control" type="text" name="og_image" readonly>
-                        </div>
-                    </div>
-                    <div class="col-md-4" id="og_image_preview">
-                        @if(!empty($position->od_image))
-                            <img class="col-6" src="{{ $positon->od_image }}">
-                        @endif
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="og_locale" class="col-sm-2 col-form-label">Og Locale</label>
-                    <div class="col-md-10">
-                        <input type="text" class="form-control" id="og_locale" name="og_locale" placeholder="Og Locale" value="{{$position->og_locale}}" required>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="og_locale" class="col-sm-2 col-form-label">Og Locale</label>
-                    <div class="col-md-10">
-                        <input type="text" class="form-control" id="og_locale" name="og_locale" placeholder="Og Locale" value="{{$position->og_locale}}" required>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="fb_pages" class="col-sm-2 col-form-label">FB Pages</label>
-                    <div class="col-md-10">
-                        <input type="text" class="form-control" id="fb_pages" name="fb_pages" placeholder="FB Pages" value="{{$position->fb_pages}}" required>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="fb_app_id" class="col-sm-2 col-form-label">FB App id</label>
-                    <div class="col-md-10">
-                        <input type="text" class="form-control" id="fb_app_id" name="fb_app_id" placeholder="FB App id" value="{{$position->fb_app_id}}" required>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="fb_image" class="col-md-2 col-form-label">fb_image</label>
-                    <div class="col-md-6">
-                        <div class="input-group">
-                            <a class="btn btn-primary" id="fb_imagebtn" data-input="fb_image" data-preview="fb_image_preview">
-                                <i class="far fa-image"></i> Choose
-                            </a>
-                            <input id="fb_image" class="form-control" type="text" name="fb_image" readonly>
-                        </div>
-                    </div>
-                    <div class="col-md-4" id="fb_image_preview">
-                        @if(!empty($position->fb_image))
-                            <img class="col-6" src="{{ $positon->fb_image }}">
-                        @endif
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="twitter_image" class="col-md-2 col-form-label">twitter_image</label>
-                    <div class="col-md-6">
-                        <div class="input-group">
-                            <a class="btn btn-primary" id="twitter_imagebtn" data-input="twitter_image" data-preview="twitter_image_preview">
-                                <i class="far fa-image"></i> Choose
-                            </a>
-                            <input id="twitter_image" class="form-control" type="text" name="twitter_image" readonly>
-                        </div>
-                    </div>
-                    <div class="col-md-4" id="twitter_image_preview">
-                        @if(!empty($position->twitter_image))
-                            <img class="col-6" src="{{ $positon->twitter_image }}">
-                        @endif
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="status_active" class="col-sm-2 col-form-label">Status Active</label>
-                    <div class="col-md-9">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="status_active">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">Inactive</label>
-                        </div>
+                    <div class="tab-pane fade pt-3" id="seotab" role="tabpanel" aria-labelledby="seotab">
+                        @include('admins.position.seo')
                     </div>
                 </div>
                 <hr class="mb-4">
-                <button class="btn btn-outline-primary btn-sm" type="button" onClick="submitform();">Save</button>
-                <a href="{{ route('positionindex') }}" class="btn btn-outline-danger btn-sm">Cancel</a>
+                <div class="row mb-3">
+                    <div class="col-12 pb-3">
+                        <button class="btn btn-outline-primary btn-sm" type="button" onClick="submitform();">Save</button>
+                        <a href="{{ route('positionindex') }}" class="btn btn-outline-danger btn-sm">Cancel</a>
+                    </div>
             </form>
         </div>
+    </div>
+</div>
+<!-- skill Modal -->
+<div class="modal fade" id="skillModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="skillModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="skillModalLabel">Skill</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <table id="list-skill" class="table table-striped table-hover" style="width:100%">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onClick="javascript:browseskill();">Select</button>
+        </div>
+      </div>
+    </div>
+</div>
+<!-- interest Modal -->
+<div class="modal fade" id="interestModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="interestModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="interestModalLabel">Interest</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <table id="list-interest" class="table table-striped table-hover" style="width:100%">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onClick="javascript:browseinterest();">Select</button>
+        </div>
+      </div>
     </div>
 </div>
 @endsection
 @section('script')
 <script src="{{asset('js/validate.js')}}"></script>
+<script src="{{asset('ckeditor/ckeditor.js')}}"></script>
 <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
+<script src="{{asset('/js/datatables.min.js')}}"></script>
+<script src="{{asset('/js/dataTables.bootstrap5.js')}}"></script>
+<script src="{{asset('/js/select.bootstrap5.min.js')}}"></script>
 <script>
+
+    var option = {
+        height: "400",
+        customConfig: "{{ asset('js/ckconfig.js') }}",
+        contentsCss: '{{asset('/css/theme.css')}}',
+        filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+        filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+        filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+        filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+    }
+    // //ckeditor init
+    CKEDITOR.replace( 'description' , option);
+
+    var skillModal = '';
+    var interestModal = '';
+    var oSkillTable = '';
+    var oInterestTable = '';
 
 
     $(document).ready(function(){
         $('#imagebtn').filemanager('image');
+        $('#alias').focusout(function(){
+            validateAlias();
+        });
         $('#position').focusout(function(){
             validatePosition();
         });
@@ -189,7 +159,105 @@
         $('#description').focusout(function(){
             validateDescription();
         });
+        oSkillTable = $('#list-skill').DataTable({
+            data: {!! htmlspecialchars_decode(json_encode($skills)) !!},
+            columns: [
+                { data: null },
+                { data: 'name' }
+            ],
+            columnDefs: [ {
+                orderable: false,
+                className: 'select-checkbox',
+                targets:   0,
+                data: null,
+                defaultContent: '',
+            } ],
+            select: {
+                style:    'multi',
+                selector: 'td:first-child'
+            },
+            order: [[ 1, 'asc' ]]
+        });
+        oInterestsTable = $('#list-interest').DataTable({
+            data: {!! htmlspecialchars_decode(json_encode($interests)) !!},
+            columns: [
+                { data: null },
+                { data: 'name' }
+            ],
+            columnDefs: [ {
+                orderable: false,
+                className: 'select-checkbox',
+                targets:   0,
+                data: null,
+                defaultContent: '',
+            } ],
+            select: {
+                style:    'multi',
+                selector: 'td:first-child'
+            },
+            order: [[ 1, 'asc' ]]
+        });
+        skillModal = new bootstrap.Modal(document.getElementById('skillModal'), {backdrop:true});
+        interestModal =  new bootstrap.Modal(document.getElementById('interestModal'), {backdrop:true});
+        removeSkillInterest();
     });
+
+    function browseskill(){
+        var skillSel = oSkillTable.rows({ selected: true }).data();
+        if (skillSel.length > 0)
+        {
+            skillModal.toggle();
+            $.each(skillSel, function(cindex,cvalue){;
+                var newitem = true;
+                $.each($('#skill-listitem').children(), function( index, value ) {
+                    var skillid = $(value).attr('id');
+                    if(cvalue.id == skillid)
+                    {
+                        newitem = false;
+                        return false;
+                    }
+                });
+                if(newitem){
+                    var itemstr = '<span class="tag tag-label" id="'+cvalue.id+'">';
+                        itemstr += '<input type="hidden" name="skillid[]" value="'+cvalue.id+'"/>'+cvalue.name+'<span class="remove">x</span></span> ';
+                    $('#skill-listitem').append(itemstr);
+                }
+            });
+            removeSkillInterest();
+        }
+    }
+
+    function browseinterest(){
+        var interestSel = oInterestsTable.rows({ selected: true }).data();
+        if (interestSel.length > 0)
+        {
+            interestModal.toggle();
+            $.each(interestSel, function(cindex,cvalue){;
+                var newitem = true;
+                $.each($('#interest-listitem').children(), function( index, value ) {
+                    var interestid = $(value).attr('id');
+                    if(cvalue.id == interestid)
+                    {
+                        newitem = false;
+                        return false;
+                    }
+                });
+                if(newitem){
+                    var itemstr = '<span class="tag tag-label" id="'+cvalue.id+'">';
+                        itemstr += '<input type="hidden" name="interestid[]" value="'+cvalue.id+'"/>'+cvalue.name+'<span class="remove">x</span></span> ';
+                    $('#interest-listitem').append(itemstr);
+                }
+            });
+            removeSkillInterest();
+        }
+    }
+
+    function removeSkillInterest(){
+        $( ".remove").unbind( "click" );
+        $('.remove').click(function () {
+            $(this).parent().remove();
+        });
+    }
 
     function submitform(){
         @if(empty($position->id))
@@ -202,8 +270,20 @@
             $('#image').addClass('is-valid');
         }
         @endif
-        if(validatePosition() && validateShortDescription() && validateDescription()){
+        if(validatePosition() && validateShortDescription() && validateDescription() && validateAlias()){
             $('#formdata').submit();
+        }
+    }
+
+    function validateAlias(){
+        if(isBlank($('#alias').val())){
+            $('#alias').removeClass('is-valid');
+            $('#alias').addClass('is-invalid');
+            return false;
+        }else{
+            $('#alias').removeClass('is-invalid');
+            $('#alias').addClass('is-valid');
+            return true;
         }
     }
 
@@ -232,15 +312,15 @@
     }
 
     function validateDescription(){
-        if(isBlank($('#description').val())){
+
+        if(CKEDITOR.instances['description'].getData() == ''){
             $('#description').removeClass('is-valid');
             $('#description').addClass('is-invalid');
             return false;
-        }else{
-            $('#description').removeClass('is-invalid');
-            $('#description').addClass('is-valid');
-            return true;
         }
+        $('#description').removeClass('is-invalid');
+        $('#description').addClass('is-valid');
+        return true;
     }
 
 </script>
