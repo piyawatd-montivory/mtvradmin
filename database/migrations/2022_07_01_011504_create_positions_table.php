@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('contents', function (Blueprint $table) {
+        Schema::create('positions', function (Blueprint $table) {
             $table->id();
-            $table->string('content_type');
-            $table->text('image');
+            $table->string('position');
+            $table->string('alias');
             $table->text('short_description');
             $table->text('description');
-            $table->text('author');
-            $table->text('position');
+            $table->boolean('status_active');
+            $table->text('image')->nullable(true);
             $table->text('og_title')->nullable(true);
             $table->text('og_description')->nullable(true);
             $table->text('og_image')->nullable(true);
@@ -40,6 +40,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contents');
+        Schema::dropIfExists('positions');
     }
 };
