@@ -18,6 +18,15 @@ Skill, Interest
             <a href="{{route('skillnew')}}" class="btn btn-outline-primary">Add</a>
         </div>
     </div>
+    <div class="row pb-3 mt-3">
+        <label for="contenttype" class="col-1 col-form-label">Type</label>
+        <div class="col-md-3">
+            <select class="form-select" id="contenttype" name="contenttype">
+                <option value="skill">Skill</option>
+                <option value="interest">Interest</option>
+            </select>
+        </div>
+    </div>
     <table id="skill_intereststable" class="table table table-striped table-hover" style="width:100%">
         <thead>
             <tr>
@@ -39,10 +48,10 @@ Skill, Interest
 <script src="{{asset('/js/jquery-confirm.js')}}"></script>
 <script>
     oTable = null;
-    $(document).ready(function () {        
+    $(document).ready(function () {
         oTable = $('#skill_intereststable').DataTable({
             "ajax":{
-                    "url": "{{ route('skilllist') }}",
+                    "url": "{{ route('skilllist') }}?type="+$('#contenttype').val(),
                     "dataType": "json",
                     "type": "GET"
             },
@@ -67,6 +76,9 @@ Skill, Interest
             ],
             order: [[ 0, 'asc' ]]
         });
+        $('#contenttype').on('change',function(){
+            oTable.ajax.url("{{ route('skilllist') }}?type="+$('#contenttype').val()).load();
+        })
     });
 
     function deleteskill(id,name) {

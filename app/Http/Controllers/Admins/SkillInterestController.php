@@ -119,12 +119,14 @@ class SkillInterestController extends Controller
         $search = $request->input('search.value');
 
         $skills = SkillInterest::where('name', 'LIKE', "%{$search}%")
-             ->offset($start)
-             ->limit($limit)
-             ->orderBy($order, $dir)
+            ->where('type',$request->input('type'))
+            ->offset($start)
+            ->limit($limit)
+            ->orderBy($order, $dir)
             ->get();
 
         $totalFiltered = SkillInterest::where('name', 'LIKE', "%{$search}%")
+            ->where('type',$request->input('type'))
             ->count();
 
         $data = array();
