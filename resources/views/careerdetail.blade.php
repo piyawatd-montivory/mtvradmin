@@ -43,48 +43,70 @@ Montivory
             </div>
         </div>
     </section>
-    <section class="sc-contact animate fadeInUp">
+    <section class="sc-contact animate fadeInUp" id="joinus">
         <div class="container">
             <div class="sc-inner">
                 <div class="sc-heading">
                     <h2 class="sc-headline">Join us</h2>
                 </div>
                 <div class="contact-form">
-                    <form class="form">
+                    <form class="form" id="contactform">
                         <fieldset>
+                            <div class="field d-none">
+                                <div class="input select">
+                                    <select data-placeholder="Please select" class="select2" id="position" name="position">
+                                        <option value="{{$position->id}}" selected>{{$position->position}}</option>
+                                     </select>
+                                </div>
+                            </div>
                             <div class="field">
                                 <div class="input require">
                                     <label class="label anim">Full Name</label>
-                                    <input type="text" name="">
+                                    <input type="text" name="fullname" id="fullname">
+                                    <div class="invalid-feedback">
+                                        Incorrect field
+                                    </div>
                                 </div>
                             </div>
                             <div class="field half-2">
                                 <div class="input require">
                                     <label class="label anim">Phone</label>
-                                    <input type="tel" name="">
+                                    <input type="tel" name="phone" id="phone">
+                                    <div class="invalid-feedback">
+                                        Incorrect field
+                                    </div>
                                 </div>
                             </div>
                             <div class="field half-2">
                                 <div class="input require">
                                     <label class="label anim">Email</label>
-                                    <input type="email" name="">
+                                    <input type="email" name="email" id="email">
+                                    <div class="invalid-feedback">
+                                        Incorrect field
+                                    </div>
                                 </div>
                             </div>
-                            <div class="field for-file">
+                            <div class="field for-file" id="file-block">
                                 <div class="input">
                                     <label class="label">Your CV</label>
-                                    <input type="file" name="">
+                                    <input type="file" name="cv" id="cv">
+                                    <div class="invalid-feedback">
+                                        Incorrect field
+                                    </div>
                                 </div>
                                 <span class="remark">Document, PDF or image files under 8MB accepted</span>
                             </div>
                             <div class="field">
                                 <div class="input">
                                     <label class="label anim for-textarea">Message</label>
-                                    <textarea name=""></textarea>
+                                    <textarea name="message" id="message"></textarea>
+                                    <div class="invalid-feedback">
+                                        Incorrect field
+                                    </div>
                                 </div>
                             </div>
                         </fieldset>
-                        <button type="submit" class="btn">SUBMIT</button>
+                        <button type="button" class="btn" id="sendContactBtn">SUBMIT</button>
                     </form>
                 </div>
             </div>
@@ -93,11 +115,13 @@ Montivory
 </main>
 @endsection
 @section('script')
+<script src="{{asset('/plugin/select2/select2.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('/plugin/swiper/swiper.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('/plugin/wow/wow.min.js')}}" type="text/javascript"></script>
 
 <!-- Custom Script -->
 <script src="{{asset('/js/theme.js')}}" type="text/javascript"></script>
+<script src="{{asset('/js/positiondetail.js')}}" type="text/javascript"></script>
 <script>
 
 </script>

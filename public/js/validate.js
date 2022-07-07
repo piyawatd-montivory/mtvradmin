@@ -54,6 +54,15 @@ function checkFileImage(id){
     return true;
 }
 
+function checkFileCv(id){
+    var files = $('#'+id)[0].files;
+    var validImageTypes = ["image/jpeg", "image/png", "application/pdf"];
+    if ($.inArray(files[0]['type'], validImageTypes) < 0) {
+        return false;
+    }
+    return true;
+}
+
 function checkFileSize(id,size){
     var files = $('#'+id)[0].files;
     if(files[0]['size'] > parseInt(size))

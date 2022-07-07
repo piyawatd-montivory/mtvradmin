@@ -20,6 +20,8 @@ class VerifyCsrfToken extends Middleware
         '/admins/partners/reorder',
         '/admins/contents/list/*',
         '/admins/contents/delete/*',
-        '/api/position'
+        '/api/position',
+        '/api/cv',
+        '/api/contact'
     ];
 }

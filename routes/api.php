@@ -16,3 +16,5 @@ use App\Http\Controllers\ApiController;
 */
 
 Route::post('/position', [ApiController::class, 'position'])->name('apiposition');
+Route::post('/cv', [ApiController::class, 'uploadcv'])->name('apiupload');
+Route::post('/contact', [ApiController::class, 'contact'])->name('apicontact');

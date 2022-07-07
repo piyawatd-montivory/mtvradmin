@@ -1,3 +1,20 @@
 .d-none {
     display: none !important;
 }
+.is-invalid {
+    border-bottom: 1px solid #dc3545!important;
+}
+.is-invalidarea {
+    border: 1px solid #dc3545!important;
+}
+.is-invalid ~ .invalid-feedback, .is-invalidarea ~ .invalid-feedback {
+    display: block;
+    color: #dc3545;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 14.54px;
+    margin-top: 5px;
+}
+.invalid-feedback {
+    display: none;
+}

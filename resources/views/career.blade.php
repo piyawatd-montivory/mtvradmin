@@ -131,47 +131,62 @@ Montivory
                             <div class="field">
                                 <div class="input select">
                                     <label class="label">Select position</label>
-                                    <select data-placeholder="Please select" class="select2" id="job" name="job">
-                                        <option value="">Please select</option>
-                                        {{-- <option value="option">Option 1</option>
-                                        <option value="option">Option 2</option>
-                                        <option value="option">Option 3</option> --}}
+                                    <select data-placeholder="Please select" class="select2" id="position" name="position">
+                                        <option value="none">Please select</option>
                                      </select>
+                                     <div class="invalid-feedback">
+                                        Incorrect field
+                                    </div>
                                 </div>
                             </div>
                             <div class="field">
                                 <div class="input require">
                                     <label class="label anim">Full Name</label>
-                                    <input type="text" name="">
+                                    <input type="text" name="fullname" id="fullname">
+                                    <div class="invalid-feedback">
+                                        Incorrect field
+                                    </div>
                                 </div>
                             </div>
                             <div class="field half-2">
                                 <div class="input require">
                                     <label class="label anim">Phone</label>
-                                    <input type="tel" name="">
+                                    <input type="tel" name="phone" id="phone">
+                                    <div class="invalid-feedback">
+                                        Incorrect field
+                                    </div>
                                 </div>
                             </div>
                             <div class="field half-2">
                                 <div class="input require">
                                     <label class="label anim">Email</label>
-                                    <input type="email" name="">
+                                    <input type="email" name="email" id="email">
+                                    <div class="invalid-feedback">
+                                        Incorrect field
+                                    </div>
                                 </div>
                             </div>
-                            <div class="field for-file">
+                            <div class="field for-file" id="file-block">
                                 <div class="input">
                                     <label class="label">Your CV</label>
-                                    <input type="file" name="">
+                                    <input type="file" name="cv" id="cv">
+                                    <div class="invalid-feedback">
+                                        Incorrect field
+                                    </div>
                                 </div>
                                 <span class="remark">Document, PDF or image files under 8MB accepted</span>
                             </div>
                             <div class="field">
                                 <div class="input">
                                     <label class="label anim for-textarea">Message</label>
-                                    <textarea name=""></textarea>
+                                    <textarea name="message" id="message"></textarea>
+                                    <div class="invalid-feedback">
+                                        Incorrect field
+                                    </div>
                                 </div>
                             </div>
                         </fieldset>
-                        <button type="submit" class="btn">SUBMIT</button>
+                        <button type="button" class="btn" id="sendContactBtn">SUBMIT</button>
                     </form>
                 </div>
             </div>
@@ -188,34 +203,8 @@ Montivory
 
 <!-- Custom Script -->
 <script src="{{asset('/js/theme.js')}}" type="text/javascript"></script>
+<script src="{{asset('/js/career.js')}}" type="text/javascript"></script>
 <script>
-    $(function(){
-        $('#applybtn').on('click',function(){
-            searchJob();
-        });
-        $('.interest-title').on('click',function(){
-            changetoolbar();
-        });
-        $('.skill-title').on('click',function(){
-            changetoolbar();
-        });
-    })
-
-    function changetoolbar(){
-        var show = true;
-        if($('#interesttoolbar').attr('class') == 'skill-edit choose'){
-            show = false;
-        }
-        if($('#skilltoolbar').attr('class') == 'skill-edit choose'){
-            show = false;
-        }
-        if(!show){
-            $('#applybtn').removeClass('d-none');
-            $('#interesttoolbar').attr('class','skill-toggle');
-            $('#skilltoolbar').attr('class','skill-toggle');
-            $('#skill-result-block').addClass('d-none');
-        }
-    }
 
     function searchJob(){
         //skill
@@ -237,8 +226,8 @@ Montivory
         data.interest = interest;
         $( ".apply-job").unbind( "click" );
         $('#skill-result-block').html('');
-        $('#job').html('');
-        $('#job').append('<option>Please select</option>');
+        $('#position').html('');
+        $('#position').append('<option value="none">Please select</option>');
         $.ajax({
             url:"{{route('apiposition')}}",
             method:"POST",
@@ -255,13 +244,13 @@ Montivory
                         str += '<a href="#joinus" position="'+value.id+'" class="menu-scroll apply-job">APPLY NOW</a> <a href="{{url('/career')}}/'+value.alias+'" class="menu-scroll apply-job">DETAIL</a>';
                         str += '</div>';
                         $('#skill-result-block').append(str);
-                        $('#job').append('<option value="'+value.id+'">'+value.position+'</option>').fadeIn(1000);
+                        $('#position').append('<option value="'+value.id+'">'+value.position+'</option>').fadeIn(1000);
 
                 });
                 var lastblock = '<div class="skill-result-remark"><p>Can\'t find the right one?</p><a href="#" class="und und-blue">CONTACT US</a></div>';
                 $('#skill-result-block').append(lastblock);
                 $('.apply-job').on('click',function(){
-                    $('#job').val($(this).attr('position')).change();
+                    $('#position').val($(this).attr('position')).change();
                 });
             }
         });

@@ -14,6 +14,11 @@ Montivory
     <meta property="fb:app_id" content="">
     <meta property="twitter:image" content="{{ asset('/images/frontend/og.jpg')}}">
 @endsection
+@section('stylesheet')
+<style>
+
+</style>
+@endsection
 @section('content')
 <!-- Content -->
 <main id="content">
@@ -161,46 +166,81 @@ Montivory
                             <div class="field">
                                 <div class="input select require">
                                     <label class="label">What can we help ?</label>
-                                    <select data-placeholder="Please select topic" class="select2">
-                                        <option value="">Please select topic</option>
-                                        <option value="option">Contact Sales</option>
-                                        <option value="option">Become Partner</option>
-                                        <option value="option">Apply Job</option>
+                                    <select data-placeholder="Please select topic" class="select2" id="contact-title">
+                                        <option value="none">Please select topic</option>
+                                        <option value="sales">Contact Sales</option>
+                                        <option value="partner">Become Partner</option>
+                                        <option value="job">Apply Job</option>
                                      </select>
                                 </div>
                             </div>
-                            <div class="field half-2">
-                                <div class="input require">
-                                    <label class="label anim">Full Name</label>
-                                    <input type="text" name="">
+                            <div class="field fadeIn d-none" id="position-block">
+                                <div class="input select require">
+                                    <label class="label">Select position</label>
+                                    <select class="select2" id="position">
+                                        @foreach ($positions as $position)
+                                            <option value="{{$position->id}}" @if($loop->first) selected @endif >{{$position->position}}</option>
+                                        @endforeach
+                                     </select>
                                 </div>
                             </div>
-                            <div class="field half-2">
+                            <div class="field half-2" id="fullname-block">
+                                <div class="input require">
+                                    <label class="label anim">Full Name</label>
+                                    <input type="text" name="fullname" id="fullname">
+                                    <div class="invalid-feedback">
+                                        Incorrect field
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field half-2"  id="company-block">
                                 <div class="input require">
                                     <label class="label anim">Company</label>
-                                    <input type="text" name="">
+                                    <input type="text" name="company" id="company">
+                                    <div class="invalid-feedback">
+                                        Incorrect field
+                                    </div>
                                 </div>
                             </div>
                             <div class="field half-2">
                                 <div class="input require">
                                     <label class="label anim">Phone</label>
-                                    <input type="tel" name="">
+                                    <input type="tel" name="phone" id="phone">
+                                    <div class="invalid-feedback">
+                                        Incorrect field
+                                    </div>
                                 </div>
                             </div>
                             <div class="field half-2">
                                 <div class="input require">
                                     <label class="label anim">Email</label>
-                                    <input type="email" name="">
+                                    <input type="email" name="email" id="email">
+                                    <div class="invalid-feedback">
+                                        Incorrect field
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="field for-file" id="file-block">
+                                <div class="input">
+                                    <label class="label">Your CV</label>
+                                    <input type="file" name="cv" id="cv">
+                                    <div class="invalid-feedback">
+                                        Incorrect field
+                                    </div>
+                                </div>
+                                <span class="remark">Document, PDF or image files under 8MB accepted</span>
                             </div>
                             <div class="field">
                                 <div class="input">
                                     <label class="label anim for-textarea">Message</label>
-                                    <textarea name=""></textarea>
+                                    <textarea name="message" id="message"></textarea>
+                                    <div class="invalid-feedback">
+                                        Incorrect field
+                                    </div>
                                 </div>
                             </div>
                         </fieldset>
-                        <button type="submit" class="btn">SUBMIT</button>
+                        <button type="button" class="btn" id="sendContactBtn">SUBMIT</button>
                     </form>
                 </div>
             </div>
@@ -217,7 +257,5 @@ Montivory
 
 <!-- Custom Script -->
 <script src="{{asset('/js/theme.js')}}" type="text/javascript"></script>
-<script type="text/javascript">
-
-</script>
+<script src="{{asset('/js/home.js')}}" type="text/javascript"></script>
 @endsection

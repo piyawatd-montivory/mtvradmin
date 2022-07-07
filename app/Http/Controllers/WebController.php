@@ -22,7 +22,8 @@ class WebController extends Controller
         $partners = Partner::orderBy('sortorder','asc')->get();
         $testimonials = Content::where('contenttype','testimonial')
             ->orderBy('sortorder','asc')->get();
-        return view('index',['partners'=>$partners,'testimonials'=>$testimonials]);
+        $positions = Position::where('status_active',true)->orderBy('position','asc')->get();
+        return view('index',['partners'=>$partners,'testimonials'=>$testimonials,'positions'=>$positions]);
     }
 
     function career()
