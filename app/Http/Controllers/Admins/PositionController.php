@@ -26,7 +26,7 @@ class PositionController extends Controller
     public function new()
     {
         $position = new Position();
-        $position->status_active = 0;
+        $position->status_active = true;
         $skills = SkillInterest::where('type','skill')
         ->orderBy('name', 'asc')->get();
         $interests = SkillInterest::where('type','interest')
@@ -89,18 +89,24 @@ class PositionController extends Controller
         $position->alias = $request->alias;
         $position->short_description = $request->short_description;
         $position->description = $request->description;
-        $position->status_active = $request->status_active?:false;
+        $position->status_active = ($request->status_active) ? true:false;
         if($request->image){
             $position->image = $request->image;
         }
         $position->og_title = $request->og_title;
         $position->og_description = $request->og_description;
-        $position->og_image = $request->og_image;
+        if($request->og_image){
+            $position->og_image = $request->og_image;
+        }
         $position->og_locale = $request->og_locale;
         $position->fb_pages = $request->fb_pages;
         $position->fb_app_id = $request->fb_app_id;
-        $position->fb_image = $request->fb_image;
-        $position->twitter_image = $request->twitter_image;
+        if($request->fb_image){
+            $position->fb_image = $request->fb_image;
+        }
+        if($request->twitter_image){
+            $position->twitter_image = $request->twitter_image;
+        }
         $position->save();
         $positionskill = PositionSkill::where('position',$position->id)->delete();
         if($request->skillid){
@@ -162,7 +168,11 @@ class PositionController extends Controller
                 $nestedData['position'] = $position->position;
                 $nestedData['short_description'] = $position->short_description;
                 $nestedData['description'] = $position->description;
-                $nestedData['status_active'] = $position->status_active;
+                if($position->status_active){
+                    $nestedData['status_active'] = true;
+                }else{
+                    $nestedData['status_active'] = false;
+                }
                 $nestedData['image'] = $position->image;
                 $nestedData['og_title'] = $position->og_title;
                 $nestedData['og_description'] = $position->og_description;

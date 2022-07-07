@@ -78,7 +78,7 @@
     <label for="status_active" class="col-sm-2 col-form-label">Status Active</label>
     <div class="col-md-9">
         <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="status_active" @if( $position->status_active == 0) checked @endif>
+            <input class="form-check-input" type="checkbox" id="status_active" name="status_active" @if( $position->status_active) checked @endif>
             <label class="form-check-label" for="flexSwitchCheckDefault">Active</label>
         </div>
     </div>

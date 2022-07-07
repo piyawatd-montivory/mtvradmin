@@ -60,7 +60,7 @@ Position
                     targets:   1,
                     render: function(data){
                         var result = '<span class="text-secondary"><i class="fa-solid fa-circle-xmark"></i> In Active</span>';
-                        if(data == 0){
+                        if(data){
                             result = '<span class="text-success"><i class="fa-solid fa-circle-check"></i> Active</span>';
                         }
                         return result;
