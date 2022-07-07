@@ -76,7 +76,7 @@ class MontivoryController extends Controller
         $montivory->job_position = $request->job_position;
         $montivory->linkedin_url = $request->linkin_url;
         $montivory->linkedin_active = ($request->linkin_active) ? true:false;
-        $montivory->status_active = $(request->status_active) ? true:false;
+        $montivory->status_active = ($request->status_active) ? true:false;
         $montivory->save();
     }
 
