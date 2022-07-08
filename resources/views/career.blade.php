@@ -133,6 +133,10 @@ Montivory
                                     <label class="label">Select position</label>
                                     <select data-placeholder="Please select" class="select2" id="position" name="position">
                                         <option value="none">Please select</option>
+                                        @foreach ($positions as $position)
+                                        <option value="{{$position->id}}">{{$position->position}}</option>
+                                        @endforeach
+                                        <option value="other">Other</option>
                                      </select>
                                      <div class="invalid-feedback">
                                         Incorrect field

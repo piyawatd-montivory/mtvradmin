@@ -39,7 +39,8 @@ class WebController extends Controller
         ->orderBy('name', 'asc')->get();
         $interests = SkillInterest::where('type','interest')
         ->orderBy('name', 'asc')->get();
-        return view('career',['benefitGallery'=>$benefitGallery,'skills'=>$skills,'interests'=>$interests]);
+        $positions = Position::where('status_active',true)->orderBy('position','asc')->get();
+        return view('career',['benefitGallery'=>$benefitGallery,'skills'=>$skills,'interests'=>$interests,'positions'=>$positions]);
     }
 
     function careerdetail($alias)
