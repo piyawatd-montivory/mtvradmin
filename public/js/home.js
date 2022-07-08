@@ -48,14 +48,10 @@ function applyJob(){
         contentType: false,
         processData: false,
         beforeSend: function( xhr ) {
-
+            showModal();
         },
         success: function(response){
-            // $('#progress').addClass('d-none');
-            // $('#complete').removeClass('d-none');
-            // $('.preview').removeClass('d-none');
-            // $('#preview').attr('src','/'+response.file);
-            // $('#imagepath').val(response.file);
+            window.location.href = "/careerfinish";
         },
     });
 }
@@ -75,14 +71,10 @@ function applyContact(){
         contentType: false,
         processData: false,
         beforeSend: function( xhr ) {
-
+            showModal();
         },
         success: function(response){
-            // $('#progress').addClass('d-none');
-            // $('#complete').removeClass('d-none');
-            // $('.preview').removeClass('d-none');
-            // $('#preview').attr('src','/'+response.file);
-            // $('#imagepath').val(response.file);
+            window.location.href = "/careerfinish";
         },
     });
 }
@@ -150,4 +142,12 @@ function checkcv(){
     }
     $('#cv').removeClass('is-invalid');
     return true;
+}
+
+function showModal(){
+    document.getElementById('modal').style.display='block';
+}
+
+function closeModal(){
+    document.getElementById('modal').style.display='none';
 }

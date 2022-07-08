@@ -27,16 +27,16 @@ function applyJob(){
         contentType: false,
         processData: false,
         beforeSend: function( xhr ) {
-
+            showModal();
         },
         success: function(response){
-            // $('#progress').addClass('d-none');
-            // $('#complete').removeClass('d-none');
-            // $('.preview').removeClass('d-none');
-            // $('#preview').attr('src','/'+response.file);
-            // $('#imagepath').val(response.file);
+            window.location.href = "/careerfinish";
         },
     });
+}
+
+function showModal(){
+    document.getElementById('modal').style.display='block';
 }
 
 function checkBlank(id){

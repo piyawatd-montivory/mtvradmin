@@ -28,33 +28,19 @@ Montivory
                         You can read what our people got from working with Montivory </p>
                 </div>
                 <div class="sc-grid-three cardgroup contacting-cardgroup">
-                    <div class="contacting-card card animate fadeInUp">
-                        <div class="image object-fit">
-                            <img alt="" src="{{ asset('/images/frontend/preview.png')}}">
-                        </div>
-                        <div class="card-meta">
-                            <h4 class="card-category">Binary Craft</h4>
-                            <h3 class="card-name">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h3>
-                        </div>
-                    </div>
-                    <div class="contacting-card card animate fadeInUp">
-                        <div class="image object-fit">
-                            <img alt="" src="{{ asset('/images/frontend/preview.png')}}">
-                        </div>
-                        <div class="card-meta">
-                            <h4 class="card-category">Binary Craft</h4>
-                            <h3 class="card-name">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h3>
-                        </div>
-                    </div>
-                    <div class="contacting-card card animate fadeInUp">
-                        <div class="image object-fit">
-                            <img alt="" src="{{ asset('/images/frontend/preview.png')}}">
-                        </div>
-                        <div class="card-meta">
-                            <h4 class="card-category">Binary Craft</h4>
-                            <h3 class="card-name">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h3>
-                        </div>
-                    </div>
+                    @foreach ($contents as $content)
+                        <a href="{{($content->position)?:'#'}}">
+                            <div class="contacting-card card animate fadeInUp">
+                                <div class="image object-fit">
+                                    <img alt="" src="{{ asset($content->image)}}">
+                                </div>
+                                <div class="card-meta">
+                                    <h4 class="card-category">{{$content->author}}</h4>
+                                    <h3 class="card-name">{{$content->title}}</h3>
+                                </div>
+                            </div>
+                        </a>
+                    @endforeach
                 </div>
                 <div class="contacting-nav animate fadeInUp">
                     <a href="http://read.montivory.com" class="btn">GO TO READ.MONTIVORY</a>

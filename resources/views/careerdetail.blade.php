@@ -113,6 +113,9 @@ Montivory
         </div>
     </section>
 </main>
+<div class="modal fadeIn" id="modal" tabindex="-1">
+    <img src="{{asset('images/mtvr-lazy-load-logo.gif')}}"/>
+</div>
 @endsection
 @section('script')
 <script src="{{asset('/plugin/select2/select2.min.js')}}" type="text/javascript"></script>

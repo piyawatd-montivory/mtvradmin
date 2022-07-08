@@ -137,18 +137,9 @@ Montivory
                     <p class="sc-subhead">#TEAMMONTIVORY</p>
                 </div>
                 <div class="sc-grid-four cardgroup">
-                    <x-card-people image="{{asset('/images/frontend/preview.png')}}" fullname="Name Surname" />
-                    <x-card-people image="{{asset('/images/frontend/preview.png')}}" fullname="Name Surname" />
-                    <x-card-people image="{{asset('/images/frontend/preview.png')}}" fullname="Name Surname" />
-                    <x-card-people image="{{asset('/images/frontend/preview.png')}}" fullname="Name Surname" />
-                    <x-card-people image="{{asset('/images/frontend/preview.png')}}" fullname="Name Surname" />
-                    <x-card-people image="{{asset('/images/frontend/preview.png')}}" fullname="Name Surname" />
-                    <x-card-people image="{{asset('/images/frontend/preview.png')}}" fullname="Name Surname" />
-                    <x-card-people image="{{asset('/images/frontend/preview.png')}}" fullname="Name Surname" />
-                    <x-card-people image="{{asset('/images/frontend/preview.png')}}" fullname="Name Surname" />
-                    <x-card-people image="{{asset('/images/frontend/preview.png')}}" fullname="Name Surname" />
-                    <x-card-people image="{{asset('/images/frontend/preview.png')}}" fullname="Name Surname" />
-                    <x-card-people image="{{asset('/images/frontend/preview.png')}}" fullname="Name Surname" />
+                    @foreach ($teams as $team)
+                        <x-card-people image="{{asset($team->image)}}" fullname="{{$team->firstname}} {{$team->lastname}}" position="{{$team->job_position}}" linkedinurl="{{($team->linkedin_url)?$team->linkedin_url:'#'}}"/>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -246,8 +237,9 @@ Montivory
             </div>
         </div>
     </section>
-
-
+<div class="modal fadeIn" id="modal" tabindex="-1">
+    <img src="{{asset('images/mtvr-lazy-load-logo.gif')}}"/>
+</div>
 </main>
 @endsection
 @section('script')
