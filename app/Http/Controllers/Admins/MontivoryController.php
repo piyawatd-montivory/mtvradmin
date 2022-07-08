@@ -24,8 +24,9 @@ class MontivoryController extends Controller
     public function new()
     {
         $montivory = new TeamMontivory();
-        $montivory->linkedin_active = 0;
-        $montivory->status_active = 0;
+        $montivory->linkedin_active = true;
+        $montivory->status_active = true;
+        $montivory->sortorder = TeamMontivory::max('sortorder') + 1;
         return view('admins.montivory.form', [ 'montivory' => $montivory]);
     }
 
@@ -75,6 +76,8 @@ class MontivoryController extends Controller
         }
         $montivory->job_position = $request->job_position;
         $montivory->linkedin_url = $request->linkin_url;
+        $montivory->linkedin_url = $request->linkin_url;
+        $montivory->sortorder = $request->sortorder;
         $montivory->linkedin_active = ($request->linkin_active) ? true:false;
         $montivory->status_active = ($request->status_active) ? true:false;
         $montivory->save();
@@ -124,7 +127,11 @@ class MontivoryController extends Controller
                 $nestedData['firstname'] = $montivory->firstname;
                 $nestedData['lastname'] = $montivory->lastname;
                 $nestedData['job_position'] = $montivory->job_position;
-                $nestedData['status_active'] = $montivory->status_active;
+                if($montivory->status_active){
+                    $nestedData['status_active'] = true;
+                }else{
+                    $nestedData['status_active'] = false;
+                }
                 $data[] = $nestedData;
             }
         }

@@ -26,7 +26,7 @@ class ContentController extends Controller
     public function new()
     {
         $content = new Content();
-        $content->sortorder = 1;
+        $content->sortorder = Content::max('sortorder') + 1;
         return view('admins.content.form', [ 'content' => $content]);
     }
 
@@ -88,9 +88,9 @@ class ContentController extends Controller
         $content->alias = $request->alias;
         $content->author = $request->author;
         $content->position = $request->position;
-        $content->shortdescription = $request->shortdescription;
-        $content->description = $request->description;
-        $content->contenttype = $request->contenttype?:'testimonial';
+        $content->shortdescription = ($request->shortdescription)?:'sample';
+        $content->description = ($request->description)?:'sample';
+        $content->contenttype = ($request->contenttype)?:'testimonial';
         $content->sortorder = $request->sortorder;
         $content->save();
     }

@@ -26,7 +26,7 @@ class PartnerController extends Controller
     public function new()
     {
         $partner = new Partner();
-        $partner->sortorder = 1;
+        $partner->sortorder = Partner::max('sortorder') + 1;
         return view('admins.partner.form', [ 'partner' => $partner]);
     }
 

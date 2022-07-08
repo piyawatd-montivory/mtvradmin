@@ -85,7 +85,7 @@
         if(CKEDITOR.instances['description'].getData() == ''){
             return false;
         }
-        if(validateBlank('title') && validateBlank('alias') && validateBlank('shortdescription')){
+        if(validateBlank('title') && validateBlank('alias')){
             $('#formdata').submit();
         }
     }

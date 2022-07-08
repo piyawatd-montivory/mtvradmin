@@ -78,7 +78,7 @@ Team Montivory
                     <label for="linkin_active" class="col-sm-2 col-form-label">LinkedIn Active</label>
                     <div class="col-md-9">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="linkin_active" name="linkin_active" @if( $montivory->linkedin_active == 0) checked @endif>
+                            <input class="form-check-input" type="checkbox" id="linkin_active" name="linkin_active" @if( $montivory->linkedin_active) checked @endif>
                             <label class="form-check-label" for="flexSwitchCheckDefault">Active</label>
                         </div>
                     </div>
@@ -87,12 +87,17 @@ Team Montivory
                     <label for="status_active" class="col-sm-2 col-form-label">Status Active</label>
                     <div class="col-md-9">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="status_active" name="status_active" @if( $montivory->status_active == 0) checked @endif>
+                            <input class="form-check-input" type="checkbox" id="status_active" name="status_active" @if( $montivory->status_active) checked @endif>
                             <label class="form-check-label" for="flexSwitchCheckDefault">Active</label>
                         </div>
                     </div>
                 </div>
-
+                <div class="row mb-3">
+                    <label for="sortorder" class="col-sm-2 col-form-label">Order</label>
+                    <div class="col-md-10">
+                        <input type="number" step="0.01" class="form-control" id="sortorder" name="sortorder" value="{{$montivory->sortorder}}" required>
+                    </div>
+                </div>
                 <hr class="mb-4">
                 <button class="btn btn-outline-primary btn-sm" type="button" onClick="submitform();">Save</button>
                 <a href="{{ route('montivoryindex') }}" class="btn btn-outline-danger btn-sm">Cancel</a>
