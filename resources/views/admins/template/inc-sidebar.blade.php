@@ -1,7 +1,6 @@
 <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
     <div class="sb-sidenav-menu">
         <div class="nav">
-            <div class="sb-sidenav-menu-heading">Core</div>
             <a class="nav-link @if (Route::currentRouteName() === 'dashboard') active @endif" href="{{ route('dashboard') }}">
                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                 Dashboard
@@ -14,10 +13,6 @@
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-handshake"></i></div>
                 Partner
             </a>
-            <a class="nav-link @if (Route::currentRouteName() === 'userindex') active @endif" href="{{ route('userindex')}}">
-                <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
-                User
-            </a>
             <a class="nav-link @if (Route::currentRouteName() === 'skillindex') active @endif" href="{{ route('skillindex')}}">
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-book"></i></div>
                 Skill Interest
@@ -29,6 +24,14 @@
             <a class="nav-link @if (Route::currentRouteName() === 'montivoryindex') active @endif" href="{{ route('montivoryindex')}}">
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-people-group"></i></div>
                 Team Montivory
+            </a>
+            <a class="nav-link @if (Route::currentRouteName() === 'contactindex') active @endif" href="{{ route('contactindex')}}">
+                <div class="sb-nav-link-icon"><i class="fa-solid fa-address-book"></i></div>
+                Contact
+            </a>
+            <a class="nav-link @if (Route::currentRouteName() === 'userindex') active @endif" href="{{ route('userindex')}}">
+                <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
+                User
             </a>
 
             {{-- <a class="nav-link @if (Route::currentRouteName() === 'productindex') active @endif" href="{{ route('productindex') }}">

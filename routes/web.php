@@ -10,6 +10,7 @@ use App\Http\Controllers\Admins\PositionController;
 use App\Http\Controllers\Admins\SkillInterestController;
 use App\Http\Controllers\Admins\ContentController;
 use App\Http\Controllers\Admins\MontivoryController;
+use App\Http\Controllers\Admins\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,6 +97,11 @@ Route::prefix('admins')->group(function () {
         Route::post('/reorder', [MontivoryController::class, 'reorder'])->name('montivoryreorder');
         Route::delete('/delete/{id}', [MontivoryController::class, 'delete'])->name('montivorydelete');
         Route::get('/list', [MontivoryController::class, 'list'])->name('montivorylist');
+    });
+    Route::prefix('contacts')->group(function () {
+        Route::get('/', [ContactController::class, 'index'])->name('contactindex');
+        Route::get('/view/{id}', [ContactController::class, 'view'])->name('contactview');
+        Route::get('/list', [ContactController::class, 'list'])->name('contactlist');
     });
 });
 
