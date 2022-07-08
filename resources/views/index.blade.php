@@ -211,7 +211,7 @@ Montivory
                                     </div>
                                 </div>
                             </div>
-                            <div class="field for-file" id="file-block">
+                            <div class="field for-file d-none" id="file-block">
                                 <div class="input">
                                     <label class="label">Your CV</label>
                                     <input type="file" name="cv" id="cv">
