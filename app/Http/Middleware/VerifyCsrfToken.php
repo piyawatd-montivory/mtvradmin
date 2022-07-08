@@ -20,6 +20,9 @@ class VerifyCsrfToken extends Middleware
         '/admins/partners/reorder',
         '/admins/contents/list/*',
         '/admins/contents/delete/*',
+        '/admins/montivory/reorder',
+        '/admins/montivory/list/*',
+        '/admins/montivory/delete/*',
         '/api/position',
         '/api/cv',
         '/api/contact'

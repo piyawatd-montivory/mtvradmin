@@ -19,7 +19,7 @@ class MontivoryController extends Controller
      */
     public function index()
     {
-        return view('admins.montivory.index');
+        return view('admins.montivory.index',['teams'=>TeamMontivory::orderBy('sortorder','asc')->get()]);
     }
     public function new()
     {
@@ -28,6 +28,16 @@ class MontivoryController extends Controller
         $montivory->status_active = true;
         $montivory->sortorder = TeamMontivory::max('sortorder') + 1;
         return view('admins.montivory.form', [ 'montivory' => $montivory]);
+    }
+
+    public function reorder(Request $request)
+    {
+        foreach($request->id as $key=>$value){
+            $montivory = TeamMontivory::find($value);
+            $montivory->sortorder = $key + 1;
+            $montivory->save();
+        }
+        return ['result'=>true];
     }
 
     /**

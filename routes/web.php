@@ -93,6 +93,7 @@ Route::prefix('admins')->group(function () {
         Route::get('/edit/{id}', [MontivoryController::class, 'edit'])->name('montivoryedit');
         Route::post('/create', [MontivoryController::class, 'create'])->name('montivorycreate');
         Route::post('/update/{id}', [MontivoryController::class, 'update'])->name('montivoryupdate');
+        Route::post('/reorder', [MontivoryController::class, 'reorder'])->name('montivoryreorder');
         Route::delete('/delete/{id}', [MontivoryController::class, 'delete'])->name('montivorydelete');
         Route::get('/list', [MontivoryController::class, 'list'])->name('montivorylist');
     });

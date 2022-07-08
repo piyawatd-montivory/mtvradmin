@@ -20,7 +20,7 @@ class PartnerController extends Controller
 
     public function index()
     {
-        return view('admins.partner.index',['partners'=>Partner::all()]);
+        return view('admins.partner.index',['partners'=>Partner::orderBy('sortorder','asc')->get()]);
     }
 
     public function new()
