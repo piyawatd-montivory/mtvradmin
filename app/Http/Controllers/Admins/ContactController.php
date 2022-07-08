@@ -29,6 +29,8 @@ class ContactController extends Controller
     public function view($id)
     {
         $contact = Contact::find($id);
+        $contact->flagread = true;
+        $contact->save();
         $position = '';
         if($contact->contact_type == 'job'){
             $position = 'Other';
@@ -89,6 +91,11 @@ class ContactController extends Controller
                 $nestedData['fullname'] = $contact->fullname;
                 $nestedData['email'] = $contact->email;
                 $nestedData['phone'] = $contact->phone;
+                if($contact->flagread){
+                    $nestedData['flagread'] = true;
+                }else{
+                    $nestedData['flagread'] = false;
+                }
                 $nestedData['date'] = date_format($date,'d/m/Y H:i');
                 $data[] = $nestedData;
             }

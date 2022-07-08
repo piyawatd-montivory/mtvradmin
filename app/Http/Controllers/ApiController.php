@@ -89,6 +89,7 @@ class ApiController extends Controller
         $contact->cv = $path.$filename;
         $contact->message = $request->message;
         $contact->status_mail = false;
+        $contact->flagread = false;
         $contact->save();
         return ['result'=>true];
     }
@@ -102,6 +103,7 @@ class ApiController extends Controller
         $contact->email = $request->email;
         $contact->message = $request->message;
         $contact->status_mail = false;
+        $contact->flagread = false;
         $contact->save();
         return ['result'=>true];
     }

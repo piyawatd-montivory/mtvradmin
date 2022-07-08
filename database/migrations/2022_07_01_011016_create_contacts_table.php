@@ -25,6 +25,7 @@ return new class extends Migration
             $table->text('message')->nullable();
             $table->boolean('status_mail')->default(0);
             $table->text('free_field')->nullable();
+            $table->boolean('flagread')->default(false);
             $table->timestamps();
         });
     }

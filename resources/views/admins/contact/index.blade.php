@@ -57,13 +57,24 @@ Content
             "serverSide": true,
             "pageLength": 25,
             columns: [
-                { data: 'fullname' },
+                { data: null },
                 { data: 'email' },
                 { data: 'phone' },
                 { data: 'date' },
                 { data: null }
             ],
             columnDefs: [
+                {
+                    orderable: false,
+                    targets:   0,
+                    render: function(data){
+                        if(data.flagread){
+                            return data.fullname
+                        }else{
+                            return data.fullname+' <span class="badge rounded-pill bg-primary">new</span>'
+                        }
+                    }
+                },
                 {
                     orderable: false,
                     targets:   4,
