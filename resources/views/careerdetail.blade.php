@@ -25,20 +25,9 @@ Montivory
     <section class="sc-career career-why">
         <div class="container">
             <div class="sc-inner">
-                <div class="sc-heading animate fadeInUp">
-                    <h2 class="sc-headline">{{ $position->position }}</h2>
-                </div>
                 <div class="career-content animate fadeInUp">
+                    <h2 class="sc-headline">{{ $position->position }}</h2>
                     {!! html_entity_decode($position->description) !!}
-                    {{-- <h1>Header title h1</h1>
-                    <h2>Header title h2</h2>
-                    <h3>Header title h3</h3>
-                    <h4>Header title h4</h4>
-                    <h5>Header title h5</h5>
-                    <h6>Header title h6</h6>
-                    <p>Paragraph</p>
-                    <strong>Strong</strong>
-                    <p>Our team are ready to listen to your specific needs and then share their in-depth knowledge, customer-oriented insights and hands-on experience to ensure we can achieve success together with you. We are the people you are looking for. We are the ones who will ask the right questions and then work with you to find the answer to what is most important to your success.</p> --}}
                 </div>
             </div>
         </div>
