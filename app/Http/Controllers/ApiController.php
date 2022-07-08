@@ -81,9 +81,9 @@ class ApiController extends Controller
         $contact->contact_type = $request->type;
         $contact->fullname = $request->fullname;
         $contact->select_position = $request->position;
-        $contact->company = $request->fullname;
-        $contact->phone = $request->fullname;
-        $contact->email = $request->fullname;
+        $contact->company = $request->company;
+        $contact->phone = $request->phone;
+        $contact->email = $request->email;
         $contact->cv = $path.$filename;
         $contact->message = $request->message;
         $contact->status_mail = false;
@@ -95,9 +95,9 @@ class ApiController extends Controller
         $contact = new Contact();
         $contact->contact_type = $request->type;
         $contact->fullname = $request->fullname;
-        $contact->company = $request->fullname;
-        $contact->phone = $request->fullname;
-        $contact->email = $request->fullname;
+        $contact->company = $request->company;
+        $contact->phone = $request->phone;
+        $contact->email = $request->email;
         $contact->message = $request->message;
         $contact->status_mail = false;
         $contact->save();
