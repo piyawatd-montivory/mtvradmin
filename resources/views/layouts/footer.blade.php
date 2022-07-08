@@ -18,10 +18,10 @@
             </div>
             <div class="footer-bar">
                 <div class="footer-social">
-                    <a href="#"><i class="ic ic-facebook"></i></a>
-                    <a href="#"><i class="ic ic-twitter"></i></a>
-                    <a href="#"><i class="ic ic-instagram"></i></a>
-                    <a href="#"><i class="ic ic-linkedin"></i></a>
+                    <a href="https://www.facebook.com/montivory"><i class="ic ic-facebook"></i></a>
+                    <a href="https://twitter.com/montivoryth"><i class="ic ic-twitter"></i></a>
+                    <a href="https://www.instagram.com/montivory.th"><i class="ic ic-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/montivory"><i class="ic ic-linkedin"></i></a>
                 </div>
                 <p class="copyright">© 2022 Montivory</p>
             </div>
