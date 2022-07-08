@@ -75,8 +75,12 @@
                     </div>
                 </div>
                 <hr class="mb-4">
-                <button class="btn btn-outline-primary btn-sm" type="button" onClick="submitform();">Save</button>
-                <a href="{{ route('partnerindex') }}" class="btn btn-outline-danger btn-sm">Cancel</a>
+                <div class="row mb-3">
+                    <div class="col-12 pb-2">
+                        <button class="btn btn-outline-primary btn-sm" type="button" onClick="submitform();">Save</button>
+                        <a href="{{ route('partnerindex') }}" class="btn btn-outline-danger btn-sm">Cancel</a>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
