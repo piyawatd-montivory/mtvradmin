@@ -14,6 +14,7 @@ use App\Models\Partner;
 use App\Models\Content;
 use App\Models\SkillInterest;
 use App\Models\Position;
+use App\Models\TeamMontivory;
 
 class WebController extends Controller
 {
@@ -23,7 +24,8 @@ class WebController extends Controller
         $testimonials = Content::where('contenttype','testimonial')
             ->orderBy('sortorder','asc')->get();
         $positions = Position::where('status_active',true)->orderBy('position','asc')->get();
-        return view('index',['partners'=>$partners,'testimonials'=>$testimonials,'positions'=>$positions]);
+        $teams = TeamMontivory::where('status_active',true)->orderBy('sortorder','asc')->get();
+        return view('index',['partners'=>$partners,'testimonials'=>$testimonials,'positions'=>$positions,'teams'=>$teams]);
     }
 
     function career()
@@ -47,7 +49,20 @@ class WebController extends Controller
 
     function careerfinish()
     {
-        return view('careerfinish');
+        $contents = [];
+        $contentOne = Content::where('alias','careerfinish-1')->get()->first();
+        if($contentOne){
+            array_push($contents,$contentOne);
+        }
+        $contentTwo = Content::where('alias','careerfinish-2')->get()->first();
+        if($contentTwo){
+            array_push($contents,$contentTwo);
+        }
+        $contentThree = Content::where('alias','careerfinish-3')->get()->first();
+        if($contentThree){
+            array_push($contents,$contentThree);
+        }
+        return view('careerfinish',['contents'=>$contents]);
     }
 
     function ck()
