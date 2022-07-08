@@ -80,7 +80,9 @@ class ApiController extends Controller
         $contact = new Contact();
         $contact->contact_type = $request->type;
         $contact->fullname = $request->fullname;
-        $contact->select_position = $request->position;
+        if($request->position <> 'other'){
+            $contact->select_position = $request->position;
+        }
         $contact->company = $request->company;
         $contact->phone = $request->phone;
         $contact->email = $request->email;

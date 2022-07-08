@@ -247,9 +247,9 @@ Montivory
                         str += '</div>';
                         $('#skill-result-block').append(str);
                         $('#position').append('<option value="'+value.id+'">'+value.position+'</option>').fadeIn(1000);
-
                 });
-                var lastblock = '<div class="skill-result-remark"><p>Can\'t find the right one?</p><a href="#" class="und und-blue">CONTACT US</a></div>';
+                $('#position').append('<option value="other">Other</option>');
+                var lastblock = '<div class="skill-result-remark"><p>Can\'t find the right one?</p><a href="#joinus" class="und und-blue apply-job" position="other">CONTACT US</a></div>';
                 $('#skill-result-block').append(lastblock);
                 $('.apply-job').on('click',function(){
                     $('#position').val($(this).attr('position')).change();
