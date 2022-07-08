@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('linkedin_url');
             $table->boolean('linkedin_active');
             $table->boolean('status_active');
+            $table->double('sortorder')->default(0)->nullable(true);
             $table->timestamps();
         });
     }
