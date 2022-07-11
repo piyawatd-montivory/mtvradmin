@@ -165,7 +165,7 @@ Montivory
                                      </select>
                                 </div>
                             </div>
-                            <div class="field fadeIn d-none" id="position-block">
+                            <div class="field" id="position-block">
                                 <div class="input select require">
                                     <label class="label">Select position</label>
                                     <select class="select2" id="position">
@@ -211,7 +211,7 @@ Montivory
                                     </div>
                                 </div>
                             </div>
-                            <div class="field for-file d-none" id="file-block">
+                            <div class="field for-file" id="file-block">
                                 <div class="input">
                                     <label class="label">Your CV</label>
                                     <input type="file" name="cv" id="cv">

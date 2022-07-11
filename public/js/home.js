@@ -1,15 +1,17 @@
 $(function(){
+    $('#position-block').hide();
+    $('#file-block').hide();
     $('#contact-title').on('change',function(){
         if($('#contact-title').val() == 'job'){
-            $('#position-block').removeClass('d-none');
-            $('#file-block').removeClass('d-none');
-            $('#company-block').addClass('d-none');
+            $('#position-block').show('slow');
+            $('#file-block').show('slow');
+            $('#company-block').hide('slow');
             $('#fullname-block').removeClass('half-2');
 
         }else{
-            $('#position-block').addClass('d-none');
-            $('#file-block').addClass('d-none');
-            $('#company-block').removeClass('d-none');
+            $('#position-block').hide('slow');
+            $('#file-block').hide('slow');
+            $('#company-block').show('slow');
             $('#fullname-block').addClass('half-2');
         }
     })

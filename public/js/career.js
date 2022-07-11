@@ -1,4 +1,5 @@
 $(function(){
+    $('#skill-result-block').hide();
     $('#applybtn').on('click',function(){
         searchJob();
     });
@@ -22,10 +23,12 @@ function changetoolbar(){
         show = false;
     }
     if(!show){
-        $('#applybtn').removeClass('d-none');
+        // $('#applybtn').removeClass('d-none');
+        $('#applybtn').show('fast');
         $('#interesttoolbar').attr('class','skill-toggle');
         $('#skilltoolbar').attr('class','skill-toggle');
-        $('#skill-result-block').addClass('d-none');
+        // $('#skill-result-block').addClass('d-none');
+        $('#skill-result-block').fadeOut('slow');
     }
 }
 

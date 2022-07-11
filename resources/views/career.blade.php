@@ -111,7 +111,7 @@ Montivory
                         <button type="button" class="btn" id="applybtn">APPLY</button>
                         </div>
                     </div>
-                    <div class="skill-result d-none" id="skill-result-block">
+                    <div class="skill-result" id="skill-result-block">
 
                     </div>
                 </div>
@@ -230,6 +230,7 @@ Montivory
             }
         });
         data.interest = interest;
+        $('#applybtn').hide('fast');
         $( ".apply-job").unbind( "click" );
         $('#skill-result-block').html('');
         $('#position').html('');
@@ -258,13 +259,13 @@ Montivory
                 $('.apply-job').on('click',function(){
                     $('#position').val($(this).attr('position')).change();
                 });
+                $('#skill-result-block').fadeIn('slow');
             }
         });
         $('#skilltoolbar').attr('class','skill-edit choose');
         $('#interesttoolbar').attr('class','skill-edit choose');
-        $('#applybtn').addClass('d-none');
-        $('#skill-result-block').removeClass('d-none');
-
+        // $('#applybtn').addClass('d-none');
+        // $('#skill-result-block').removeClass('d-none');
     }
 </script>
 @endsection
