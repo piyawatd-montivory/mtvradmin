@@ -1,18 +1,14 @@
 $(function(){
-    $('#position-block').hide();
-    $('#file-block').hide();
+    $('#cv-fieldset').hide();
     $('#contact-title').on('change',function(){
         if($('#contact-title').val() == 'job'){
-            $('#position-block').show('slow');
-            $('#file-block').show('slow');
-            $('#company-block').hide('slow');
-            $('#fullname-block').removeClass('half-2');
-
+            $('#contact-fieldset').fadeOut('fast',function(){
+                $('#cv-fieldset').fadeIn('fast');
+            });
         }else{
-            $('#position-block').hide('slow');
-            $('#file-block').hide('slow');
-            $('#company-block').show('slow');
-            $('#fullname-block').addClass('half-2');
+            $('#cv-fieldset').fadeOut('fast',function(){
+                $('#contact-fieldset').fadeIn('fast');
+            });
         }
     })
     $('#sendContactBtn').on('click',function(){
@@ -22,11 +18,11 @@ $(function(){
 
 function submitform(){
     if($('#contact-title').val() == 'job'){
-        if(checkBlank('fullname') && checkPhone() && checkEmail() && checkcv() && checkMessage()){
+        if(checkBlank('cv-fullname') && checkPhone('cv-phone') && checkEmail('cv-email') && checkcv() && checkMessage('cv-message')){
             applyJob();
         }
     }else{
-        if(checkBlank('fullname') && checkBlank('company') && checkPhone() && checkEmail() && checkMessage()){
+        if(checkBlank('contact-fullname') && checkBlank('company') && checkPhone('contact-phone') && checkEmail('contact-email') && checkMessage('contact-message')){
             applyContact();
         }
     }
@@ -90,38 +86,38 @@ function checkBlank(id){
     return true;
 }
 
-function checkMessage(){
-    if(isBlank($('#message').val())){
-        $('#message').addClass('is-invalidarea');
+function checkMessage(id){
+    if(isBlank($('#'+id).val())){
+        $('#'+id).addClass('is-invalidarea');
         return false;
     }
-    $('#message').removeClass('is-invalidarea');
+    $('#'+id).removeClass('is-invalidarea');
     return true;
 }
 
-function checkEmail(){
-    if(isBlank($('#email').val())){
-        $('#email').addClass('is-invalid');
+function checkEmail(id){
+    if(isBlank($('#'+id).val())){
+        $('#'+id).addClass('is-invalid');
         return false;
     }
-    if(!isEmail($('#email').val())){
-        $('#email').addClass('is-invalid');
+    if(!isEmail($('#'+id).val())){
+        $('#'+id).addClass('is-invalid');
         return false;
     }
-    $('#email').removeClass('is-invalid');
+    $('#'+id).removeClass('is-invalid');
     return true;
 }
 
-function checkPhone(){
-    if(isBlank($('#phone').val())){
-        $('#phone').addClass('is-invalid');
+function checkPhone(id){
+    if(isBlank($('#'+id).val())){
+        $('#'+id).addClass('is-invalid');
         return false;
     }
-    if(!isPhone($('#phone').val())){
-        $('#phone').addClass('is-invalid');
+    if(!isPhone($('#'+id).val())){
+        $('#'+id).addClass('is-invalid');
         return false;
     }
-    $('#email').removeClass('is-invalid');
+    $('#'+id).removeClass('is-invalid');
     return true;
 }
 

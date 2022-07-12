@@ -165,26 +165,18 @@ Montivory
                                      </select>
                                 </div>
                             </div>
-                            <div class="field" id="position-block">
-                                <div class="input select require">
-                                    <label class="label">Select position</label>
-                                    <select class="select2" id="position">
-                                        @foreach ($positions as $position)
-                                            <option value="{{$position->id}}" @if($loop->first) selected @endif >{{$position->position}}</option>
-                                        @endforeach
-                                     </select>
-                                </div>
-                            </div>
-                            <div class="field half-2" id="fullname-block">
+                        </fieldset>
+                        <fieldset id="contact-fieldset">
+                            <div class="field half-2">
                                 <div class="input require">
                                     <label class="label anim">Full Name</label>
-                                    <input type="text" name="fullname" id="fullname">
+                                    <input type="text" name="contact-fullname" id="contact-fullname">
                                     <div class="invalid-feedback">
                                         Incorrect field
                                     </div>
                                 </div>
                             </div>
-                            <div class="field half-2"  id="company-block">
+                            <div class="field half-2">
                                 <div class="input require">
                                     <label class="label anim">Company</label>
                                     <input type="text" name="company" id="company">
@@ -196,7 +188,7 @@ Montivory
                             <div class="field half-2">
                                 <div class="input require">
                                     <label class="label anim">Phone</label>
-                                    <input type="tel" name="phone" id="phone">
+                                    <input type="tel" name="contact-phone" id="contact-phone">
                                     <div class="invalid-feedback">
                                         Incorrect field
                                     </div>
@@ -205,7 +197,55 @@ Montivory
                             <div class="field half-2">
                                 <div class="input require">
                                     <label class="label anim">Email</label>
-                                    <input type="email" name="email" id="email">
+                                    <input type="email" name="contact-email" id="contact-email">
+                                    <div class="invalid-feedback">
+                                        Incorrect field
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="input">
+                                    <label class="label anim for-textarea">Message</label>
+                                    <textarea name="contact-message" id="contact-message"></textarea>
+                                    <div class="invalid-feedback">
+                                        Incorrect field
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset id="cv-fieldset">
+                            <div class="field" id="position-block">
+                                <div class="input select require">
+                                    <label class="label">Select position</label>
+                                    <select class="select2" id="position">
+                                        @foreach ($positions as $position)
+                                            <option value="{{$position->id}}" @if($loop->first) selected @endif >{{$position->position}}</option>
+                                        @endforeach
+                                     </select>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="input require">
+                                    <label class="label anim">Full Name</label>
+                                    <input type="text" name="cv-fullname" id="cv-fullname">
+                                    <div class="invalid-feedback">
+                                        Incorrect field
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field half-2">
+                                <div class="input require">
+                                    <label class="label anim">Phone</label>
+                                    <input type="tel" name="cv-phone" id="cv-phone">
+                                    <div class="invalid-feedback">
+                                        Incorrect field
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field half-2">
+                                <div class="input require">
+                                    <label class="label anim">Email</label>
+                                    <input type="email" name="cv-email" id="cv-email">
                                     <div class="invalid-feedback">
                                         Incorrect field
                                     </div>
@@ -224,7 +264,7 @@ Montivory
                             <div class="field">
                                 <div class="input">
                                     <label class="label anim for-textarea">Message</label>
-                                    <textarea name="message" id="message"></textarea>
+                                    <textarea name="cv-message" id="cv-message"></textarea>
                                     <div class="invalid-feedback">
                                         Incorrect field
                                     </div>

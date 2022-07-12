@@ -606,10 +606,11 @@ jQuery(function($){
 
 
 // Career Skill
-jQuery('.skill-toggle').click(function(e){
-    jQuery(this).next('.skill-panel').slideToggle();
-    jQuery(this).toggleClass('open');
-});
+$('.skill-panel').slideToggle();
+// jQuery('.skill-toggle').click(function(e){
+//     jQuery(this).next('.skill-panel').slideToggle();
+//     jQuery(this).toggleClass('open');
+// });
 
 jQuery('.skill-list li').click(function(e){
     jQuery(this).toggleClass('clicked');

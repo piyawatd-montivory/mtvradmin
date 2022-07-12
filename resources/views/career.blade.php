@@ -230,7 +230,7 @@ Montivory
             }
         });
         data.interest = interest;
-        $('#applybtn').hide('fast');
+        // $('#applybtn').hide('fast');
         $( ".apply-job").unbind( "click" );
         $('#skill-result-block').html('');
         $('#position').html('');
@@ -244,9 +244,9 @@ Montivory
                 $.each(response.data,function(key,value){
                     var str = '<div class="skill-result-box fadeIn">';
                         str += '<h3 class="skill-result-position">'+value.position+'</h3>';
-                        str += '<p class="skill-result-require">'+value.short_description+'</p>';
+                        // str += '<p class="skill-result-require">'+value.short_description+'</p>';
                         str += '<div class="skill-result-description">';
-                        str += '<p>'+value.description+'</p>';
+                        str += '<p>'+value.short_description+'</p>';
                         str += '</div>';
                         str += '<a href="#joinus" position="'+value.id+'" class="menu-scroll apply-job">APPLY NOW</a> <a href="{{url('/career')}}/'+value.alias+'" class="menu-scroll apply-job">DETAIL</a>';
                         str += '</div>';
@@ -262,8 +262,8 @@ Montivory
                 $('#skill-result-block').fadeIn('slow');
             }
         });
-        $('#skilltoolbar').attr('class','skill-edit choose');
-        $('#interesttoolbar').attr('class','skill-edit choose');
+        // $('#skilltoolbar').attr('class','skill-edit choose');
+        // $('#interesttoolbar').attr('class','skill-edit choose');
         // $('#applybtn').addClass('d-none');
         // $('#skill-result-block').removeClass('d-none');
     }

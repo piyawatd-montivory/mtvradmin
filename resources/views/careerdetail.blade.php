@@ -14,6 +14,13 @@ Montivory
     <meta property="fb:app_id" content="">
     <meta property="twitter:image" content="{{ asset('/images/frontend/og.jpg')}}">
 @endsection
+@section('stylesheet')
+<style>
+.career-content {
+    width: 100%!important;
+}
+</style>
+@endsection
 @section('content')
 <!-- Content -->
 <main id="content">

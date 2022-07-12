@@ -3,34 +3,34 @@ $(function(){
     $('#applybtn').on('click',function(){
         searchJob();
     });
-    $('.interest-title').on('click',function(){
-        changetoolbar();
-    });
-    $('.skill-title').on('click',function(){
-        changetoolbar();
-    });
+    // $('.interest-title').on('click',function(){
+    //     changetoolbar();
+    // });
+    // $('.skill-title').on('click',function(){
+    //     changetoolbar();
+    // });
     $('#sendContactBtn').on('click',function(){
         submitform();
     });
 })
 
-function changetoolbar(){
-    var show = true;
-    if($('#interesttoolbar').attr('class') == 'skill-edit choose'){
-        show = false;
-    }
-    if($('#skilltoolbar').attr('class') == 'skill-edit choose'){
-        show = false;
-    }
-    if(!show){
-        // $('#applybtn').removeClass('d-none');
-        $('#applybtn').show('fast');
-        $('#interesttoolbar').attr('class','skill-toggle');
-        $('#skilltoolbar').attr('class','skill-toggle');
-        // $('#skill-result-block').addClass('d-none');
-        $('#skill-result-block').fadeOut('slow');
-    }
-}
+// function changetoolbar(){
+//     var show = true;
+//     if($('#interesttoolbar').attr('class') == 'skill-edit choose'){
+//         show = false;
+//     }
+//     if($('#skilltoolbar').attr('class') == 'skill-edit choose'){
+//         show = false;
+//     }
+//     if(!show){
+//         // $('#applybtn').removeClass('d-none');
+//         $('#applybtn').show('fast');
+//         $('#interesttoolbar').attr('class','skill-toggle');
+//         $('#skilltoolbar').attr('class','skill-toggle');
+//         // $('#skill-result-block').addClass('d-none');
+//         $('#skill-result-block').fadeOut('slow');
+//     }
+// }
 
 function submitform(){
     if($('#position').val() == 'none'){
