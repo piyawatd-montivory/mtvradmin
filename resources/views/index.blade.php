@@ -54,7 +54,7 @@ Montivory
         </div>
     </section>
 
-    <section class="sc-testimonial">
+    <section class="sc-testimonial d-none">
         <div class="container">
             <div class="sc-inner">
                 <div class="testimonial-heading animate fadeInUp">
@@ -129,7 +129,7 @@ Montivory
         </div>
     </section>
 
-    <section class="sc-people">
+    <section class="sc-people d-none">
         <div class="container">
             <div class="sc-inner">
                 <div class="sc-heading animate fadeInUp">
