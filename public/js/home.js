@@ -1,13 +1,12 @@
 $(function(){
-    $('#cv-fieldset').hide();
     $('#contact-title').on('change',function(){
         if($('#contact-title').val() == 'job'){
-            $('#contact-fieldset').fadeOut('fast',function(){
-                $('#cv-fieldset').fadeIn('fast');
+            $('#contact-fieldset').fadeOut(500,function(){
+                $('#cv-fieldset').fadeIn(500);
             });
         }else{
-            $('#cv-fieldset').fadeOut('fast',function(){
-                $('#contact-fieldset').fadeIn('fast');
+            $('#cv-fieldset').fadeOut(500,function(){
+                $('#contact-fieldset').fadeIn(500);
             });
         }
     })

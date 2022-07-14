@@ -213,7 +213,7 @@ Montivory
                                 </div>
                             </div>
                         </fieldset>
-                        <fieldset id="cv-fieldset">
+                        <fieldset id="cv-fieldset" style="display: none;">
                             <div class="field" id="position-block">
                                 <div class="input select require">
                                     <label class="label">Select position</label>

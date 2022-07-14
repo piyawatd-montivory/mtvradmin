@@ -16,10 +16,10 @@ Team Montivory
             <h1>Team Montivory</h1>
         </div>
         <div class="col-6 text-end">
-            <a href="{{route('montivorynew')}}" class="btn btn-outline-primary addnew-btn">Add</a>
-            <a href="javascript:reorderform();" class="btn btn-outline-primary reorder-btn">Re Order</a>
-            <a href="javascript:reorder();" class="btn btn-outline-primary reorder-update-btn d-none">Save</a>
-            <a href="javascript:cancelreorder();" class="btn btn-outline-danger reorder-update-btn d-none">Cancel</a>
+            <a href="{{route('montivorynew')}}" class="btn btn-outline-primary normal-btn">Add</a>
+            <a href="javascript:reorderform();" class="btn btn-outline-primary normal-btn">Re Order</a>
+            <a href="javascript:reorder();" class="btn btn-outline-primary reorder-update-btn" style="display: none;">Save</a>
+            <a href="javascript:cancelreorder();" class="btn btn-outline-danger reorder-update-btn" style="display: none;">Cancel</a>
         </div>
     </div>
     <div class="row" id="show-table">
@@ -40,7 +40,7 @@ Team Montivory
             </table>
         </div>
     </div>
-    <div class="row d-none" id="sorttable">
+    <div class="row" id="sorttable" style="display: none;">
         @foreach ($teams as $team)
             <div class="thumbnail col-2 mt-3" team-id="{{ $team->id }}">
                 <div class="card">
@@ -128,20 +128,19 @@ Team Montivory
     }
 
     function reorderform() {
-        $('.reorder-update-btn').removeClass('d-none');
-        $('.reorder-btn').addClass('d-none');
-        $('.addnew-btn').addClass('d-none');
-        $('#sorttable').removeClass('d-none');
-        $('#show-table').addClass('d-none');
-
+        $('.normal-btn').hide();
+        $('#show-table').fadeOut(500,function(){
+            $('#sorttable').fadeIn(500);
+            $('.reorder-update-btn').show();
+        });
     }
 
     function cancelreorder(){
-        $('.reorder-update-btn').addClass('d-none');
-        $('.reorder-btn').removeClass('d-none');
-        $('.addnew-btn').removeClass('d-none');
-        $('#sorttable').addClass('d-none');
-        $('#show-table').removeClass('d-none');
+        $('.reorder-update-btn').hide();
+        $('#sorttable').fadeOut(500,function(){
+            $('#show-table').fadeIn(500);
+            $('.normal-btn').show();
+        });
     }
 
     function deletemontivory(id,fullname) {
