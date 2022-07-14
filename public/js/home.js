@@ -1,12 +1,12 @@
 $(function(){
     $('#contact-title').on('change',function(){
         if($('#contact-title').val() == 'job'){
-            $('#contact-fieldset').fadeOut(500,function(){
-                $('#cv-fieldset').fadeIn(500);
+            $('#contact-fieldset').fadeOut(200,function(){
+                $('#cv-fieldset').fadeIn(200);
             });
         }else{
-            $('#cv-fieldset').fadeOut(500,function(){
-                $('#contact-fieldset').fadeIn(500);
+            $('#cv-fieldset').fadeOut(200,function(){
+                $('#contact-fieldset').fadeIn(200);
             });
         }
     })

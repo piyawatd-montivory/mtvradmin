@@ -66,16 +66,16 @@ Partner
 
     function reorderform() {
         $('.normal-btn').hide();
-        $('#show-table').fadeOut(500,function(){
-            $('#sorttable').fadeIn(500);
+        $('#show-table').fadeOut(200,function(){
+            $('#sorttable').fadeIn(200);
             $('.reorder-update-btn').show();
         });
     }
 
     function cancelreorder(){
         $('.reorder-update-btn').hide();
-        $('#sorttable').fadeOut(500,function(){
-            $('#show-table').fadeIn(500);
+        $('#sorttable').fadeOut(200,function(){
+            $('#show-table').fadeIn(200);
             $('.normal-btn').show();
         });
     }
