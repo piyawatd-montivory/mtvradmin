@@ -33,7 +33,15 @@
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div>
                 User
             </a>
-
+            <div class="sb-sidenav-menu-heading">File Manager</div>
+            <a class="nav-link @if (Route::currentRouteName() === 'manageimages') active @endif" href="{{ route('manageimages')}}">
+                <div class="sb-nav-link-icon"><i class="fa-solid fa-image"></i></div>
+                Images
+            </a>
+            <a class="nav-link @if (Route::currentRouteName() === 'managefiles') active @endif" href="{{ route('managefiles')}}">
+                <div class="sb-nav-link-icon"><i class="fa-solid fa-file"></i></div>
+                Files
+            </a>
             {{-- <a class="nav-link @if (Route::currentRouteName() === 'productindex') active @endif" href="{{ route('productindex') }}">
                 <div class="sb-nav-link-icon"><i class="fa-brands fa-product-hunt"></i></div>
                 Product

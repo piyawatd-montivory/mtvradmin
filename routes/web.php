@@ -11,6 +11,7 @@ use App\Http\Controllers\Admins\SkillInterestController;
 use App\Http\Controllers\Admins\ContentController;
 use App\Http\Controllers\Admins\MontivoryController;
 use App\Http\Controllers\Admins\ContactController;
+use App\Http\Controllers\Admins\FileManagerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -102,6 +103,10 @@ Route::prefix('admins')->group(function () {
         Route::get('/', [ContactController::class, 'index'])->name('contactindex');
         Route::get('/view/{id}', [ContactController::class, 'view'])->name('contactview');
         Route::get('/list', [ContactController::class, 'list'])->name('contactlist');
+    });
+    Route::prefix('filemanager')->group(function () {
+        Route::get('/images', [FileManagerController::class, 'images'])->name('manageimages');
+        Route::get('/files', [FileManagerController::class, 'files'])->name('managefiles');
     });
 });
 
