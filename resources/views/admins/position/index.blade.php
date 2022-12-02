@@ -10,26 +10,28 @@ Position
 @endsection
 @section('content')
 <div class="container-fluid px-4">
-    <div class="row pb-3 mt-3">
+    <div class="row mt-3 border-bottom border-primary">
         <div class="col-6">
-            <h1>Position</h1>
+            <h1 class="text-primary">Position</h1>
         </div>
         <div class="col-6 text-end">
-            <a href="{{route('positionnew')}}" class="btn btn-outline-primary">Add</a>
+            <a class="btn btn-outline-primary btn-sm" href="{{route('positionnew')}}"><i class="fa-solid fa-plus"></i> Add</a>
         </div>
     </div>
-    <table id="positiontable" class="table table table-striped table-hover" style="width:100%">
-        <thead>
-            <tr>
-                <th class="col-7">Position</th>
-                <th class="col-2">Status Active</th>
-                <th class="col-3"></th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="row pb-3 mt-3 table-responsive">
+        <table id="positiontable" class="table table table-striped table-hover" style="width:100%">
+            <thead>
+                <tr>
+                    <th class="col-7">Position</th>
+                    <th class="col-2">Active</th>
+                    <th class="col-3"></th>
+                </tr>
+            </thead>
+            <tbody>
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </div>
 @endsection
 @section('script')
@@ -50,8 +52,8 @@ Position
             "serverSide": true,
             "pageLength": 25,
             columns: [
-                { data: 'position' },
-                { data: 'status_active' },
+                { data: 'title' },
+                { data: 'active' },
                 { data: null }
             ],
             columnDefs: [
@@ -59,7 +61,7 @@ Position
                     orderable: false,
                     targets:   1,
                     render: function(data){
-                        var result = '<span class="text-secondary"><i class="fa-solid fa-circle-xmark"></i> In Active</span>';
+                        let result = '<span class="text-secondary"><i class="fa-solid fa-circle-xmark"></i> In Active</span>';
                         if(data){
                             result = '<span class="text-success"><i class="fa-solid fa-circle-check"></i> Active</span>';
                         }
@@ -70,8 +72,10 @@ Position
                     orderable: false,
                     targets:   2,
                     render: function(data){
-                        var toolsstr = '<a href="/admins/positions/edit/'+data.id+'" class="btn btn-outline-primary">Edit</a> ';
-                        toolsstr += '<a href="javascript:deleteposition(\''+data.id+'\',\''+data.position+'\');" class="btn btn-outline-danger">Delete</a>';
+                        let toolsstr = '<a href="/admins/positions/edit/'+data.id+'" class="btn btn-sm btn-outline-primary">Edit</a> ';
+                        if(data.archivetool){
+                            toolsstr += '<a href="javascript:deleteposition(\''+data.id+'\',\''+data.position+'\');" class="btn btn-outline-danger btn-sm">Delete</a>';
+                        }
                         return toolsstr;
                     }
                 }

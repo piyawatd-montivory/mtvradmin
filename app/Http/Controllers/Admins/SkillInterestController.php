@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Admins;
 use App\Http\Controllers\Controller;
 use App\Models\SkillInterest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class SkillInterestController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
+        $this->contenttypeid = 'skillInterests';
     }
     /**
      * Display a listing of the resource.
@@ -19,12 +21,26 @@ class SkillInterestController extends Controller
      */
     public function index()
     {
-        return view('admins.skill.index');
-    }
-    public function new()
-    {
-        $skill = new SkillInterest();
-        return view('admins.skill.form', [ 'skill' => $skill]);
+        $result = getGenerateCustomFile('skill.json');
+        if($result){
+            $resObj = getGenerateCustomFile('skill.json');
+        }else{
+            $arrayquery = array("content_type"=>$this->contenttypeid);
+            $arrayquery['limit'] = 1;
+            $response = Http::withToken(config('app.cmaaccesstoken'))
+            ->get(getCtUrl().'/entries',$arrayquery);
+            $resObj = $response->object();
+        }
+        $data = new \stdClass;
+        $data->skills = [];
+        $data->interests = [];
+        if(count($resObj->items) > 0){
+            $data->id = $resObj->items[0]->sys->id;
+            $data->version = $resObj->items[0]->sys->version;
+            $data->skills = $resObj->items[0]->fields->skills->{'en-US'};
+            $data->interests = $resObj->items[0]->fields->interests->{'en-US'};
+        }
+        return view('admins.skill.form', [ 'data' => $data]);
     }
 
     /**
@@ -34,119 +50,42 @@ class SkillInterestController extends Controller
      */
     public function create(Request $request)
     {
-        $skill = new SkillInterest();
-        $this->updateDatabase($skill, $request,'new');
-        return redirect()->route('skillindex')->with('success', 'Skill saved!');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\SkillInterest  $skillInterest
-     * @return \Illuminate\Http\Response
-     */
-    public function show(SkillInterest $skillInterest)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\SkillInterest  $skillInterest
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        return view('admins.skill.form', [ 'skill' => SkillInterest::find($id)]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\SkillInterest  $skillInterest
-     * @return \Illuminate\Http\Response
-     */
-    public function update($id, Request $request)
-    {
-        $skill = SkillInterest::find($id);
-        $this->updateDatabase($skill, $request,'edit');
-        return redirect()->route('skillindex')->with('success', 'Skill updated!');
-    }
-
-    public function updateDatabase(SkillInterest $skill, Request $request,$mode)
-    {
-        $skill->name = $request->name;
-        $skill->type = $request->type;
-        $skill->save();
-    }
-
-    public function delete($id, Request $request)
-    {
-        $skill = SkillInterest::find($id)->delete();
-        return ['result'=>true];
-    }
-
-    public function list(Request $request)
-    {
-        // https://shareurcodes.com/blog/laravel%20datatables%20server%20side%20processing
-        $columns = array(
-            0 => 'name',
-            1 => 'type',
-        );
-
-        $totalData = SkillInterest::count();
-
-        $totalFiltered = $totalData;
-
-        $limit = $request->input('length');
-        $start = $request->input('start');
-        $order = $columns[$request->input('order.0.column')];
-        $dir = $request->input('order.0.dir');
-
-        $search = $request->input('search.value');
-
-        $skills = SkillInterest::where('name', 'LIKE', "%{$search}%")
-            ->where('type',$request->input('type'))
-            ->offset($start)
-            ->limit($limit)
-            ->orderBy($order, $dir)
-            ->get();
-
-        $totalFiltered = SkillInterest::where('name', 'LIKE', "%{$search}%")
-            ->where('type',$request->input('type'))
-            ->count();
-
-        $data = array();
-
-        if (!empty($skills)) {
-            foreach ($skills as $skill) {
-                $nestedData['id'] = $skill->id;
-                $nestedData['name'] = $skill->name;
-                $nestedData['type'] = $skill->type;
-                $data[] = $nestedData;
-            }
+        $data = json_decode($request->data);
+        $json = new \stdClass;
+        $json->fields = new \stdClass;
+        $json->fields->name = new \stdClass;
+        $json->fields->name->{'en-US'} = 'Skill & Interests';
+        $json->fields->skills = new \stdClass;
+        $json->fields->skills->{'en-US'} = $data->skills;
+        $json->fields->interests = new \stdClass;
+        $json->fields->interests->{'en-US'} = $data->interests;
+        if($data->id == ''){
+            $response = Http::withBody(json_encode($json), 'application/vnd.contentful.management.v1+json')
+            ->withHeaders([
+                'X-Contentful-Content-Type' => $this->contenttypeid,
+                'Content-Type' => 'application/vnd.contentful.management.v1+json'
+            ])
+            ->withToken(config('app.cmaaccesstoken'))
+            ->post(getCtUrl().'/entries');
+            $data->id = $response->json('sys.id');
+        }else{
+            $response = Http::withBody(json_encode($json), 'application/vnd.contentful.management.v1+json')
+            ->withHeaders([
+                'X-Contentful-Content-Type' => $this->contenttypeid,
+                'Content-Type' => 'application/vnd.contentful.management.v1+json',
+                'X-Contentful-Version' => intval($data->version)
+            ])
+            ->withToken(config('app.cmaaccesstoken'))
+            ->put(getCtUrl().'/entries/'.$data->id);
         }
-
-        $json_data = array(
-            "draw" => intval($request->input('draw')),
-            "recordsTotal" => intval($totalData),
-            "recordsFiltered" => intval($totalFiltered),
-            "data" => $data
-        );
-
-        return $json_data;
+        //publish
+        $response = Http::withHeaders([
+            'X-Contentful-Version' => intval($response->json('sys.version'))
+        ])
+        ->withToken(config('app.cmaaccesstoken'))
+        ->put(getCtUrl().'/entries/'.$data->id.'/published');
+        $resObj = $response->object();
+        generateSkill();
+        return $resObj;
     }
 }

@@ -1,0 +1,23 @@
+@font-face {
+    font-family: 'mitr-medium';
+    src: url(../fonts/Mitr-Medium.ttf);
+}
+@font-face {
+    font-family: 'mitr-bold';
+    font-style: normal;
+    font-weight: bold;
+    src: url(../fonts/Mitr-Bold.ttf);
+}
+@font-face {
+    font-family: 'mitr-regular';
+    font-style: normal;
+    font-weight: normal;
+    src: url(../fonts/Mitr-Regular.ttf);
+}
+body {
+    /* font-family: 'mitr-regular'; */
+    font-family: 'Sarabun', sans-serif;
+}
+/* .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    font-family: 'mitr-regular'!important;
+} */

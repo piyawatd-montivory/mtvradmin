@@ -16,7 +16,21 @@ return [
     */
 
     'name' => env('APP_NAME', 'Mtvradmin'),
-
+    'appversion' => '2.0',
+    'cmaurl' => env('CMA_URL','api.contentful.com'),
+    'cmaaccesstoken' => env('CMA_ACCESSTOKEN','CFPAT-exMpOHWpILkcfIj2RQeSkHeDw374tdk0fZxsWOTa8KE'),
+    'cdaurl' => env('CDA_URL','cdn.contentful.com'),
+    'cdaaccesstoken' => env('CDA_ACCESSTOKEN','oY3_9SZtJCbJUzl4qLbSGS2qAiiO-MFSbChb42zI6OU'),
+    'graphqlurl' => env('GRAPHQL_URL','graphql.contentful.com'),
+    'imageurl' => env('IMAGE_URL','images.ctfassets.net'),
+    'uploadurl' => env('UPLOAD_URL','upload.contentful.com'),
+    'spaceid' => env('SPACE_ID','12hhoq6qt7p6'),
+    'ctenv' => env('CT_ENV', 'master'),
+    'defaultimage' => env('DEFAULT_IMAGE','39ZNESl87Y7Xl8QTnShvDZ'),
+    'defaultimageurl' => env('DEFAULT_IMAGE_URL','https://images.ctfassets.net/12hhoq6qt7p6/39ZNESl87Y7Xl8QTnShvDZ/b973728e89ced542c90e388b02b974c5/logo.png'),
+    'pseudonymtitle' => env('PSEUDONYM_TITLE','กองบรรณาธิการ Montivory'),
+    'mockauth' => env('DEV_MOCKAUTH', false),
+    'mockauthrole' => env('DEV_MOCKAUTH', 'admin'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

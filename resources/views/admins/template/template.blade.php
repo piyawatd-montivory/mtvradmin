@@ -26,23 +26,15 @@
                 </div>
             </form>
             <!-- Navbar-->
-            @if(Auth::check())
+            @if(authuser())
             <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ Auth::user()->email }}<i class="fas fa-user fa-fw"></i></a>
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ authuser()->email }}<i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{{route('profile')}}">Profile</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <li>
-                            {{-- <a class="dropdown-item" href="#!">Logout</a> --}}
-                            <!-- Authentication -->
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <a class="dropdown-item" href="{{route('logout')}}"
-                                        onclick="event.preventDefault();
-                                                    this.closest('form').submit();">
-                                    Logout</a>
-                            </form>
+                            <a class="dropdown-item" href="javascript:signout();">Logout</a>
                         </li>
                     </ul>
                 </li>
@@ -71,7 +63,61 @@
                 @include('admins.template.inc-footer')
             </div>
         </div>
+        <!-- Modal Alert -->
+        <div class="modal fade" id="alertModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header alert" id="alert-header" role="alert">
+                        <h5 class="modal-title" id="alertModalLabel">Alert</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- Modal process --}}
+        <div class="modal fade" id="processModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg text-center modal-dialog-centered">
+                <div class="modal-content no-bg">
+                    <img src="{{asset('images/loading.svg')}}" class="loading"/>
+                </div>
+            </div>
+        </div>
         @include('admins.template.inc-javascript')
+        <script type="text/javascript">
+            const processModal = new bootstrap.Modal('#processModal');
+            const alertModal = new bootstrap.Modal('#alertModal');
+
+            function showAlert(type = true,message = 'default text',redirect = false,url = '',intraveltime = 2000){
+                processModal.hide();
+                if(type){
+                    $('#alert-header').addClass('alert-success');
+                }else{
+                    $('#alert-header').addClass('alert-danger');
+                }
+                $('#alertModalLabel').text(message);
+                alertModal.show();
+                setTimeout(() => {
+                    if(redirect){
+                        window.location.replace(url);
+                    }else{
+                        alertModal.hide();
+                    }
+                }, intraveltime);
+            }
+
+            const signout = () => {
+                $.ajax({
+                    url:'{{route('signout')}}',
+                    method:"POST",
+                    beforeSend: function( xhr ) {
+                        processModal.show();
+                    },
+                    success:function(response){
+                        showAlert(true,'Sign out success',true,'{{route('signin')}}',1000);
+                    }
+                })
+            }
+        </script>
         @yield('script')
     </body>
 </html>

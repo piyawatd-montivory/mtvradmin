@@ -1,3 +1,16 @@
 .table-thumbnail {
     height: 20px;
 }
+.signin-logo {
+    width: 100px;
+}
+.no-bg {
+    background-color: transparent!important;
+    border: none;
+}
+.loading {
+    height: 50px;
+}
+#alert-header.alert {
+    margin-bottom: 0;
+}

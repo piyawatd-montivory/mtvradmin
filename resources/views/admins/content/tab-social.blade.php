@@ -1,4 +1,10 @@
 <div class="mb-3 row mt-3">
+    <label for="ogtitle" class="col-2 form-label">Title</label>
+    <div class="col-10">
+        <input type="text" id="ogtitle" name="ogtitle" class="form-control" value="{{$data->ogtitle}}">
+    </div>
+</div>
+<div class="mb-3 row">
     <label for="ogimage" class="col-2 form-label">Image</label>
     <div class="col-2">
         <button type="button" class="btn btn-sm btn-outline-primary" id="ogimage-btn">

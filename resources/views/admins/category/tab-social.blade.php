@@ -1,4 +1,4 @@
-<div class="mb-3 row mt-3">
+<div class="mb-3 mt-3 row">
     <label for="ogimage" class="col-2 form-label">Image</label>
     <div class="col-2">
         <button type="button" class="btn btn-sm btn-outline-primary" id="ogimage-btn">

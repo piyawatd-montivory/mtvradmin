@@ -3,16 +3,14 @@
 namespace App\Http\Controllers\Admins;
 
 use App\Http\Controllers\Controller;
-use App\Models\Position;
-use App\Models\SkillInterest;
-use App\Models\PositionSkill;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class PositionController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->contenttypeid = 'position';
     }
     /**
      * Display a listing of the resource.
@@ -25,106 +23,157 @@ class PositionController extends Controller
     }
     public function new()
     {
-        $position = new Position();
-        $position->status_active = true;
-        $skills = SkillInterest::where('type','skill')
-        ->orderBy('name', 'asc')->get();
-        $interests = SkillInterest::where('type','interest')
-        ->orderBy('name', 'asc')->get();
-        return view('admins.position.form', [ 'position' => $position,'positionskills'=>[],'skills'=>$skills,'interests'=>$interests]);
+        $skilldata = getSkill();
+        $skills = $skilldata->skills;
+        $interests = $skilldata->interests;
+        $data = new \stdClass;
+        $data->id = '';
+        $data->version = 0;
+        $data->title = '';
+        $data->slug = '';
+        $data->excerpt = '';
+        $data->description = '';
+        $data->ogimageid = '';
+        $data->ogimage = '';
+        $data->ogdescription = '';
+        $data->keyword = '';
+        $data->active = true;
+        $data->skills = [];
+        $data->interests = [];
+        $data->thumbnailid = '';
+        $data->thumbnail = '';
+        return view('admins.position.form', [ 'data'=>$data,'skills'=>$skills,'interests'=>$interests]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function checkslug(Request $request){
+        $response = Http::withToken(config('app.cmaaccesstoken'))
+            ->get(getCtUrl().'/entries',[
+                'content_type' => $this->contenttypeid,
+                'fields.slug' => $request->slug,
+                'limit' => 1
+            ]);
+        if($response->json('total') == 0){
+            return ['result'=>true];
+        }else{
+            return ['result'=>false];
+        }
+    }
+
     public function create(Request $request)
     {
-        $position = new Position();
-        $this->updateDatabase($position, $request,'new');
-        return redirect()->route('positionindex')->with('success', 'Position saved!');
+        $data = json_decode($request->data);
+        $json = new \stdClass;
+        $json->fields = new \stdClass;
+        $json->fields->title = new \stdClass;
+        $json->fields->title->{'en-US'} = $data->title;
+        $json->fields->slug = new \stdClass;
+        $json->fields->slug->{'en-US'} = $data->slug;
+        $json->fields->excerpt = new \stdClass;
+        $json->fields->excerpt->{'en-US'} = $data->excerpt;
+        $json->fields->ogdescription = new \stdClass;
+        $json->fields->ogdescription->{'en-US'} = $data->ogdescription;
+        $json->fields->description = new \stdClass;
+        $json->fields->description->{'en-US'} = $data->description;
+        $json->fields->keyword = new \stdClass;
+        $json->fields->keyword->{'en-US'} = $data->keyword;
+        $json->fields->active = new \stdClass;
+        $json->fields->active->{'en-US'} = $data->active;
+        $json->fields->skills = new \stdClass;
+        $json->fields->skills->{'en-US'} = $data->skills;
+        $json->fields->interests = new \stdClass;
+        $json->fields->interests->{'en-US'} = $data->interests;
+        //thumbnail
+        $json->fields->thumbnail = new \stdClass;
+        $json->fields->thumbnail->{'en-US'} = new \stdClass;
+        $json->fields->thumbnail->{'en-US'}->sys = new \stdClass;
+        $json->fields->thumbnail->{'en-US'}->sys->type = "Link";
+        $json->fields->thumbnail->{'en-US'}->sys->linkType = "Asset";
+        $json->fields->thumbnail->{'en-US'}->sys->id = $data->thumbnail;
+        $json->fields->ogimage = new \stdClass;
+        $json->fields->ogimage->{'en-US'} = new \stdClass;
+        $json->fields->ogimage->{'en-US'}->sys = new \stdClass;
+        $json->fields->ogimage->{'en-US'}->sys->type = "Link";
+        $json->fields->ogimage->{'en-US'}->sys->linkType = "Asset";
+        $json->fields->ogimage->{'en-US'}->sys->id = $data->ogimage;
+        if($data->id == ''){
+            $response = Http::withBody(json_encode($json), 'application/vnd.contentful.management.v1+json')
+            ->withHeaders([
+                'X-Contentful-Content-Type' => $this->contenttypeid,
+                'Content-Type' => 'application/vnd.contentful.management.v1+json'
+            ])
+            ->withToken(config('app.cmaaccesstoken'))
+            ->post(getCtUrl().'/entries');
+            $data->id = $response->json('sys.id');
+        }else{
+            $response = Http::withBody(json_encode($json), 'application/vnd.contentful.management.v1+json')
+            ->withHeaders([
+                'X-Contentful-Content-Type' => $this->contenttypeid,
+                'Content-Type' => 'application/vnd.contentful.management.v1+json',
+                'X-Contentful-Version' => intval($data->version)
+            ])
+            ->withToken(config('app.cmaaccesstoken'))
+            ->put(getCtUrl().'/entries/'.$data->id);
+        }
+        //publish
+        $response = Http::withHeaders([
+            'X-Contentful-Version' => intval($response->json('sys.version'))
+        ])
+        ->withToken(config('app.cmaaccesstoken'))
+        ->put(getCtUrl().'/entries/'.$data->id.'/published');
+        $resObj = $response->object();
+        return $resObj;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Position  $position
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        $skills = SkillInterest::where('type','skill')
-        ->orderBy('name', 'asc')->get();
-        $interests = SkillInterest::where('type','interest')
-        ->orderBy('name', 'asc')->get();
-        $posSkill = PositionSkill::where('position',$id)->get();
-        return view('admins.position.form', [ 'position' => Position::find($id),'positionskills'=>$posSkill,'skills'=>$skills,'interests'=>$interests]);
-    }
+        $skilldata = getSkill();
+        $skills = $skilldata->skills;
+        $interests = $skilldata->interests;
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Position  $position
-     * @return \Illuminate\Http\Response
-     */
-    public function update($id, Request $request)
-    {
-        $position = Position::find($id);
-        $this->updateDatabase($position, $request,'edit');
-        return redirect()->route('positionindex')->with('success', 'Position updated!');
-    }
 
-    public function updateDatabase(Position $position, Request $request,$mode)
-    {
-        $position->position = $request->position;
-        $position->alias = $request->alias;
-        $position->short_description = $request->short_description;
-        $position->description = $request->description;
-        $position->status_active = ($request->status_active) ? true:false;
-        if($request->image){
-            $position->image = $request->image;
-        }
-        $position->og_title = $request->og_title;
-        $position->og_description = $request->og_description;
-        if($request->og_image){
-            $position->og_image = $request->og_image;
-        }
-        $position->og_locale = $request->og_locale;
-        $position->fb_pages = $request->fb_pages;
-        $position->fb_app_id = $request->fb_app_id;
-        if($request->fb_image){
-            $position->fb_image = $request->fb_image;
-        }
-        if($request->twitter_image){
-            $position->twitter_image = $request->twitter_image;
-        }
-        $position->save();
-        $positionskill = PositionSkill::where('position',$position->id)->delete();
-        if($request->skillid){
-            foreach($request->skillid as $key=>$value){
-                $positionskill = new PositionSkill();
-                $positionskill->position = $position->id;
-                $positionskill->skill = $request->skillid[$key];
-                $positionskill->save();
+        $response = Http::withToken(config('app.cmaaccesstoken'))
+        ->get(getCtUrl().'/entries/'.$id.'/references?include=10');
+        $resObj = $response->object();
+        $data = new \stdClass;
+        $refsAsset = isset($resObj->includes->Asset)?$resObj->includes->Asset:[];
+        $data->id = $resObj->items[0]->sys->id;
+        $data->version = $resObj->items[0]->sys->version;
+        $data->title = $resObj->items[0]->fields->title->{'en-US'};
+        $data->slug = isset($resObj->items[0]->fields->slug->{'en-US'})?$resObj->items[0]->fields->slug->{'en-US'}:'';
+        $data->excerpt = $resObj->items[0]->fields->excerpt->{'en-US'};
+        $data->description = $resObj->items[0]->fields->description->{'en-US'};
+        $data->ogdescription = isset($resObj->items[0]->fields->ogdescription->{'en-US'})?$resObj->items[0]->fields->ogdescription->{'en-US'}:'';
+        $data->active = $resObj->items[0]->fields->active->{'en-US'};
+        $data->keyword = isset($resObj->items[0]->fields->keyword->{'en-US'})?$resObj->items[0]->fields->keyword->{'en-US'}:'';
+        $data->skills = $resObj->items[0]->fields->skills->{'en-US'};
+        $data->interests = $resObj->items[0]->fields->interests->{'en-US'};
+        //thumbnail
+        $data->thumbnailid = '';
+        $data->thumbnail = '';
+        if(isset($resObj->items[0]->fields->thumbnail->{'en-US'}->sys))
+        {
+            foreach($refsAsset as $ref){
+                if($ref->sys->id == $resObj->items[0]->fields->thumbnail->{'en-US'}->sys->id){
+                    $data->thumbnailid = $resObj->items[0]->fields->thumbnail->{'en-US'}->sys->id;
+                    $data->thumbnail = 'https:'.$ref->fields->file->{'en-US'}->url;
+                    break;
+                }
             }
         }
-        if($request->interestid){
-            foreach($request->interestid as $key=>$value){
-                $positionskill = new PositionSkill();
-                $positionskill->position = $position->id;
-                $positionskill->interest = $request->interestid[$key];
-                $positionskill->save();
+        //ogimage
+        $data->ogimageid = '';
+        $data->ogimage = '';
+        if(isset($resObj->items[0]->fields->ogimage->{'en-US'}->sys))
+        {
+            foreach($refsAsset as $ref){
+                if($ref->sys->id == $resObj->items[0]->fields->ogimage->{'en-US'}->sys->id){
+                    $data->ogimageid = $resObj->items[0]->fields->ogimage->{'en-US'}->sys->id;
+                    $data->ogimage = 'https:'.$ref->fields->file->{'en-US'}->url;
+                    break;
+                }
             }
         }
+        return view('admins.position.form', [ 'data'=>$data,'skills'=>$skills,'interests'=>$interests]);
     }
 
     public function delete($id, Request $request)
@@ -135,64 +184,55 @@ class PositionController extends Controller
 
     public function list(Request $request)
     {
-        // https://shareurcodes.com/blog/laravel%20datatables%20server%20side%20processing
         $columns = array(
-            0 => 'position',
-            1 => 'status_active',
+            0 => 'fields.title',
+            1 => 'fields.active',
         );
 
-        $totalData = Position::count();
-
-        $totalFiltered = $totalData;
 
         $limit = $request->input('length');
         $start = $request->input('start');
-        $order = $columns[$request->input('order.0.column')];
-        $dir = $request->input('order.0.dir');
+
 
         $search = $request->input('search.value');
 
-        $positions = Position::where('position', 'LIKE', "%{$search}%")
-             ->offset($start)
-             ->limit($limit)
-             ->orderBy($order, $dir)
-            ->get();
-
-        $totalFiltered = Position::where('position', 'LIKE', "%{$search}%")
-            ->count();
-
-        $data = array();
-        if (!empty($positions)) {
-            foreach ($positions as $position) {
-                $nestedData['id'] = $position->id;
-                $nestedData['position'] = $position->position;
-                $nestedData['short_description'] = $position->short_description;
-                $nestedData['description'] = $position->description;
-                if($position->status_active){
-                    $nestedData['status_active'] = true;
-                }else{
-                    $nestedData['status_active'] = false;
-                }
-                $nestedData['image'] = $position->image;
-                $nestedData['og_title'] = $position->og_title;
-                $nestedData['og_description'] = $position->og_description;
-                $nestedData['og_image'] = $position->og_image;
-                $nestedData['og_locale'] = $position->og_locale;
-                $nestedData['fb_pages'] = $position->fb_pages;
-                $nestedData['fb_app_id'] = $position->fb_app_id;
-                $nestedData['fb_image'] = $position->fb_image;
-                $nestedData['twitter_image'] = $position->twitter_image;
-                $data[] = $nestedData;
-            }
+        $fieldorder = $columns[$request->input('order.0.column')];
+        if($request->input('order.0.dir') == 'desc'){
+            $fieldorder = '-'.$fieldorder;
         }
 
-        $json_data = array(
-            "draw" => intval($request->input('draw')),
-            "recordsTotal" => intval($totalData),
-            "recordsFiltered" => intval($totalFiltered),
-            "data" => $data
-        );
+        $arrayquery = array("content_type"=>$this->contenttypeid);
+        $arrayquery['fields.title[match]'] = $search;
+        $arrayquery['sys.archivedAt[exists]'] = 'false';
+        $arrayquery['order'] = $fieldorder;
+        $arrayquery['limit'] = $limit;
+        $arrayquery['skip'] = $start;
 
-        return $json_data;
+        $response = Http::withToken(config('app.cmaaccesstoken'))
+        ->get(getCtUrl().'/entries',$arrayquery);
+
+        $resObj = $response->object();
+
+        $totalData = $resObj->total;
+
+        $result = new \stdClass;
+        $result->draw = intval($request->input('draw'));
+        $result->recordsTotal = intval($totalData);
+        $result->recordsFiltered = intval($totalData);
+        $result->data = [];
+        // $uPermission = authuser()->permission;
+        foreach($resObj->items as $item) {
+            $data = new \stdClass;
+            $data->id = $item->sys->id;
+            $data->version = $item->sys->version;
+            $data->title = $item->fields->title->{'en-US'};
+            $data->active = $item->fields->active->{'en-US'};
+            $data->archivetool = false;
+            if(authuser()->role == 'admin'){
+                $data->archivetool = true;
+            }
+            array_push($result->data,$data);
+        }
+        return $result;
     }
 }

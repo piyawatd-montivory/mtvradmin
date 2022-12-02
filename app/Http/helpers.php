@@ -2,143 +2,255 @@
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
+function authuser() {
+    $user = session('user');
+    if($user)
+    {
+        return $user;
+    }
+    if(config('app.mockauth')) {
+        $user = new \stdClass;
+        $user->id = 'id-mockup';
+        $user->email = 'email@mockup.com';
+        $user->password = 'passwordmockup';
+        $user->role = config('app.mockauthrole');
+        $user->firstname = 'firstnamemockup';
+        $user->lastname = 'lastnamemockup';
+        $pseudonyms = new \stdClass;
+        $pseudonyms->id = 'pseudonyms-id-mock';
+        $pseudonyms->version = 1;
+        $pseudonyms->name = 'pseudonyms-name-mock';
+        $pseudonyms->title = config('app.pseudonymtitle');
+        $pseudonyms->user = 'id-mockup';
+        $pseudonyms->description = 'mockup description';
+        $pseudonyms->default = true;
+        $pseudonyms->imageid = config('app.defaultimage');
+        $pseudonyms->imageversion = '1';
+        $pseudonyms->image = config('app.defaultimageurl');
+        $user->pseudonyms = [$pseudonyms];
+        return $user;
+    }
+}
+
+function getProfile($id) {
+    $response = Http::withToken(config('app.cmaaccesstoken'))
+    ->get(getCtUrl().'/entries/'.$id);
+    $user = $response->object();
+    $result = new \stdClass;
+    $result->id = $user->sys->id;
+    $result->email = $user->fields->email->{'en-US'};
+    $result->password = $user->fields->password->{'en-US'};
+    $result->role = $user->fields->role->{'en-US'};
+    $result->firstname = $user->fields->firstname->{'en-US'};
+    $result->lastname = $user->fields->lastname->{'en-US'};
+    $result->pseudonyms = getPseudonym($id,true,false);
+    $result->permission = [];
+    $categories = getCategory();
+    $userPermission = [];
+    if(isset($user->fields->permission->{'en-US'})){
+        foreach($user->fields->permission->{'en-US'} as $permission){
+            foreach($categories as $category){
+                $usePermission = false;
+                foreach($category->category as $item){
+                    if($item == $permission->sys->id){
+                        $usePermission = true;
+                        break;
+                    }
+                }
+                if($usePermission){
+                    array_push($result->permission,$category);
+                }
+            }
+        }
+    }
+    session(['user' => $result]);
+    return $result;
+}
+
+function getCtUrl(){
+    return 'https://'.config('app.cmaurl').'/spaces/'.config('app.spaceid').'/environments/'.config('app.ctenv');
+}
+
+function getCtGraphqlUrl(){
+    return 'https://'.config('app.graphqlurl').'/content/v1/spaces/'.config('app.spaceid').'/environments/'.config('app.ctenv');
+}
+
 if (! function_exists('generateuuid')) {
     function generateuuid(){
         return $uuid = str_replace("-","",Str::uuid()->toString());
     }
 }
 
-if (! function_exists('livetoken')) {
-    function livetoken() {
-        if(session()->get('token'))
-        {
-            $nowtime = date_create_from_format('Y-m-d H:i',date('Y-m-d H:i'));
-            $expirestime = date_create_from_format('Y-m-d H:i',session()->get('tokenexpires'));
-            if($nowtime >= $expirestime){
-                $result = writectauth();
-            }
-        }else{
-            $result = writectauth();
-        }
+function generateCustomFile($filename,$data) {
+    if (!file_exists(public_path('/assets/data/'))) {
+        mkdir(public_path('/assets/data/'), 0777, true);
     }
+    $fp = fopen(public_path('/assets/data/') . $filename,"wb");
+    fwrite($fp,json_encode($data));
+    fclose($fp);
 }
 
-if (! function_exists('writectauth')) {
-    function writectauth() {
-        $CtObject = new \stdClass;
-        $response = Http::withBasicAuth(config('app.ctclient'),config('app.ctsecret'))->post(config('app.ctoauth').'/oauth/token?grant_type=client_credentials');
-        if($response->status() == 200){
-            $CtObject->token = $response->json('access_token');
-            $CtObject->time = date('Y-m-d H:i', (time() + intval($response->json('expires_in'))));
-            $CtObject->status = $response->status();
-            $fp = fopen(public_path('/') . "cttoken.json","wb");
-            fwrite($fp,json_encode($CtObject));
-            fclose($fp);
-            session()->put('token', $CtObject->token);
-            session()->put('tokenexpires', $CtObject->time);
-            return true;
-        }else{
-            session()->delete('token');
-            session()->delete('tokenexpires');
-            return false;
-        }
+function getGenerateCustomFile($filename) {
+    if(file_exists(public_path('/assets/data/') . $filename)){
+        $ptObject = json_decode(file_get_contents(public_path('/assets/data/') . $filename));
+        return $ptObject;
     }
+    return NULL;
 }
 
-if (! function_exists('readctauth')) {
-    function readctauth() {
-        $CtObject = new \stdClass;
-        if(!file_exists(public_path('/') . "cttoken.json")){
-            return writectauth();
-        }else{
-            $CtObject = json_decode(file_get_contents(public_path('/') . "cttoken.json"));
-            $expirestime = date_create_from_format('Y-m-d H:i',$CtObject->time);
-            $nowtime = date_create_from_format('Y-m-d H:i',date('Y-m-d H:i'));
-            if($nowtime < $expirestime){
-                session()->put('token', $CtObject->token);
-                session()->put('tokenexpires', $CtObject->time);
-                return true;
-            }else{
-                return writectauth();
-            }
-        }
-    }
+function generateCategory() {
+    $arrayquery = array("content_type"=>"category");
+    $arrayquery['order'] = 'fields.categoryorder';
+    $response = Http::withToken(config('app.cmaaccesstoken'))
+    ->get(getCtUrl().'/entries',$arrayquery);
+    generateCustomFile('category.json',$response->object());
 }
 
-if (! function_exists('getProductType')) {
-    function getProductType() {
-        if(!file_exists(public_path('/') . "producttype.json")){
-            $response = Http::withToken(session()->get('token'))
-            ->get(config('app.cturl').'/'.config('app.ctproject').'/product-types');
-            $fp = fopen(public_path('/') . "producttype.json","wb");
-            fwrite($fp,json_encode($response->object()));
-            fclose($fp);
-        }
-        $ptObject = json_decode(file_get_contents(public_path('/') . "producttype.json"));
-        return $ptObject->results;
-    }
+function generateSkill() {
+    $arrayquery = array("content_type"=>"skillInterests");
+    $arrayquery['limit'] = 1;
+    $response = Http::withToken(config('app.cmaaccesstoken'))
+    ->get(getCtUrl().'/entries',$arrayquery);
+    generateCustomFile('skill.json',$response->object());
 }
 
-if (! function_exists('getProductTypeById')) {
-    function getProductTypeById($id) {
-        $result = new \stdClass;
-        if(!file_exists(public_path('/') . "producttype.json")){
-            $response = Http::withToken(session()->get('token'))
-            ->get(config('app.cturl').'/'.config('app.ctproject').'/product-types');
-            $fp = fopen(public_path('/') . "producttype.json","wb");
-            fwrite($fp,json_encode($response->object()));
-            fclose($fp);
+function getSkill() {
+    $data = getGenerateCustomFile('skill.json');
+    if($data){
+        $resObj = getGenerateCustomFile('skill.json');
+    }else{
+        generateSkill();
+        $resObj = getGenerateCustomFile('skill.json');
+    }
+    $result = new \stdClass;
+    $result->skills = [];
+    $result->interests = [];
+    if(count($resObj->items) > 0){
+        $result->skills = $resObj->items[0]->fields->skills->{'en-US'};
+        $result->interests = $resObj->items[0]->fields->interests->{'en-US'};
+    }
+    return $result;
+}
+
+function generateTags() {
+    $arrayquery = array("name[nin]"=>"profileimage");
+    $arrayquery['limit'] = 500;
+    $response = Http::withToken(config('app.cmaaccesstoken'))
+    ->get(getCtUrl().'/tags',$arrayquery);
+    generateCustomFile('tag.json',$response->object());
+}
+
+function getTags() {
+    $data = getGenerateCustomFile('tag.json');
+    if($data){
+        $resObj = getGenerateCustomFile('tag.json');
+    }else{
+        generateTags();
+        $resObj = getGenerateCustomFile('tag.json');
+    }
+    $result = [];
+    foreach($resObj->items as $tag){
+        $tagObj = new \stdClass;
+        $tagObj->id = $tag->sys->id;
+        $tagObj->name = $tag->name;
+        array_push($result,$tagObj);
+    }
+    return $result;
+}
+
+function generateRole() {
+    $arrayquery = array("content_type"=>"role");
+    $response = Http::withToken(config('app.cmaaccesstoken'))
+    ->get(getCtUrl().'/entries',$arrayquery);
+    $resultObj = $response->object();
+    $result = [];
+    foreach($resultObj->items as $item){
+        $role = new \stdClass;
+        $role->id = $item->sys->id;
+        $role->name = $item->fields->name->{'en-US'};
+        array_push($result,$role);
+    }
+    generateCustomFile('roles.json',$result);
+}
+
+function generatePseudonym(){
+    $allArray = [];
+    $defaultarrayquery = array("content_type"=>"user");
+    $defaultarrayquery['fields.default'] = true;
+    $defaultarrayquery['limit'] = 1000;
+    $response = Http::withToken(config('app.cmaaccesstoken'))
+    ->get(getCtUrl().'/entries',$defaultarrayquery);
+    $uresponse = $response->object();
+    $alluser = '';
+    foreach($uresponse->items as $user){
+        if(!empty($alluser)){
+            $alluser = $alluser.',';
         }
-        $ptObject = json_decode(file_get_contents(public_path('/') . "producttype.json"));
-        foreach($ptObject->results as $item){
-            if($item->id == $id){
-                $result = $item;
+        $alluser = $alluser.$user->sys->id;
+    }
+    $pseudonymarrayquery = array("content_type"=>"pseudonym");
+    $pseudonymarrayquery['fields.user.sys.id[in]'] = $alluser;
+    $pseudonymarrayquery['limit'] = 1000;
+    $response = Http::withToken(config('app.cmaaccesstoken'))
+        ->get(getCtUrl().'/entries',$pseudonymarrayquery);
+    $resObj = $response->object();
+    foreach($resObj->items as $item){
+        $pseddonym = new \stdClass;
+        $pseddonym->id = $item->sys->id;
+        $pseddonym->version = $item->sys->version;
+        foreach($uresponse->items as $user){
+            if($user->sys->id == $item->fields->user->{'en-US'}->sys->id){
+                $pseddonym->user = $user->fields->username->{'en-US'};
                 break;
             }
         }
-        return $result;
+        $pseddonym->name = $item->fields->name->{'en-US'};
+        $pseddonym->title = isset($item->fields->title->{'en-US'})?$item->fields->title->{'en-US'}:'';
+        $pseddonym->description = isset($item->fields->description->{'en-US'})?$item->fields->description->{'en-US'}:'';
+        $pseddonym->default = isset($item->fields->default->{'en-US'})?$item->fields->default->{'en-US'}:true;
+        $pseddonym->imageid = '';
+        $pseddonym->imageversion = 0;
+        $pseddonym->image = '';
+        if(isset($item->fields->profileimage)){
+            $assetresponse = Http::withToken(config('app.cmaaccesstoken'))
+            ->get(getCtUrl().'/assets/'.$item->fields->profileimage->{'en-US'}->sys->id);
+            $assetObj = $assetresponse->object();
+            $pseddonym->imageid = $assetObj->sys->id;
+            $pseddonym->imageversion = $assetObj->sys->version;
+            $pseddonym->image = 'https:'.$assetObj->fields->file->{'en-US'}->url;
+        }
+        array_push($allArray,$pseddonym);
     }
+    generateCustomFile('pseddonym.json',$allArray);
 }
 
 if (! function_exists('getCategory')) {
-    function getCategory() {
-        $filepath = public_path('/data/') . "category.json";
-        if(!file_exists($filepath)){
-            $response = Http::withToken(session()->get('token'))
-            ->get(config('app.cturl').'/'.config('app.ctproject').'/categories');
-            $fp = fopen($filepath,"wb");
-            fwrite($fp,json_encode($response->object()->results));
-            fclose($fp);
-            return $response->object();
+    function getCategory($exceptid = '') {
+        if(!file_exists(public_path('/assets/data/') . "category.json")){
+            generateCategory();
         }
-        return json_decode(file_get_contents($filepath));
-    }
-}
-
-if (! function_exists('getCategoryById')) {
-    function getCategoryById($id) {
-        $categories = categoryRecursive(getCategory());
-        foreach($categories as $category){
-            if($category->id == $id){
-                return $category;
-            }
-        }
+        $ptObject = getGenerateCustomFile('category.json');
+        return categoryRecursive($ptObject->items,$exceptid);
     }
 }
 
 if (! function_exists('categoryRecursive')) {
-    function categoryRecursive($categories){
+    function categoryRecursive($categories,$exceptid){
         $result = [];
         foreach($categories as $category)
         {
-            if (!property_exists($category, 'parent'))
+            if (!property_exists($category->fields, 'parent'))
             {
-                $cateObj = new \stdClass;
-                $cateObj->id = $category->id;
-                $cateObj->key = $category->key;
-                $cateObj->name = $category->name->th;
-                array_push($result,$cateObj);
-                $result = categoryRecursiveParent($result,$categories,$category->name->th,$category->id);
+                if($exceptid != $category->sys->id){
+                    $categorypath = [];
+                    $cateObj = new \stdClass;
+                    $cateObj->id = $category->sys->id;
+                    $cateObj->name = $category->fields->title->{'en-US'};
+                    array_push($categorypath,$category->sys->id);
+                    $cateObj->category = $categorypath;
+                    array_push($result,$cateObj);
+                    $result = categoryRecursiveParent($result,$categories,$category->fields->title->{'en-US'},$category->sys->id,$categorypath,$exceptid);
+                }
             }
         }
         return $result;
@@ -146,313 +258,117 @@ if (! function_exists('categoryRecursive')) {
 }
 
 if (! function_exists('categoryRecursiveParent')) {
-    function categoryRecursiveParent($result,$categories,$name,$id){
+    function categoryRecursiveParent($result,$categories,$name,$id,$categorypath,$exceptid){
         foreach($categories as $category)
         {
-            if (property_exists($category, 'parent') && ($category->parent->id == $id))
+            if (property_exists($category->fields, 'parent') && ($category->fields->parent->{'en-US'}[0]->sys->id == $id))
             {
-                $cateObj = new \stdClass;
-                $cateObj->id = $category->id;
-                $cateObj->key = $category->key;
-                $catename = '';
-                if($name <> '')
-                {
-                    $catename = $name.' > '.$category->name->th;
-                }else{
-                    $catename = $category->name->th;
+                if($exceptid != $category->sys->id){
+                    $catePath = $categorypath;
+                    array_push($catePath,$category->sys->id);
+                    $cateObj = new \stdClass;
+                    $cateObj->id = $category->sys->id;
+                    $cateObj->name = $category->fields->title->{'en-US'};
+                    $cateObj->category = $catePath;
+                    $catename = '';
+                    if($name <> '')
+                    {
+                        $catename = $name.' > '.$category->fields->title->{'en-US'};
+                    }else{
+                        $catename = $category->fields->title->{'en-US'};
+                    }
+                    $cateObj->name = $catename;
+                    array_push($result,$cateObj);
+                    $result = categoryRecursiveParent($result,$categories,$category->fields->title->{'en-US'},$category->sys->id,$catePath,$exceptid);
                 }
-                $cateObj->name = $catename;
-                array_push($result,$cateObj);
-                $result = categoryRecursiveParent($result,$categories,$category->name->th,$category->id);
             }
         }
         return $result;
     }
 }
 
-if (! function_exists('categoryByKey')) {
-    function categoryByKey($key,$categories){
+if (! function_exists('getPseudonym')) {
+    function getPseudonym($user = '',$fimage = false,$defaultpenname = true) {
         $result = [];
-        foreach($categories as $category)
-        {
-            if ($category->key == $key)
+        if($defaultpenname){
+            if(!file_exists(public_path('/assets/data/') . "pseddonym.json")){
+                generatePseudonym();
+            }
+            $all = getGenerateCustomFile('pseddonym.json');
+            foreach($all as $item){
+                $pseddonym = new \stdClass;
+                $pseddonym->id = $item->id;
+                $pseddonym->version = $item->version;
+                $pseddonym->name = $item->name;
+                $pseddonym->title = $item->title;
+                $pseddonym->user = $item->user;
+                $pseddonym->description = $item->description;
+                $pseddonym->default = $item->default;
+                $pseddonym->imageid = $item->imageid;
+                $pseddonym->imageversion = $item->imageversion;
+                $pseddonym->image = $item->image;
+                array_push($result,$pseddonym);
+            }
+        }else{
+            if(empty($user))
             {
-                $result = categoryRecursiveParent($result,$categories,'',$category->id);
+                foreach($all as $item){
+                    $pseddonym = new \stdClass;
+                    $pseddonym->id = $item->id;
+                    $pseddonym->version = $item->version;
+                    $pseddonym->user = $item->user;
+                    $pseddonym->name = $item->name;
+                    $pseddonym->title = $item->title;
+                    $pseddonym->description = $item->description;
+                    $pseddonym->default = $item->default;
+                    $pseddonym->imageid = $item->imageid;
+                    $pseddonym->imageversion = $item->imageversion;
+                    $pseddonym->image = $item->image;
+                    array_push($result,$pseddonym);
+                }
+            }else{
+                $allArray = [];
+                $response = Http::withToken(config('app.cmaaccesstoken'))
+                ->get(getCtUrl().'/entries',[
+                    'content_type'=>'pseudonym',
+                    'fields.user.sys.id'=>$user,
+                    'limit'=>1000
+                ]);
+                $resObj = $response->object();
+                foreach($resObj->items as $item){
+                    $pseddonym = new \stdClass;
+                    $pseddonym->id = $item->sys->id;
+                    $pseddonym->version = $item->sys->version;
+                    $pseddonym->name = $item->fields->name->{'en-US'};
+                    $pseddonym->title = isset($item->fields->title->{'en-US'})?$item->fields->title->{'en-US'}:'';
+                    $pseddonym->description = isset($item->fields->description->{'en-US'})?$item->fields->description->{'en-US'}:'';
+                    $pseddonym->default = isset($item->fields->default->{'en-US'})?$item->fields->default->{'en-US'}:true;
+                    $pseddonym->imageid = '';
+                    $pseddonym->imageversion = 0;
+                    $pseddonym->image = '';
+                    if(isset($item->fields->profileimage)){
+                        $assetresponse = Http::withToken(config('app.cmaaccesstoken'))
+                        ->get(getCtUrl().'/assets/'.$item->fields->profileimage->{'en-US'}->sys->id);
+                        $assetObj = $assetresponse->object();
+                        $pseddonym->imageid = $assetObj->sys->id;
+                        $pseddonym->imageversion = $assetObj->sys->version;
+                        $pseddonym->image = 'https:'.$assetObj->fields->file->{'en-US'}->url;
+                    }
+                    array_push($result,$pseddonym);
+                }
             }
         }
         return $result;
     }
 }
 
-if (! function_exists('getProductBySeller')) {
-    function getProductBySeller() {
-        $url = urlencode('name="seller" and value="'.Auth::user()->company.'"');
-        $response = Http::withToken(session()->get('token'))
-        ->get(config('app.cturl').'/'.config('app.ctproject').'/products?limit=500&where=masterData(current(masterVariant(attributes('.$url.'))))');
-        $product = new \stdClass;
-        $products = [];
-        foreach($response->object()->results as $result){
-            $master = $result->masterData->current;
-            $item = new \stdClass;
-            $item->id = $result->id;
-            $item->productkey = $result->key;
-            $item->name = $master->name->th;
-            $item->published = $result->masterData->published;
-            $ptType = getProductTypeById($result->productType->id);
-            $item->producttype = $ptType->name;
-            $item->producttypekey = $ptType->key;
-            array_push($products,$item);
+if (! function_exists('getRole')) {
+    function getRole() {
+        $result = [];
+        if(!file_exists(public_path('/assets/data/') . "roles.json")){
+            generateRole();
         }
-        return $products;
+        return getGenerateCustomFile('roles.json');
     }
 }
-
-if (! function_exists('getProductByKey')) {
-    function getProductByKey($key) {
-        $productObj = new \stdClass;
-        // $productObj->seller = Auth::user()->company;
-        $response = Http::withToken(session()->get('token'))
-        ->get(config('app.cturl').'/'.config('app.ctproject').'/products/key='.$key);
-        $product = $response->object();
-        $masterData = $product->masterData->current;
-        $productObj->id = $product->id;
-        $productObj->version = intval($product->version);
-        $productObj->published = $product->masterData->published;
-        $productObj->productkey = $product->key;
-        $productObj->name = $masterData->name->th;
-        $productObj->description = isset($masterData->description->th) ? $masterData->description->th : '';
-        $productObj->productType = getProductTypeById($product->productType->id);
-        $categorys = [];
-        foreach($masterData->categories as $category){
-            array_push($categorys,getCategoryById($category->id));
-        }
-        $productObj->category = $categorys;
-        $variants = [];
-        //masterVariant
-        $vMaster = $masterData->masterVariant;
-        $variantObj = new \stdClass;
-        $variantObj->master = true;
-        $variantObj->id = $product->id;
-        $variantObj->variantid = $vMaster->id;
-        $variantObj->productkey = $product->key;
-        $variantObj->name = $masterData->name->th;
-        $variantObj->variantid = $vMaster->id;
-        $variantObj->sku = $vMaster->sku;
-        $variantObj->priceid = $vMaster->prices[0]->id;
-        $variantObj->price = intval($vMaster->prices[0]->value->centAmount) / 100;
-        $ckey = key($vMaster->availability->channels);
-        $variantObj->amount = $vMaster->availability->channels->$ckey->availableQuantity;
-        $variantObj->inventoryversion = $vMaster->availability->channels->$ckey->version;
-        $variantObj->inventoryid = $vMaster->availability->channels->$ckey->id;
-        $variantObj->image = $vMaster->images[0]->url;
-        switch ($productObj->productType->key) {
-            case 'graphicscard':
-                foreach($vMaster->attributes as $attrObj){
-                    switch ($attrObj->name) {
-                        case 'size':
-                            $variantObj->size = $attrObj->value;
-                            break;
-                        case 'model':
-                            $productObj->model = $attrObj->value;
-                            break;
-                        case 'seller':
-                            $productObj->seller = $attrObj->value;
-                            break;
-                        case 'brand':
-                            $productObj->brand = $attrObj->value->id;
-                            break;
-                    }
-                }
-                break;
-            case 'snack':
-                foreach($vMaster->attributes as $attrObj){
-                    switch ($attrObj->name) {
-                        case 'weight':
-                            $variantObj->weight = $attrObj->value;
-                            break;
-                        case 'taste':
-                            $variantObj->taste = $attrObj->value;
-                            break;
-                        case 'seller':
-                            $productObj->seller = $attrObj->value;
-                            break;
-                    }
-                }
-                break;
-            case 'memory':
-                foreach($vMaster->attributes as $attrObj){
-                    switch ($attrObj->name) {
-                        case 'size':
-                            $variantObj->size = $attrObj->value;
-                            break;
-                        case 'type':
-                            $productObj->type = $attrObj->value;
-                            break;
-                        case 'brand':
-                            $productObj->brand = $attrObj->value->id;
-                            break;
-                        case 'seller':
-                            $productObj->seller = $attrObj->value;
-                            break;
-                    }
-                }
-                break;
-            case 'stroages':
-                foreach($vMaster->attributes as $attrObj){
-                    switch ($attrObj->name) {
-                        case 'size':
-                            $variantObj->size = $attrObj->value;
-                            break;
-                        case 'brand':
-                            $productObj->brand = $attrObj->value->id;
-                            break;
-                        case 'seller':
-                            $productObj->seller = $attrObj->value;
-                            break;
-                    }
-                }
-                break;
-        }
-        array_push($variants,$variantObj);
-        //variant
-        foreach($masterData->variants as $variant){
-            $variantObj = new \stdClass;
-            $variantObj->master = false;
-            $variantObj->id = $product->id;
-            $variantObj->variantid = $variant->id;
-            $variantObj->productkey = $product->key;
-            $variantObj->name = $masterData->name->th;
-            $variantObj->variantid = $variant->id;
-            $variantObj->sku = $variant->sku;
-            $variantObj->priceid = $variant->prices[0]->id;
-            $variantObj->price = intval($variant->prices[0]->value->centAmount) / 100;
-            $ckey = key($variant->availability->channels);
-            $variantObj->amount = $variant->availability->channels->$ckey->availableQuantity;
-            $variantObj->inventoryversion = $variant->availability->channels->$ckey->version;
-            $variantObj->inventoryid = $variant->availability->channels->$ckey->id;
-            $variantObj->image = $variant->images[0]->url;
-            switch ($productObj->productType->key) {
-                case 'graphicscard':
-                    foreach($variant->attributes as $attrObj){
-                        switch ($attrObj->name) {
-                            case 'size':
-                                $variantObj->size = $attrObj->value;
-                                break;
-                        }
-                    }
-                    break;
-                case 'snack':
-                    foreach($variant->attributes as $attrObj){
-                        switch ($attrObj->name) {
-                            case 'weight':
-                                $variantObj->weight = $attrObj->value;
-                                break;
-                            case 'taste':
-                                $variantObj->taste = $attrObj->value;
-                                break;
-                        }
-                    }
-                    break;
-                case 'memory':
-                    foreach($variant->attributes as $attrObj){
-                        switch ($attrObj->name) {
-                            case 'size':
-                                $variantObj->size = $attrObj->value;
-                                break;
-                        }
-                    }
-                    break;
-                case 'stroages':
-                    foreach($variant->attributes as $attrObj){
-                        switch ($attrObj->name) {
-                            case 'size':
-                                $variantObj->size = $attrObj->value;
-                                break;
-                        }
-                    }
-                    break;
-            }
-            array_push($variants,$variantObj);
-        }   
-        $productObj->variants = $variants;
-        return $productObj;
-    }
-}
-
-
-if (! function_exists('getProductBySku')) {
-    function getProductBySku($sku) {
-        $productObj = new \stdClass;
-        $productObj->seller = Auth::user()->company;
-        $urlmaster = urlencode('masterVariant(sku="'.$sku.'")');
-        $urlvariant = urlencode('variants(sku="'.$sku.'")');
-        $response = Http::withToken(session()->get('token'))
-        ->get(config('app.cturl').'/'.config('app.ctproject').'/products?where=masterData(current('.$urlmaster.'))');
-        if(intval($response->json('total')) > 0){
-            $product = $response->object()->results[0];
-            $master = $product->masterData->current;
-            $vMaster = $master->masterVariant;
-            $productObj->id = $product->id;
-            $productObj->version = $product->version;
-            $productObj->published = $product->masterData->published;
-            $productObj->productkey = $product->key;
-            $productObj->name = $master->name->th;
-            $productObj->description = $master->description->th;
-            $productObj->variantid = $vMaster->id;
-            $productObj->sku = $vMaster->sku;
-            $productObj->price = intval($vMaster->prices[0]->value->centAmount) / 100;
-            $ckey = key($vMaster->availability->channels);
-            $productObj->amount = $vMaster->availability->channels->$ckey->availableQuantity;
-            $productObj->inventoryid = $vMaster->availability->channels->$ckey->id;
-            $productObj->inventoryversion = $vMaster->availability->channels->$ckey->version;
-            $productObj->image = $vMaster->images[0]->url;
-            $productObj->variantcount = 1 + count($master->variants);
-            foreach($vMaster->attributes as $attrObj){
-                switch ($attrObj->name) {
-                    case 'weight':
-                        $productObj->weight = $attrObj->value;
-                        break;
-                    case 'taste':
-                        $productObj->taste = $attrObj->value;
-                        break;
-                }
-            }
-            return $productObj;
-        }
-        $response = Http::withToken(session()->get('token'))
-        ->get(config('app.cturl').'/'.config('app.ctproject').'/products?where=masterData(current('.$urlvariant.'))');
-        $product = $response->object()->results[0];
-        $master = $product->masterData->current;
-        //variant
-        foreach($master->variants as $variant){
-            if($variant->sku == $sku){
-                $productObj->id = $product->id;
-                $productObj->version = $product->version;
-                $productObj->published = $product->masterData->published;
-                $productObj->productkey = $product->key;
-                $productObj->name = $master->name->th;
-                $productObj->description = $master->description->th;
-                $productObj->variantid = $variant->id;
-                $productObj->sku = $variant->sku;
-                $productObj->price = intval($variant->prices[0]->value->centAmount) / 100;
-                $ckey = key($variant->availability->channels);
-                $productObj->amount = $variant->availability->channels->$ckey->availableQuantity;
-                $productObj->inventoryid = $variant->availability->channels->$ckey->id;
-                $productObj->inventoryversion = $variant->availability->channels->$ckey->version;
-                $productObj->image = $variant->images[0]->url;
-                $productObj->variantcount = 1 + count($master->variants);
-                foreach($variant->attributes as $attrObj){
-                    switch ($attrObj->name) {
-                        case 'weight':
-                            $productObj->weight = $attrObj->value;
-                            break;
-                        case 'taste':
-                            $productObj->taste = $attrObj->value;
-                            break;
-                    }
-                }
-                return $productObj;
-            }
-        }   
-    }
-}
+?>
