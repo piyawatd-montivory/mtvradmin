@@ -20,12 +20,57 @@ class WebController extends Controller
 {
     function index()
     {
-        $partners = Partner::orderBy('sortorder','asc')->get();
-        $testimonials = Content::where('contenttype','testimonial')
-            ->orderBy('sortorder','asc')->get();
-        $positions = Position::where('status_active',true)->orderBy('position','asc')->get();
-        $teams = TeamMontivory::where('status_active',true)->orderBy('sortorder','asc')->get();
-        return view('index',['partners'=>$partners,'testimonials'=>$testimonials,'positions'=>$positions,'teams'=>$teams]);
+        $positionarrayquery = array("content_type"=>"position");
+        $positionresponse = Http::withToken(config('app.cdaaccesstoken'))
+        ->get(getCtCdaUrl().'/entries',$positionarrayquery);
+        $positionresult = $positionresponse->object();
+        $arrayquery = array("content_type"=>"pagecontent");
+        $arrayquery['fields.page[in]'] = "index";
+        $response = Http::withToken(config('app.cdaaccesstoken'))
+        ->get(getCtCdaUrl().'/entries',$arrayquery);
+        $result = $response->object();
+        $page = new \stdClass;
+        $page->partner = [];
+        $page->footer =  new \stdClass;
+        foreach($result->items as $item){
+            switch($item->fields->session[0]){
+                case 'first':
+                    $data = new \stdClass;
+                    $data->title = $item->fields->title;
+                    $data->content = $item->fields->content;
+                    $page->first = $data;
+                    break;
+                case 'team-montivory':
+                    $data = new \stdClass;
+                    $data->title = $item->fields->title;
+                    $data->content = $item->fields->content;
+                    $page->team = $data;
+                    break;
+                case 'third':
+                    $data = new \stdClass;
+                    $data->title = $item->fields->title;
+                    $data->content = $item->fields->content;
+                    $page->third = $data;
+                    break;
+                case 'partner':
+                    $page->partner = $item->fields->gallery;
+                    break;
+                case 'provide':
+                    $data = new \stdClass;
+                    $data->title = $item->fields->title;
+                    $data->content = $item->fields->content;
+                    $data->gallery = $item->fields->gallery;
+                    $page->provide = $data;
+                    break;
+                case 'footer':
+                    $data = new \stdClass;
+                    $data->special = $item->fields->special;
+                    $data->content = $item->fields->content;
+                    $page->footer = $data;
+                    break;
+            }
+        }
+        return view('index',['data'=>$page,'positions'=>$positionresult->items]);
     }
 
     function career()
@@ -40,6 +85,8 @@ class WebController extends Controller
         $interests = SkillInterest::where('type','interest')
         ->orderBy('name', 'asc')->get();
         $positions = Position::where('status_active',true)->orderBy('position','asc')->get();
+        // $data = new \stdClass;
+        // $data->footer = new \stdClass;
         return view('career',['benefitGallery'=>$benefitGallery,'skills'=>$skills,'interests'=>$interests,'positions'=>$positions]);
     }
 

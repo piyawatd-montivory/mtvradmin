@@ -26,7 +26,7 @@ Montivory
     <section class="sc-hero bg-img" data-bgimg-src="{{ asset('/images/frontend/img01.jpg')}}" data-bgimg-srcset="{{ asset('/images/frontend/img01.jpg')}}">
         <div class="container">
             <div class="sc-inner">
-                <h1 class="hero-title animate fadeInUp">Digital is your thing.<br>Making digital work is our thing.</h1>
+                <h1 class="hero-title animate fadeInUp">{!! html_entity_decode(isset($data->first)?$data->first->content:'Digital is your thing.<br>Making digital work is our thing.') !!}</h1>
             </div>
         </div>
     </section>
@@ -35,10 +35,10 @@ Montivory
         <div class="container">
             <div class="sc-inner">
                 <div class="team-text animate fadeInUp">
-                    <p>We, Team Montivory, hereby declare:<br>
-                    We will lead our clients into this era of digital technology with their goals and needs in mind. We will work as a partner with our clients to co-create solutions that bring achievements to their organisations. We will use our combined strengths as an integral team to be an experience creator that makes a difference.</p>
+                    <p>{!! html_entity_decode(isset($data->team)?$data->team->content:'We, Team Montivory, hereby declare:<br>
+                    We will lead our clients into this era of digital technology with their goals and needs in mind. We will work as a partner with our clients to co-create solutions that bring achievements to their organisations. We will use our combined strengths as an integral team to be an experience creator that makes a difference.') !!}</p>
                 </div>
-                <h5 class="team-by animate fadeInUp">The team of Montivory</h5>
+                <h5 class="team-by animate fadeInUp">{!! html_entity_decode(isset($data->team)?$data->team->title:'The team of Montivory') !!}</h5>
             </div>
         </div>
     </section>
@@ -46,15 +46,15 @@ Montivory
     <section class="sc-preprocess bg-img" data-bgimg-src="{{ asset('/images/frontend/img03.jpg')}}" data-bgimg-srcset="{{ asset('/images/frontend/img03.jpg')}}">
         <div class="container">
             <div class="sc-inner">
-                <h1 class="preprocess-title animate fadeInUp">First Things First</h1>
+                <h1 class="preprocess-title animate fadeInUp">{!! html_entity_decode(isset($data->third)?$data->third->title:'First Things First') !!}</h1>
                 <div class="preprocess-text animate fadeInUp">
-                    <p>Achieving the best results always begins with choosing the right process.</p>
+                    <p>{!! html_entity_decode(isset($data->third)?$data->third->content:'Achieving the best results always begins with choosing the right process.') !!}</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="sc-testimonial d-none">
+    {{-- <section class="sc-testimonial d-none">
         <div class="container">
             <div class="sc-inner">
                 <div class="testimonial-heading animate fadeInUp">
@@ -75,7 +75,7 @@ Montivory
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     <section class="sc-partner">
         <div class="container">
@@ -84,12 +84,12 @@ Montivory
                     <h2 class="sc-headline">Partner</h2>
                 </div>
                 <div class="partner-list animate fadeInUp">
-                    @foreach ($partners as $partner)
+                    @foreach ($data->partner as $partner)
                         @if(($loop->index % 4) == 0)
-                        </div>
-                        <div class="partner-list animate fadeInUp">
+                            </div>
+                            <div class="partner-list animate fadeInUp">
                         @endif
-                    <a href="{{ $partner->url }}"><img alt="" src="{{ asset($partner->logo)}}"></a>
+                        <a href="{{ $partner->link }}"><img alt="{!! html_entity_decode($partner->title) !!}" src="{{ $partner->url }}"></a>
                     @endforeach
                 </div>
             </div>
@@ -100,36 +100,24 @@ Montivory
         <div class="container">
             <div class="sc-inner">
                 <div class="sc-heading animate fadeInUp">
-                    <h2 class="sc-headline">What we provide</h2>
-                    <p class="sc-subhead">We're offering services & solutions to help your business grow in digital age</p>
+                    <h2 class="sc-headline">{!! html_entity_decode(isset($data->provide)?$data->provide->title:'What we provide') !!}</h2>
+                    <p class="sc-subhead">{!! html_entity_decode(isset($data->provide)?$data->provide->content:'We\'re offering services & solutions to help your business grow in digital age') !!}</p>
                 </div>
                 <ul class="provide-list animate fadeInUp">
-                    <li>
-                        <img alt="" src="{{asset('/images/frontend/provide-icon-01.png')}}">
-                        <p>Business Consulting & Project Management</p>
-                    </li>
-                    <li>
-                        <img alt="" src="{{asset('/images/frontend/provide-icon-02.png')}}">
-                        <p>Data Privacy & Consulting</p>
-                    </li>
-                    <li>
-                        <img alt="" src="{{asset('/images/frontend/provide-icon-03.png')}}">
-                        <p>Experience Design</p>
-                    </li>
-                    <li>
-                        <img alt="" src="{{asset('/images/frontend/provide-icon-04.png')}}">
-                        <p>Operation Service</p>
-                    </li>
-                    <li>
-                        <img alt="" src="{{asset('/images/frontend/provide-icon-05.png')}}">
-                        <p>Technical Consultant</p>
-                    </li>
+                    @if($data->provide)
+                        @foreach ($data->provide->gallery?$data->provide->gallery:[] as $gallery)
+                        <li>
+                            <img alt="{!! html_entity_decode($gallery->title) !!}" src="{{ $gallery->url }}">
+                            <p>{!! html_entity_decode($gallery->title) !!}</p>
+                        </li>
+                        @endforeach
+                    @endif
                 </ul>
             </div>
         </div>
     </section>
 
-    <section class="sc-people d-none">
+    {{-- <section class="sc-people d-none">
         <div class="container">
             <div class="sc-inner">
                 <div class="sc-heading animate fadeInUp">
@@ -143,7 +131,7 @@ Montivory
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     <section class="sc-contact animate fadeInUp">
         <div class="container">
@@ -219,7 +207,7 @@ Montivory
                                     <label class="label">Select position</label>
                                     <select class="select2" id="position">
                                         @foreach ($positions as $position)
-                                            <option value="{{$position->id}}" @if($loop->first) selected @endif >{{$position->position}}</option>
+                                            <option value="{{$position->sys->id}}" @if($loop->first) selected @endif >{{$position->fields->title}}</option>
                                         @endforeach
                                      </select>
                                 </div>
