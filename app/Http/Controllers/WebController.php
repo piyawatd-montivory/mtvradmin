@@ -21,6 +21,8 @@ class WebController extends Controller
     function index()
     {
         $positionarrayquery = array("content_type"=>"position");
+        $positionarrayquery['fields.active'] = "true";
+        $positionarrayquery['order'] = "fields.title";
         $positionresponse = Http::withToken(config('app.cdaaccesstoken'))
         ->get(getCtCdaUrl().'/entries',$positionarrayquery);
         $positionresult = $positionresponse->object();
@@ -75,24 +77,114 @@ class WebController extends Controller
 
     function career()
     {
-        $benefitGallery = [];
-        $benefit = Content::where('alias','benefit')->first();
-        if($benefit){
-            $benefitGallery = json_decode($benefit->gallery);
+        $positionarrayquery = array("content_type"=>"position");
+        $positionarrayquery['fields.active'] = "true";
+        $positionarrayquery['order'] = "fields.title";
+        $positionresponse = Http::withToken(config('app.cdaaccesstoken'))
+        ->get(getCtCdaUrl().'/entries',$positionarrayquery);
+        $positionresult = $positionresponse->object();
+        $arrayquery = array("content_type"=>"pagecontent");
+        $arrayquery['fields.page[in]'] = "career";
+        $response = Http::withToken(config('app.cdaaccesstoken'))
+        ->get(getCtCdaUrl().'/entries',$arrayquery);
+        $result = $response->object();
+        $page = new \stdClass;
+        foreach($result->items as $item){
+            switch($item->fields->session[0]){
+                case 'why-montivory':
+                    $data = new \stdClass;
+                    $data->title = $item->fields->title;
+                    $data->content = $item->fields->content;
+                    $page->montivory = $data;
+                    break;
+                case 'benefit':
+                    $data = new \stdClass;
+                    $data->title = $item->fields->title;
+                    $data->content = $item->fields->content;
+                    $data->gallery = $item->fields->gallery;
+                    $page->benefit = $data;
+                    break;
+                case 'footer':
+                    $data = new \stdClass;
+                    $data->special = $item->fields->special;
+                    $data->content = $item->fields->content;
+                    $page->footer = $data;
+                    break;
+            }
         }
-        $skills = SkillInterest::where('type','skill')
-        ->orderBy('name', 'asc')->get();
-        $interests = SkillInterest::where('type','interest')
-        ->orderBy('name', 'asc')->get();
-        $positions = Position::where('status_active',true)->orderBy('position','asc')->get();
-        // $data = new \stdClass;
-        // $data->footer = new \stdClass;
-        return view('career',['benefitGallery'=>$benefitGallery,'skills'=>$skills,'interests'=>$interests,'positions'=>$positions]);
+        $result = getGenerateCustomFile('skill.json');
+        if($result){
+            $resObj = getGenerateCustomFile('skill.json');
+        }else{
+            $arrayquery = array("content_type"=>$this->contenttypeid);
+            $arrayquery['limit'] = 1;
+            $response = Http::withToken(config('app.cmaaccesstoken'))
+            ->get(getCtUrl().'/entries',$arrayquery);
+            $resObj = $response->object();
+        }
+        $skills = [];
+        $interests = [];
+        if(count($resObj->items) > 0){
+            $skills = $resObj->items[0]->fields->skills->{'en-US'};
+            $interests = $resObj->items[0]->fields->interests->{'en-US'};
+        }
+        return view('career',['data'=>$page,'skills'=>$skills,'interests'=>$interests,'positions'=>$positionresult->items]);
     }
 
     function careerdetail($alias)
     {
-        return view('careerdetail',['position'=>Position::where('alias',$alias)->get()->first()]);
+        $data = [];
+        $query = 'query positionCollectionQuery {
+            positionCollection (
+                where:
+                    {
+                        slug:"'.$alias.'"},
+                limit:1
+            ) {
+                items {
+                    sys {
+                        id
+                    }
+                title,
+                slug,
+                thumbnail {
+                  url
+                },
+                description,
+                ogtitle,
+                ogdescription,
+                ogimage {
+                  url
+                },
+                keyword
+              }
+            }
+        }';
+        $response = Http::withBody(json_encode([
+            'query' => $query
+        ]),'')
+            ->withToken(config('app.cdaaccesstoken'))
+            ->post(getCtGraphqlUrl());
+        $resObj = $response->object();
+        //footer
+        $arrayquery = array("content_type"=>"pagecontent");
+        $arrayquery['fields.session[in]'] = "footer";
+        $arrayquery['limit'] = 1;
+        $response = Http::withToken(config('app.cdaaccesstoken'))
+        ->get(getCtCdaUrl().'/entries',$arrayquery);
+        $result = $response->object();
+        $page = new \stdClass;
+        foreach($result->items as $item){
+            switch($item->fields->session[0]){
+                case 'footer':
+                    $data = new \stdClass;
+                    $data->special = $item->fields->special;
+                    $data->content = $item->fields->content;
+                    $page->footer = $data;
+                    break;
+            }
+        }
+        return view('careerdetail',['data'=>$page,'position'=>$resObj->data->positionCollection->items[0]]);
     }
 
     function careerfinish()

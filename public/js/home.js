@@ -15,7 +15,7 @@ $(function(){
     });
 })
 
-function submitform(){
+const submitform = () => {
     if($('#contact-title').val() == 'job'){
         if(checkBlank('cv-fullname') && checkPhone('cv-phone') && checkEmail('cv-email') && checkcv() && checkMessage('cv-message')){
             applyJob();
@@ -28,55 +28,55 @@ function submitform(){
 
 }
 
-function applyJob(){
-    var fd = new FormData();
-    var files = $('#cv')[0].files;
+const applyJob = () => {
+    let fd = new FormData();
+    let files = $('#cv')[0].files;
     fd.append('cv',files[0]);
     fd.append('type','job');
     fd.append('position',$('#position').val());
-    fd.append('fullname',$('#fullname').val());
-    fd.append('email',$('#email').val());
-    fd.append('phone',$('#phone').val());
-    fd.append('message',$('#message').val());
-    $.ajax({
-        url: '/api/cv',
-        type: 'post',
-        data: fd,
-        contentType: false,
-        processData: false,
-        beforeSend: function( xhr ) {
-            showModal();
-        },
-        success: function(response){
-            window.location.href = "/careerfinish";
-        },
-    });
+    fd.append('fullname',$('#cv-fullname').val());
+    fd.append('email',$('#cv-email').val());
+    fd.append('phone',$('#cv-phone').val());
+    fd.append('message',$('#cv-message').val());
+    showModal();
+    setTimeout(() => {
+        $.ajax({
+            url: '/api/cv',
+            type: 'post',
+            data: fd,
+            contentType: false,
+            processData: false,
+            success: function(response){
+                window.location.href = "/careerfinish";
+            },
+        });
+    },1000);
 }
 
-function applyContact(){
-    var fd = new FormData();
+const applyContact = () => {
+    let fd = new FormData();
     fd.append('type',$('#contact-title').val());
-    fd.append('fullname',$('#fullname').val());
+    fd.append('fullname',$('#contact-fullname').val());
     fd.append('company',$('#company').val());
-    fd.append('email',$('#email').val());
-    fd.append('phone',$('#phone').val());
-    fd.append('message',$('#message').val());
-    $.ajax({
-        url: '/api/contact',
-        type: 'post',
-        data: fd,
-        contentType: false,
-        processData: false,
-        beforeSend: function( xhr ) {
-            showModal();
-        },
-        success: function(response){
-            window.location.href = "/careerfinish";
-        },
-    });
+    fd.append('email',$('#contact-email').val());
+    fd.append('phone',$('#contact-phone').val());
+    fd.append('message',$('#contact-message').val());
+    showModal();
+    setTimeout(() => {
+        $.ajax({
+            url: '/api/contact',
+            type: 'post',
+            data: fd,
+            contentType: false,
+            processData: false,
+            success: function(response){
+                window.location.href = "/careerfinish";
+            },
+        });
+    },1000);
 }
 
-function checkBlank(id){
+const checkBlank = (id) => {
     if(isBlank($('#'+id).val())){
         $('#'+id).addClass('is-invalid');
         return false;
@@ -85,7 +85,7 @@ function checkBlank(id){
     return true;
 }
 
-function checkMessage(id){
+const checkMessage = (id) => {
     if(isBlank($('#'+id).val())){
         $('#'+id).addClass('is-invalidarea');
         return false;
@@ -94,7 +94,7 @@ function checkMessage(id){
     return true;
 }
 
-function checkEmail(id){
+const checkEmail = (id) => {
     if(isBlank($('#'+id).val())){
         $('#'+id).addClass('is-invalid');
         return false;
@@ -107,7 +107,7 @@ function checkEmail(id){
     return true;
 }
 
-function checkPhone(id){
+const checkPhone = (id) => {
     if(isBlank($('#'+id).val())){
         $('#'+id).addClass('is-invalid');
         return false;
@@ -120,8 +120,8 @@ function checkPhone(id){
     return true;
 }
 
-function checkcv(){
-    var files = $('#cv')[0].files;
+const checkcv = () => {
+    let files = $('#cv')[0].files;
     // Check file selected or not
     if(!checkSelectFile('cv')){
         $('#cv').addClass('is-invalid');
@@ -141,10 +141,10 @@ function checkcv(){
     return true;
 }
 
-function showModal(){
+const showModal = () => {
     document.getElementById('modal').style.display='block';
 }
 
-function closeModal(){
+const closeModal = () => {
     document.getElementById('modal').style.display='none';
 }

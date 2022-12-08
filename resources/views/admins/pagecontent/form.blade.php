@@ -97,6 +97,7 @@
         let cversion = {{$data->version}};
         CKEDITOR.inline( 'editorarea' ,{
             customConfig: "{{ asset('js/ckcontentconfig.js') }}",
+            contentsCss: [ '{{asset('css/theme.css')}}' ],
             enterMode: CKEDITOR.ENTER_BR,
             shiftEnterMode: CKEDITOR.ENTER_P,
             filebrowserImageBrowseUrl: '{{ route('imageck') }}'

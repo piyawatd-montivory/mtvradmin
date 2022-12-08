@@ -3,11 +3,13 @@
 Montivory
 @endsection
 @section('meta')
-    <meta property="og:title" content="Montivory">
-    <meta property="og:description" content="">
-    <meta property="og:image" content="{{ asset('/images/frontend/og.jpg')}}">
-    <meta property="og:url" content="">
-    <meta property="og:site_name" content="">
+    <meta name="description" content="{{$position->ogdescription}}">
+    <meta name="keywords" content="{{$position->keyword}}">
+    <meta property="og:title" content="{{$position->ogtitle}}">
+    <meta property="og:description" content="{{$position->ogdescription}}">
+    <meta property="og:image" content="{{isset($position->ogimage)?$position->ogimage->url:''}}">
+    <meta property="og:url" content="{{config('app.url')}}/career/{{$position->slug}}">
+    <meta property="og:site_name" content="Montivory">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="" />
     <meta property="fb:pages" content="">
@@ -33,7 +35,7 @@ Montivory
         <div class="container">
             <div class="sc-inner">
                 <div class="career-content animate fadeInUp">
-                    <h2 class="sc-headline">{{ $position->position }}</h2>
+                    <h2 class="sc-headline">{{ $position->title }}</h2>
                     {!! html_entity_decode($position->description) !!}
                 </div>
             </div>
@@ -51,14 +53,14 @@ Montivory
                             <div class="field d-none">
                                 <div class="input select">
                                     <select data-placeholder="Please select" class="select2" id="position" name="position">
-                                        <option value="{{$position->id}}" selected>{{$position->position}}</option>
+                                        <option value="{{$position->sys->id}}" selected>{{$position->title}}</option>
                                      </select>
                                 </div>
                             </div>
                             <div class="field">
                                 <div class="input require">
                                     <label class="label anim">Full Name</label>
-                                    <input type="text" name="fullname" id="fullname">
+                                    <input type="text" name="fullname" id="fullname" class="validate">
                                     <div class="invalid-feedback">
                                         Incorrect field
                                     </div>
@@ -67,7 +69,7 @@ Montivory
                             <div class="field half-2">
                                 <div class="input require">
                                     <label class="label anim">Phone</label>
-                                    <input type="tel" name="phone" id="phone">
+                                    <input type="tel" name="phone" id="phone" class="validate">
                                     <div class="invalid-feedback">
                                         Incorrect field
                                     </div>

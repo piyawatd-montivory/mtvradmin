@@ -4,15 +4,24 @@ $(function(){
     });
 })
 
-function submitform(){
-    if(checkBlank('fullname') && checkPhone() && checkEmail() && checkcv() && checkMessage()){
+const submitform = () => {
+    let pass = true;
+    $.each($('.validate'),function(i,obj){
+        if($(obj).val().trim().length === 0){
+            $(obj).addClass('is-invalid');
+            pass = false;
+        }else{
+            $(obj).removeClass('is-invalid');
+        }
+    })
+    if(pass && checkPhone() && checkEmail() && checkcv()){
         applyJob();
     }
 }
 
-function applyJob(){
-    var fd = new FormData();
-    var files = $('#cv')[0].files;
+const applyJob = () => {
+    let fd = new FormData();
+    let files = $('#cv')[0].files;
     fd.append('cv',files[0]);
     fd.append('type','job');
     fd.append('position',$('#position').val());
@@ -20,48 +29,26 @@ function applyJob(){
     fd.append('email',$('#email').val());
     fd.append('phone',$('#phone').val());
     fd.append('message',$('#message').val());
-    $.ajax({
-        url: '/api/cv',
-        type: 'post',
-        data: fd,
-        contentType: false,
-        processData: false,
-        beforeSend: function( xhr ) {
-            showModal();
-        },
-        success: function(response){
-            window.location.href = "/careerfinish";
-        },
-    });
+    showModal();
+    setTimeout(() => {
+        $.ajax({
+            url: '/api/cv',
+            type: 'post',
+            data: fd,
+            contentType: false,
+            processData: false,
+            success: function(response){
+                window.location.href = "/careerfinish";
+            },
+        });
+    },1000);
 }
 
-function showModal(){
+const showModal = () => {
     document.getElementById('modal').style.display='block';
 }
 
-function checkBlank(id){
-    if(isBlank($('#'+id).val())){
-        $('#'+id).addClass('is-invalid');
-        return false;
-    }
-    $('#'+id).removeClass('is-invalid');
-    return true;
-}
-
-function checkMessage(){
-    if(isBlank($('#message').val())){
-        $('#message').addClass('is-invalidarea');
-        return false;
-    }
-    $('#message').removeClass('is-invalidarea');
-    return true;
-}
-
-function checkEmail(){
-    if(isBlank($('#email').val())){
-        $('#email').addClass('is-invalid');
-        return false;
-    }
+const checkEmail = () => {
     if(!isEmail($('#email').val())){
         $('#email').addClass('is-invalid');
         return false;
@@ -70,11 +57,7 @@ function checkEmail(){
     return true;
 }
 
-function checkPhone(){
-    if(isBlank($('#phone').val())){
-        $('#phone').addClass('is-invalid');
-        return false;
-    }
+const checkPhone = () => {
     if(!isPhone($('#phone').val())){
         $('#phone').addClass('is-invalid');
         return false;
@@ -83,8 +66,8 @@ function checkPhone(){
     return true;
 }
 
-function checkcv(){
-    var files = $('#cv')[0].files;
+const checkcv = () => {
+    let files = $('#cv')[0].files;
     // Check file selected or not
     if(!checkSelectFile('cv')){
         $('#cv').addClass('is-invalid');
