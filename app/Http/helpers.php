@@ -67,6 +67,10 @@ function getProfile($id) {
     return $result;
 }
 
+function getCtCdaUrl(){
+    return 'https://'.config('app.cdaurl').'/spaces/'.config('app.spaceid').'/environments/'.config('app.ctenv');
+}
+
 function getCtUrl(){
     return 'https://'.config('app.cmaurl').'/spaces/'.config('app.spaceid').'/environments/'.config('app.ctenv');
 }

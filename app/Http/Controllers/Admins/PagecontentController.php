@@ -27,7 +27,11 @@ class PagecontentController extends Controller
         $data->title = '';
         $data->slug = '';
         $data->content = '';
+        $data->special = '';
         $data->active = true;
+        $data->page = [];
+        $data->session = [];
+        $data->gallery = [];
         return view('admins.pagecontent.form',['data'=>$data]);
     }
 
@@ -44,6 +48,14 @@ class PagecontentController extends Controller
         $json->fields->active->{'en-US'} = $data->active;
         $json->fields->content = new \stdClass;
         $json->fields->content->{'en-US'} = $data->content;
+        $json->fields->special = new \stdClass;
+        $json->fields->special->{'en-US'} = $data->special;
+        $json->fields->gallery = new \stdClass;
+        $json->fields->gallery->{'en-US'} = $data->gallery;
+        $json->fields->page = new \stdClass;
+        $json->fields->page->{'en-US'} = $data->page;
+        $json->fields->session = new \stdClass;
+        $json->fields->session->{'en-US'} = $data->session;
         // return $json;
         if($data->id == ''){
             $response = Http::withBody(json_encode($json), 'application/vnd.contentful.management.v1+json')
@@ -79,15 +91,19 @@ class PagecontentController extends Controller
     {
         $id = $request->id;
         $response = Http::withToken(config('app.cmaaccesstoken'))
-        ->get(getCtUrl().'/entries/'.$id.'/references?include=10');
+        ->get(getCtUrl().'/entries/'.$id);
         $resObj = $response->object();
         $data = new \stdClass;
-        $data->id = $resObj->items[0]->sys->id;
-        $data->version = $resObj->items[0]->sys->version;
-        $data->title = $resObj->items[0]->fields->title->{'en-US'};
-        $data->slug = $resObj->items[0]->fields->slug->{'en-US'};
-        $data->content = $resObj->items[0]->fields->content->{'en-US'};
-        $data->active = $resObj->items[0]->fields->active->{'en-US'};
+        $data->id = $resObj->sys->id;
+        $data->version = $resObj->sys->version;
+        $data->title = $resObj->fields->title->{'en-US'};
+        $data->slug = $resObj->fields->slug->{'en-US'};
+        $data->content = $resObj->fields->content->{'en-US'};
+        $data->special = $resObj->fields->special->{'en-US'};
+        $data->page = $resObj->fields->page->{'en-US'};
+        $data->session = $resObj->fields->session->{'en-US'};
+        $data->gallery = $resObj->fields->gallery->{'en-US'};
+        $data->active = $resObj->fields->active->{'en-US'};
         return view('admins.pagecontent.form',['data'=>$data]);
     }
 

@@ -12,30 +12,17 @@ Content
 <div class="container-fluid px-4">
     <div class="row mt-3 border-bottom border-primary">
         <div class="col-6">
-            <h1 class="text-primary">Content</h1>
+            <h1 class="text-primary">Page Content</h1>
         </div>
         <div class="col-6 text-end">
-            <a class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createModal"><i class="fa-solid fa-plus"></i> Add</a>
-        </div>
-    </div>
-    <div class="row mt-3">
-        <label for="status" class="col-1 form-label">Status</label>
-        <div class="col-3">
-            <select class="form-select" name="status" id="status">
-                <option value="all" selected>All</option>
-                <option value="draft">Draft</option>
-                <option value="publish">Publish</option>
-                <option value="archive">Archive</option>
-            </select>
+            <a class="btn btn-outline-primary btn-sm" href="{{route('pagecontentnew')}}"><i class="fa-solid fa-plus"></i> Add</a>
         </div>
     </div>
     <div class="row pb-3 mt-3 table-responsive">
         <table id="content" class="table table-striped table-hover col-12">
             <thead>
                 <tr>
-                    <th class="col-5">Title</th>
-                    <th class="col-2">Create</th>
-                    <th class="col-1">Owner</th>
+                    <th class="col-8">Title</th>
                     <th class="col-1">Status</th>
                     <th class="col-3"></th>
                 </tr>
@@ -46,65 +33,36 @@ Content
         </table>
     </div>
 </div>
-<!-- Modal -->
-<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="createModalLabel">Select Templates</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body text-center">
-            <a href="{{ route('contentnew',['type'=>'hero']) }}" class="btn btn-outline-primary mb-2">Hero Banner</a>
-            <a href="{{ route('contentnew',['type'=>'slide']) }}" class="btn btn-outline-primary mb-2">Slide Banner</a>
-            <a href="{{ route('contentnew',['type'=>'video']) }}" class="btn btn-outline-primary mb-2">Video Banner</a>
-            <a href="{{ route('contentnew',['type'=>'podcast']) }}" class="btn btn-outline-primary mb-2">Podcast</a>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-        </div>
-      </div>
-    </div>
-</div>
 @endsection
 @section('script')
-<script src="{{asset('/assets/js/datatables.min.js')}}"></script>
-<script src="{{asset('/assets/js/dataTables.bootstrap5.js')}}"></script>
-<script src="{{asset('/assets/js/select.bootstrap5.min.js')}}"></script>
-<script src="{{asset('/assets/js/jquery-confirm.js')}}"></script>
+<script src="{{asset('/js/datatables.min.js')}}"></script>
+<script src="{{asset('/js/dataTables.bootstrap5.js')}}"></script>
+<script src="{{asset('/js/select.bootstrap5.min.js')}}"></script>
+<script src="{{asset('/js/jquery-confirm.js')}}"></script>
 <script>
     oTable = '';
     $(document).ready(function () {
-        $('#status').on('change',function(){
-            reloaddata();
-        })
         oTable = $('#content').DataTable({
-            ajax:{
-                url: '{{ route('contentlist') }}?status='+$('#status').val(),
-                dataType: 'json',
-                type: 'GET'
+            "ajax":{
+                url: '{{ route('pagecontentlist') }}',
+                "dataType": "json",
+                "type": "GET"
             },
-            processing: true,
-            serverSide: true,
-            pageLength: 25,
+            "processing": true,
+            "serverSide": true,
+            "pageLength": 25,
             search: {
                 return: true,
             },
             columns: [
                 { data: 'title' },
-                { data: 'createat' },
-                { data: 'owner' },
                 { data: null },
                 { data: null }
             ],
             columnDefs: [
                 {
                     orderable: false,
-                    targets:   2,
-                },
-                {
-                    orderable: false,
-                    targets:   3,
+                    targets:   1,
                     className: 'text-center',
                     render: function(data){
                         let statuslabel = '';
@@ -125,11 +83,11 @@ Content
                 },
                 {
                     orderable: false,
-                    targets:   4,
+                    targets:   2,
                     render: function(data){
-                        let toolsstr = `<a href="/contents/preview?id=${data.id}" class="btn btn-outline-success btn-sm" target="_blank">Preview</a> `;
+                        let toolsstr = `<a href="/admins/contents/preview?id=${data.id}" class="btn btn-outline-success btn-sm" target="_blank">Preview</a> `;
                         if(data.updatetool){
-                            toolsstr = toolsstr+`<a href="/contents/edit/${data.id}" class="btn btn-outline-primary btn-sm">Edit</a> `;
+                            toolsstr = toolsstr+`<a href="/admins/contents/edit/${data.id}" class="btn btn-outline-primary btn-sm">Edit</a> `;
                         }
                         if(data.archivetool){
                             toolsstr = toolsstr+`<a href="javascript:archivedata('${data.id}',${data.version},'${data.title}');" class="btn btn-sm btn-outline-warning">Archive</a> `;
@@ -152,7 +110,7 @@ Content
     });
 
     const reloaddata = () => {
-        oTable.ajax.url("{{ route('contentlist') }}?status="+$('#status').val()).load();
+        oTable.ajax.url("{{ route('pagecontentlist') }}?status="+$('#status').val()).load();
     }
 
     const publishdata = (id,version,title) => {
@@ -302,5 +260,6 @@ Content
             }
         });
     }
+
 </script>
 @endsection

@@ -14,6 +14,10 @@
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-newspaper"></i></div>
                 Content
             </a>
+            <a class="nav-link @if (Route::currentRouteName() === 'pagecontentindex') active @endif" href="{{ route('pagecontentindex')}}">
+                <div class="sb-nav-link-icon"><i class="fa-solid fa-newspaper"></i></div>
+                Page Content
+            </a>
             <a class="nav-link @if (Route::currentRouteName() === 'partnerindex') active @endif" href="{{ route('partnerindex')}}">
                 <div class="sb-nav-link-icon"><i class="fa-solid fa-handshake"></i></div>
                 Partner
