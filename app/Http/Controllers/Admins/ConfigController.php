@@ -20,12 +20,13 @@ class ConfigController extends Controller
     function index(Request $request)
     {
         generateSkill();
-        // generateCategory();
+        generateCategory();
         // generateRole();
-        // generatePseudonym();
+        generatePseudonym();
+        generateTags();
 
         if(authuser()){
-            return view('config');
+            return view('admins.config');
         }
         return redirect()->route('signin');
     }
