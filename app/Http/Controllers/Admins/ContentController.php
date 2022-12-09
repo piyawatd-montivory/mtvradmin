@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
-use App\Models\Content;
 // use Auth;
 
 
@@ -61,7 +60,7 @@ class ContentController extends Controller
         $body->display = true;
         array_push($components,$body);
         $reference = [];
-
+        $data->tags = [];
         return view('admins.content.form',['data'=>$data,'tags'=>getTags(),'categories'=>$categories,'components'=>$components,'publiccredits'=>getPseudonym('',false,true),'pseudonyms'=>authuser()->pseudonyms,'reference'=>$reference]);
     }
 
