@@ -1,12 +1,12 @@
-@extends('layout.template')
+@extends('admins.template.template')
 @section('title')
-Content
+Page Content
 @endsection
 @section('stylesheet')
-<link href="{{asset('/assets/css/datatables.min.css')}}" rel="stylesheet" />
-<link href="{{asset('/assets/css/dataTables.bootstrap5.css')}}" rel="stylesheet" />
-<link href="{{asset('/assets/css/select.bootstrap5.min.css')}}" rel="stylesheet" />
-<link href="{{asset('/assets/css/jquery-confirm.css')}}" rel="stylesheet" />
+<link href="{{asset('css/datatables.min.css')}}" rel="stylesheet" />
+<link href="{{asset('css/dataTables.bootstrap5.css')}}" rel="stylesheet" />
+<link href="{{asset('css/select.bootstrap5.min.css')}}" rel="stylesheet" />
+<link href="{{asset('css/jquery-confirm.css')}}" rel="stylesheet" />
 @endsection
 @section('content')
 <div class="container-fluid px-4">
@@ -22,9 +22,11 @@ Content
         <table id="content" class="table table-striped table-hover col-12">
             <thead>
                 <tr>
-                    <th class="col-8">Title</th>
-                    <th class="col-1">Status</th>
-                    <th class="col-3"></th>
+                    <th class="col-5">Title</th>
+                    <th class="col-2">Page</th>
+                    <th class="col-2">Session</th>
+                    <th class="col-1">Active</th>
+                    <th class="col-2"></th>
                 </tr>
             </thead>
             <tbody>
@@ -35,10 +37,10 @@ Content
 </div>
 @endsection
 @section('script')
-<script src="{{asset('/js/datatables.min.js')}}"></script>
-<script src="{{asset('/js/dataTables.bootstrap5.js')}}"></script>
-<script src="{{asset('/js/select.bootstrap5.min.js')}}"></script>
-<script src="{{asset('/js/jquery-confirm.js')}}"></script>
+<script src="{{asset('js/datatables.min.js')}}"></script>
+<script src="{{asset('js/dataTables.bootstrap5.js')}}"></script>
+<script src="{{asset('js/select.bootstrap5.min.js')}}"></script>
+<script src="{{asset('js/jquery-confirm.js')}}"></script>
 <script>
     oTable = '';
     $(document).ready(function () {
@@ -56,39 +58,37 @@ Content
             },
             columns: [
                 { data: 'title' },
+                { data: 'page' },
+                { data: 'session' },
                 { data: null },
                 { data: null }
             ],
             columnDefs: [
                 {
                     orderable: false,
-                    targets:   1,
+                    targets:   1
+                },
+                {
+                    orderable: false,
+                    targets:   2
+                },
+                {
+                    orderable: false,
+                    targets:   3,
                     className: 'text-center',
                     render: function(data){
-                        let statuslabel = '';
-                        if(data.status === 'draft'){
-                            statuslabel = '<span class="text-danger">Draft</span>';
+                        let result = '<span class="text-secondary"><i class="fa-solid fa-circle-xmark"></i> In Active</span>';
+                        if(data.active){
+                            result = '<span class="text-success"><i class="fa-solid fa-circle-check"></i> Active</span>';
                         }
-                        if(data.status === 'archive'){
-                            statuslabel = '<span class="text-danger">Archive</span>';
-                        }
-                        if(data.status === 'change'){
-                            statuslabel = '<span class="text-primary">Change</span>';
-                        }
-                        if(data.status === 'publish'){
-                            statuslabel = '<span class="text-success">Publish</span>';
-                        }
-                        return statuslabel;
+                        return result;
                     }
                 },
                 {
                     orderable: false,
-                    targets:   2,
+                    targets:   4,
                     render: function(data){
-                        let toolsstr = `<a href="/admins/contents/preview?id=${data.id}" class="btn btn-outline-success btn-sm" target="_blank">Preview</a> `;
-                        if(data.updatetool){
-                            toolsstr = toolsstr+`<a href="/admins/contents/edit/${data.id}" class="btn btn-outline-primary btn-sm">Edit</a> `;
-                        }
+                        let toolsstr = `<a href="/admins/pagecontents/edit/${data.id}" class="btn btn-outline-primary btn-sm">Edit</a> `;
                         if(data.archivetool){
                             toolsstr = toolsstr+`<a href="javascript:archivedata('${data.id}',${data.version},'${data.title}');" class="btn btn-sm btn-outline-warning">Archive</a> `;
                         }
@@ -105,12 +105,12 @@ Content
                     }
                 }
             ],
-            order: [[ 1, 'desc' ]]
+            order: [[ 0, 'desc' ]]
         });
     });
 
     const reloaddata = () => {
-        oTable.ajax.url("{{ route('pagecontentlist') }}?status="+$('#status').val()).load();
+        oTable.ajax.url("{{ route('pagecontentlist') }}").load();
     }
 
     const publishdata = (id,version,title) => {
