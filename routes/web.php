@@ -35,7 +35,7 @@ Route::get('/career/{alias}', [WebController::class, 'careerdetail'])->name('car
 Route::get('/careerfinish', [WebController::class, 'careerfinish'])->name('careerfinish');
 Route::get('/cachedata', [ConfigController::class, 'index'])->name('cachedata');
 Route::prefix('admins')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->middleware([EnsureSignin::class])->name('dashboard');
     Route::get('/signin', [LoginController::class, 'signin'])->name('signin');
     Route::post('/auth', [LoginController::class, 'auth'])->name('auth');
     Route::post('/signout', [LoginController::class, 'signout'])->name('signout');
@@ -72,24 +72,15 @@ Route::prefix('admins')->group(function () {
         Route::get('/list', [PagecontentController::class, 'list'])->name('pagecontentlist');
         Route::post('/checkslug', [PagecontentController::class, 'checkslug'])->name('pagecontentcheckslug');
     });
-    Route::prefix('partners')->middleware([EnsureSignin::class])->group(function () {
-        Route::get('/', [PartnerController::class, 'index'])->name('partnerindex');
-        Route::get('/new', [PartnerController::class, 'new'])->name('partnernew');
-        Route::get('/edit/{id}', [PartnerController::class, 'edit'])->name('partneredit');
-        Route::post('/create', [PartnerController::class, 'create'])->name('partnercreate');
-        Route::post('/update/{id}', [PartnerController::class, 'update'])->name('partnerupdate');
-        Route::post('/reorder', [PartnerController::class, 'reorder'])->name('partnerreorder');
-        Route::delete('/delete/{id}', [PartnerController::class, 'delete'])->name('partnerdelete');
-        Route::get('/list', [PartnerController::class, 'list'])->name('partnerlist');
-    });
     Route::prefix('users')->middleware([EnsureSignin::class])->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('userindex');
         Route::get('/new', [UserController::class, 'new'])->name('usernew');
         Route::get('/edit/{id}', [UserController::class, 'edit'])->name('useredit');
-        Route::post('/create', [UserController::class, 'create'])->name('usercreate');
-        Route::post('/update/{id}', [UserController::class, 'update'])->name('userupdate');
-        Route::delete('/delete/{id}', [UserController::class, 'delete'])->name('userdelete');
+        Route::post('/update', [UserController::class, 'update'])->name('userupdate');
+        Route::post('/updatepenname', [UserController::class, 'updatepenname'])->name('userupdatepenname');
+        Route::post('/deletepenname', [UserController::class, 'deletepenname'])->name('userdeletepenname');
         Route::get('/list', [UserController::class, 'list'])->name('userlist');
+        Route::get('/profile', [UserController::class, 'profile'])->name('profile');
         Route::post('/checkemail', [UserController::class, 'checkemail'])->name('checkemail');
     });
     Route::prefix('positions')->middleware([EnsureSignin::class])->group(function () {
@@ -109,10 +100,6 @@ Route::prefix('admins')->group(function () {
         Route::post('/create', [SkillInterestController::class, 'create'])->name('skillcreate');
         Route::delete('/delete/{id}', [SkillInterestController::class, 'delete'])->name('skilldelete');
         Route::get('/list', [SkillInterestController::class, 'list'])->name('skilllist');
-    });
-    Route::prefix('profile')->middleware([EnsureSignin::class])->group(function () {
-        Route::get('/', [UserController::class, 'profile'])->name('profile');
-        Route::post('/update', [UserController::class, 'profileupdate'])->name('profileupdate');
     });
     // Route::prefix('montivory')->group(function () {
     //     Route::get('/', [MontivoryController::class, 'index'])->name('montivoryindex');

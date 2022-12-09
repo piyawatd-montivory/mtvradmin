@@ -77,3 +77,38 @@ function checkFileSize(id,size){
     }
     return true;
 }
+
+function checkID(id){
+    id = id.replace(/-/g, "");
+    if(! isNumber(id)) return false;
+    if(id.substring(0,1)== 0) return false;
+    if(id.length != 13) return false;
+    for(i=0, sum=0; i < 12; i++)
+        sum += parseFloat(id.charAt(i))*(13-i);
+    if((11-sum%11)%10!=parseFloat(id.charAt(12))) return false;
+    return true;
+}
+
+function checkpassword(id){
+    let password = $('#'+id).val().trim();
+    let obj = $('#'+id).parent()
+    let result = true;
+    //check password length
+    if(password.length < 5){
+        $('#'+id).removeClass('is-valid');
+        $('#'+id).addClass('is-invalid');
+        $(obj).find('.invalid-feedback').html('รหัสผ่านห้ามน้อยกว่า 5 ตัวอักษร');
+        return false;
+    }else{
+        let number = /([0-9])/;
+        let alphabets = /([a-zA-Z])/;
+        if (password.match(number) && password.match(alphabets)) {
+            $('#'+id).removeClass('is-invalid');
+            return true;
+        } else {
+            $('#'+id).addClass('is-invalid');
+            $(obj).find('.invalid-feedback').html('รหัสผ่านต้องมีตัวอักษรตัวใหญ่ 1 ตัว ตัวเล็ก 1 ตัว ตัวเลข 1 ตัว เฉพาะภาษาอังกฤษ');
+            return false;
+        }
+    }
+}

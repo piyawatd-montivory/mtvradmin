@@ -7,18 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Contact;
-use App\Models\Position;
-use Datetime;
-use DateTimeZone;
-use Auth;
-
+use Illuminate\Support\Facades\Http;
 
 class ContactController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->contenttypeid = 'contact';
     }
 
     public function index()
@@ -28,86 +23,111 @@ class ContactController extends Controller
 
     public function view($id)
     {
-        $contact = Contact::find($id);
-        $contact->flagread = true;
-        $contact->save();
-        $position = '';
-        if($contact->contact_type == 'job'){
-            $position = 'Other';
-            if($contact->select_position){
-                $posObj = Position::find($contact->select_position);
-                $position = $posObj->position;
+        $response = Http::withToken(config('app.cmaaccesstoken'))
+        ->get(getCtUrl().'/entries/'.$id.'/references?include=10');
+        $resObj = $response->object();
+        $data = new \stdClass;
+        $refsEntry = isset($resObj->includes->Entry)?$resObj->includes->Entry:[];
+        if(!$resObj->items[0]->fields->read->{'en-US'}){
+            $json = new \stdClass;
+            $json->fields = $resObj->items[0]->fields;
+            $json->fields->read->{'en-US'} = true;
+            //update read
+            $response = Http::withBody(json_encode($json), 'application/vnd.contentful.management.v1+json')
+            ->withHeaders([
+                'X-Contentful-Content-Type' => $this->contenttypeid,
+                'Content-Type' => 'application/vnd.contentful.management.v1+json',
+                'X-Contentful-Version' => intval($resObj->items[0]->sys->version)
+            ])
+            ->withToken(config('app.cmaaccesstoken'))
+            ->put(getCtUrl().'/entries/'.$id);
+        }
+        $data->id = $resObj->items[0]->sys->id;
+        $data->version = $resObj->items[0]->sys->version;
+        $data->fullname = $resObj->items[0]->fields->fullname->{'en-US'};
+        $data->email = $resObj->items[0]->fields->email->{'en-US'};
+        $data->phone = $resObj->items[0]->fields->phone->{'en-US'};
+        $data->cv = $resObj->items[0]->fields->cv->{'en-US'};
+        $data->company = $resObj->items[0]->fields->company->{'en-US'};
+        $data->message = $resObj->items[0]->fields->message->{'en-US'};
+        $data->contacttype = $resObj->items[0]->fields->contacttype->{'en-US'};
+        $createAt = explode(".",$resObj->items[0]->sys->createdAt);
+        $dt = date_create_from_format('Y-m-d\TH:i:s', $createAt[0]);
+        date_add($dt,date_interval_create_from_date_string("7 hours"));
+        $data->createat = date_format($dt,"d / m / Y H:i");
+        $data->position = 'Other';
+        if($data->contacttype == 'job'){
+            if(isset($resObj->items[0]->fields->position)){
+                foreach($refsEntry as $item){
+                    if($item->sys->id == $resObj->items[0]->fields->position->{'en-US'}->sys->id){
+                        $data->position = $item->fields->title->{'en-US'};
+                        break;
+                    }
+                }
             }
         }
-        return view('admins.contact.view', [ 'contact' => $contact,'position'=> $position]);
+        return view('admins.contact.view', [ 'contact' => $data]);
     }
 
-    public function list(Request $request)
-    {
+    public function list(Request $request){
         $columns = array(
-            0 => 'fullname',
-            1 => 'email',
-            2 => 'phone',
-            3 => 'created_at'
+            0 => 'fields.fullname',
+            1 => 'fields.email',
+            2 => 'fields.phone',
+            3 => 'sys.createdAt',
         );
-
-        $totalData = Contact::count();
-
-        $totalFiltered = $totalData;
 
         $limit = $request->input('length');
         $start = $request->input('start');
-        $order = $columns[$request->input('order.0.column')];
-        $dir = $request->input('order.0.dir');
 
 
         $search = $request->input('search.value');
 
-        $contacts = Contact::where('contact_type',$request->type)
-            ->where(function ($query) use ($search) {
-                $query->where('fullname', 'LIKE',"%{$search}%")
-                ->orWhere('email', 'LIKE',"%{$search}%")
-                ->orWhere('phone', 'LIKE',"%{$search}%");
-            })
-            ->offset($start)
-            ->limit($limit)
-            ->orderBy($order, $dir)
-            ->get();
-
-        $totalFiltered = Contact::where('contact_type',$request->type)
-            ->where(function ($query) use ($search) {
-                $query->where('fullname', 'LIKE',"%{$search}%")
-                ->orWhere('email', 'LIKE',"%{$search}%")
-                ->orWhere('phone', 'LIKE',"%{$search}%");
-            })
-            ->count();
-
-        $data = array();
-        if (!empty($contacts)) {
-            foreach ($contacts as $contact) {
-                $date = new Datetime($contact->created_at);
-                $date->setTimezone(new DateTimeZone('+7.0'));
-                $nestedData['id'] = $contact->id;
-                $nestedData['fullname'] = $contact->fullname;
-                $nestedData['email'] = $contact->email;
-                $nestedData['phone'] = $contact->phone;
-                if($contact->flagread){
-                    $nestedData['flagread'] = true;
-                }else{
-                    $nestedData['flagread'] = false;
-                }
-                $nestedData['date'] = date_format($date,'d/m/Y H:i');
-                $data[] = $nestedData;
-            }
+        $fieldorder = $columns[$request->input('order.0.column')];
+        if($request->input('order.0.dir') == 'desc'){
+            $fieldorder = '-'.$fieldorder;
         }
 
-        $json_data = array(
-            "draw" => intval($request->input('draw')),
-            "recordsTotal" => intval($totalData),
-            "recordsFiltered" => intval($totalFiltered),
-            "data" => $data
-        );
+        $arrayquery = array("content_type"=>$this->contenttypeid);
+        $arrayquery['fields.contacttype'] = $request->type;
+        $arrayquery['select'] = 'sys.id,sys.createdAt,sys.version,fields.fullname,fields.phone,fields.email,fields.contacttype,fields.read';
+        if($search <> ''){
+            $arrayquery['query'] = $search;
+        }
+        $arrayquery['order'] = $fieldorder;
+        $arrayquery['limit'] = $limit;
+        $arrayquery['skip'] = $start;
 
-        return $json_data;
+        $response = Http::withToken(config('app.cmaaccesstoken'))
+        ->get(getCtUrl().'/entries',$arrayquery);
+
+        $resObj = $response->object();
+
+        $totalData = $resObj->total;
+
+        $result = new \stdClass;
+        $result->draw = intval($request->input('draw'));
+        $result->recordsTotal = intval($totalData);
+        $result->recordsFiltered = intval($totalData);
+        $result->data = [];
+        $uPermission = authuser()->permission;
+        foreach($resObj->items as $item) {
+            // $date = new Datetime($contact->created_at);
+            // $date->setTimezone(new DateTimeZone('+7.0'));
+            $createAt = explode(".",$item->sys->createdAt);
+            $dt = date_create_from_format('Y-m-d\TH:i:s', $createAt[0]);
+            date_add($dt,date_interval_create_from_date_string("7 hours"));
+            $data = new \stdClass;
+            $data->id = $item->sys->id;
+            $data->version = $item->sys->version;
+            $data->fullname = $item->fields->fullname->{'en-US'};
+            $data->email = $item->fields->email->{'en-US'};
+            $data->phone = $item->fields->phone->{'en-US'};
+            $data->createat = date_format($dt,"d / m / Y H:i");
+            $data->read = $item->fields->read->{'en-US'};
+            array_push($result->data,$data);
+        }
+        // return authuser();
+        return $result;
     }
 }
