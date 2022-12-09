@@ -179,6 +179,7 @@ function generateRole() {
 
 function generatePseudonym(){
     $allArray = [];
+    //get default user
     $defaultarrayquery = array("content_type"=>"user");
     $defaultarrayquery['fields.default'] = true;
     $defaultarrayquery['limit'] = 1000;
@@ -204,7 +205,7 @@ function generatePseudonym(){
         $pseddonym->version = $item->sys->version;
         foreach($uresponse->items as $user){
             if($user->sys->id == $item->fields->user->{'en-US'}->sys->id){
-                $pseddonym->user = $user->fields->username->{'en-US'};
+                $pseddonym->email = $user->fields->email->{'en-US'};
                 break;
             }
         }
@@ -305,7 +306,7 @@ if (! function_exists('getPseudonym')) {
                 $pseddonym->version = $item->version;
                 $pseddonym->name = $item->name;
                 $pseddonym->title = $item->title;
-                $pseddonym->user = $item->user;
+                $pseddonym->email = $item->email;
                 $pseddonym->description = $item->description;
                 $pseddonym->default = $item->default;
                 $pseddonym->imageid = $item->imageid;
@@ -320,7 +321,7 @@ if (! function_exists('getPseudonym')) {
                     $pseddonym = new \stdClass;
                     $pseddonym->id = $item->id;
                     $pseddonym->version = $item->version;
-                    $pseddonym->user = $item->user;
+                    $pseddonym->email = $item->email;
                     $pseddonym->name = $item->name;
                     $pseddonym->title = $item->title;
                     $pseddonym->description = $item->description;
@@ -368,11 +369,24 @@ if (! function_exists('getPseudonym')) {
 
 if (! function_exists('getRole')) {
     function getRole() {
+        // if(!file_exists(public_path('/assets/data/') . "roles.json")){
+        //     generateRole();
+        // }
+        // return getGenerateCustomFile('roles.json');
         $result = [];
-        if(!file_exists(public_path('/assets/data/') . "roles.json")){
-            generateRole();
-        }
-        return getGenerateCustomFile('roles.json');
+        $role = new \stdClass;
+        $role->id = 'admin';
+        $role->name = 'admin';
+        array_push($result,$role);
+        $role = new \stdClass;
+        $role->id = 'editor';
+        $role->name = 'editor';
+        array_push($result,$role);
+        $role = new \stdClass;
+        $role->id = 'author';
+        $role->name = 'author';
+        array_push($result,$role);
+        return $result;
     }
 }
 ?>
