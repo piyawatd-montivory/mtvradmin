@@ -16,25 +16,6 @@
                         </div>
                     </div>
                 </li>
-                {{-- <li class="list-group-item" dataid="bullet">Bullet</li>
-                <li class="list-group-item" dataid="image-left">Image Left</li>
-                <li class="list-group-item" dataid="image-right">Image Right</li>
-                <li class="list-group-item" dataid="double-image">Double Image</li> --}}
-                <li class="list-group-item" dataid="single-image">
-                    <div class="row">
-                        <div class="col-8 ps-1 pe-0">Single Image</div>
-                        <div class="col-4 text-end px-0">
-                            <button class="btn btn-sm move-class px-0" type="button">
-                            <i class="fa-solid fa-arrows-up-down-left-right"></i>
-                            </button>
-                            <button class="btn btn-sm add-component-class px-0 mx-2" type="button">
-                                <i class="fa-solid fa-circle-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                </li>
-                {{-- <li class="list-group-item" dataid="ad">Ad</li>
-                <li class="list-group-item" dataid="social">Social</li> --}}
                 <li class="list-group-item" dataid="blockquote">
                     <div class="row">
                         <div class="col-8 ps-1 pe-0">Blockquotes</div>
@@ -48,6 +29,59 @@
                         </div>
                     </div>
                 </li>
+                <li class="list-group-item" dataid="image-left">
+                    <div class="row">
+                        <div class="col-8 ps-1 pe-0">Image Left</div>
+                        <div class="col-4 text-end px-0">
+                            <button class="btn btn-sm move-class px-0" type="button">
+                            <i class="fa-solid fa-arrows-up-down-left-right"></i>
+                            </button>
+                            <button class="btn btn-sm add-component-class px-0 mx-2" type="button">
+                                <i class="fa-solid fa-circle-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item" dataid="image-right">
+                    <div class="row">
+                        <div class="col-8 ps-1 pe-0">Image Right</div>
+                        <div class="col-4 text-end px-0">
+                            <button class="btn btn-sm move-class px-0" type="button">
+                            <i class="fa-solid fa-arrows-up-down-left-right"></i>
+                            </button>
+                            <button class="btn btn-sm add-component-class px-0 mx-2" type="button">
+                                <i class="fa-solid fa-circle-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item" dataid="single-image">
+                    <div class="row">
+                        <div class="col-8 ps-1 pe-0">Single Image</div>
+                        <div class="col-4 text-end px-0">
+                            <button class="btn btn-sm move-class px-0" type="button">
+                            <i class="fa-solid fa-arrows-up-down-left-right"></i>
+                            </button>
+                            <button class="btn btn-sm add-component-class px-0 mx-2" type="button">
+                                <i class="fa-solid fa-circle-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item" dataid="double-image">
+                    <div class="row">
+                        <div class="col-8 ps-1 pe-0">Double Image</div>
+                        <div class="col-4 text-end px-0">
+                            <button class="btn btn-sm move-class px-0" type="button">
+                            <i class="fa-solid fa-arrows-up-down-left-right"></i>
+                            </button>
+                            <button class="btn btn-sm add-component-class px-0 mx-2" type="button">
+                                <i class="fa-solid fa-circle-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </li>
+
             </ul>
         </div>
         <div class="col-12 col-md-10 border pt-3 mb-2" id="editorarea">

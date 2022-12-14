@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admins\DashboardController;
 use App\Http\Controllers\Admins\LoginController;
 use App\Http\Controllers\WebController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\Admins\UserController;
 use App\Http\Controllers\Admins\PartnerController;
 use App\Http\Controllers\Admins\PositionController;
@@ -30,6 +31,7 @@ use App\Http\Middleware\EnsureSignin;
 */
 
 Route::get('/', [WebController::class, 'index'])->name('home');
+Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 Route::get('/career', [WebController::class, 'career'])->name('career');
 Route::get('/career/{alias}', [WebController::class, 'careerdetail'])->name('careerdetail');
 Route::get('/careerfinish', [WebController::class, 'careerfinish'])->name('careerfinish');

@@ -924,6 +924,119 @@
                             </div>
                         `;
                         break
+                    case 'image-left':
+                        title = 'Image Left';
+                        bodycomponent = `
+                            <div class="card-body content-component" blockid="${editid}" componenttype="image-left" editid="mycedit${editid}">
+                                <div class="row">
+                                    <div class="col-6 border">
+                                        <div class="row mb-3 mt-3">
+                                            <div class="col-12">
+                                                <button type="button" class="btn btn-sm btn-outline-primary editor-browse" imgid="image${editid}">
+                                                    Browse
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12 text-center">
+                                                <img src="" class="img-fluid image-content-mockup" id="image${editid}"/>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12">
+                                                <label for="image${editid}title" class="form-label">Caption</label>
+                                                <input type="text" class="form-control" id="image${editid}title" name="image${editid}title">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 border content-editor" contenteditable="true" id="mycedit${editid}">
+
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        break
+                    case 'image-right':
+                        title = 'Image Right';
+                        bodycomponent = `
+                            <div class="card-body content-component" blockid="${editid}" componenttype="image-right" editid="mycedit${editid}">
+                                <div class="row">
+                                    <div class="col-6 border content-editor" contenteditable="true" id="mycedit${editid}">
+
+                                    </div>
+                                    <div class="col-6 border">
+                                        <div class="row mb-3 mt-3">
+                                            <div class="col-12">
+                                                <button type="button" class="btn btn-sm btn-outline-primary editor-browse" imgid="image${editid}">
+                                                    Browse
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12 text-center">
+                                                <img src="" class="img-fluid image-content-mockup" id="image${editid}"/>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12">
+                                                <label for="image${editid}title" class="form-label">Caption</label>
+                                                <input type="text" class="form-control" id="image${editid}title" name="image${editid}title">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        break
+                    case 'double-image':
+                        title = 'Double Image';
+                        bodycomponent = `
+                            <div class="card-body content-component" blockid="${editid}" componenttype="double-image" editid="mycedit${editid}">
+                                <div class="row">
+                                    <div class="col-6 border">
+                                        <div class="row mb-3 mt-3">
+                                            <div class="col-12">
+                                                <button type="button" class="btn btn-sm btn-outline-primary editor-browse" imgid="imageleft${editid}">
+                                                    Browse
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12 text-center">
+                                                <img src="" class="img-fluid image-content-mockup" id="imageleft${editid}"/>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12">
+                                                <label for="imageleft${editid}title" class="form-label">Caption</label>
+                                                <input type="text" class="form-control" id="imageleft${editid}title" name="imageleft${editid}title">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 border">
+                                        <div class="row mb-3 mt-3">
+                                            <div class="col-12">
+                                                <button type="button" class="btn btn-sm btn-outline-primary editor-browse" imgid="imageright${editid}">
+                                                    Browse
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12 text-center">
+                                                <img src="" class="img-fluid image-content-mockup" id="imageright${editid}"/>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-12">
+                                                <label for="imageright${editid}title" class="form-label">Caption</label>
+                                                <input type="text" class="form-control" id="imageright${editid}title" name="imageright${editid}title">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        break
                     case 'blockquote':
                         title = 'Blockquote';
                         bodycomponent = `
@@ -981,167 +1094,167 @@
 
         //publish function
         const publishdata = (id,version,title) => {
-        $.confirm({
-            title: 'Confirm!',
-            content: 'Confirm Published '+title+' ?',
-            buttons: {
-                confirm:{
-                    action: function () {
-                        processModal.show();
-                        setTimeout(() => {
-                            $.ajax({
-                                url:'{{route('published')}}',
-                                method:"post",
-                                async: false,
-                                cache: false,
-                                data:{id:id,version:version},
-                                success:function(response){
-                                    if(response.result){
-                                        showAlert(true,'Published successful',false,1000)
-                                        cversion = response.data.sys.version;
-                                        $('#publish').addClass('d-none');
-                                        $('#archive').addClass('d-none');
-                                        $('#unarchive').addClass('d-none');
-                                        $('#unpublish').removeClass('d-none');
-                                    }else{
-                                    showAlert(false,'Can not Published.',false,1000)
-                                }
-                                }
-                            })
-                        },1000)
-                    }
-                },
-                cancel:{
-                    btnClass: 'btn-red',
-                    action: function () {
-
-                    }
-                }
-            }
-        });
-    }
-
-    const unpublishdata = (id,version,title) => {
-        $.confirm({
-            title: 'Confirm!',
-            content: 'Confirm Unpublished '+title+' ?',
-            buttons: {
-                confirm:{
-                    action: function () {
-                        processModal.show();
-                        setTimeout(() => {
-                            $.ajax({
-                                url:'{{route('unpublished')}}',
-                                method:"post",
-                                async: false,
-                                cache: false,
-                                data:{id:id,version:version},
-                                success:function(response){
-                                    if(response.result){
-                                        showAlert(true,'Unpublished successful',false,2000)
-                                        cversion = response.data.sys.version;
-                                        $('#publish').removeClass('d-none');
-                                        $('#unpublish').addClass('d-none');
-                                        $('#archive').removeClass('d-none');
-                                        $('#unarchive').addClass('d-none');
-                                    }else{
-                                        showAlert(false,'Can not Unpublished.',false,2000)
+            $.confirm({
+                title: 'Confirm!',
+                content: 'Confirm Published '+title+' ?',
+                buttons: {
+                    confirm:{
+                        action: function () {
+                            processModal.show();
+                            setTimeout(() => {
+                                $.ajax({
+                                    url:'{{route('published')}}',
+                                    method:"post",
+                                    async: false,
+                                    cache: false,
+                                    data:{id:id,version:version},
+                                    success:function(response){
+                                        if(response.result){
+                                            showAlert(true,'Published successful',false,1000)
+                                            cversion = response.data.sys.version;
+                                            $('#publish').addClass('d-none');
+                                            $('#archive').addClass('d-none');
+                                            $('#unarchive').addClass('d-none');
+                                            $('#unpublish').removeClass('d-none');
+                                        }else{
+                                        showAlert(false,'Can not Published.',false,1000)
                                     }
-                                }
-                            })
-                        }, 1000);
-                    }
-                },
-                cancel:{
-                    btnClass: 'btn-red',
-                    action: function () {
-
-                    }
-                }
-            }
-        });
-    }
-
-    const archivedata = (id,version,title) => {
-        $.confirm({
-            title: 'Confirm!',
-            content: 'Confirm Archived '+title+' ?',
-            buttons: {
-                confirm:{
-                    action: function () {
-                        processModal.show();
-                        setTimeout(() => {
-                            $.ajax({
-                                url:'{{route('archived')}}',
-                                method:"post",
-                                async: false,
-                                cache: false,
-                                data:{id:id,version:version},
-                                success:function(response){
-                                    if(response.result){
-                                        showAlert(true,'Archived successful',false,1000)
-                                        cversion = response.data.sys.version;
-                                        $('#publish').addClass('d-none');
-                                        $('#unpublish').addClass('d-none');
-                                        $('#archive').addClass('d-none');
-                                        $('#unarchive').removeClass('d-none');
-                                    }else{
-                                        showAlert(false,'Can not Archived.',false,1000)
                                     }
-                                }
-                            })
-                        },1000)
-                    }
-                },
-                cancel:{
-                    btnClass: 'btn-red',
-                    action: function () {
+                                })
+                            },1000)
+                        }
+                    },
+                    cancel:{
+                        btnClass: 'btn-red',
+                        action: function () {
 
+                        }
                     }
                 }
-            }
-        });
-    }
+            });
+        }
 
-    const unarchivedata = (id,version,title) => {
-        $.confirm({
-            title: 'Confirm!',
-            content: 'Confirm Unrchived '+title+' ?',
-            buttons: {
-                confirm:{
-                    action: function () {
-                        processModal.show();
-                        setTimeout(() => {
-                            $.ajax({
-                                url:'{{route('unarchived')}}',
-                                method:"post",
-                                async: false,
-                                cache: false,
-                                data:{id:id,version:version},
-                                success:function(response){
-                                    if(response.result){
-                                        showAlert(true,'Unrchived successful',false,1000)
-                                        cversion = response.data.sys.version;
-                                        $('#publish').removeClass('d-none');
-                                        $('#unpublish').addClass('d-none');
-                                        $('#archive').removeClass('d-none');
-                                        $('#unarchive').addClass('d-none');
-                                    }else{
-                                        showAlert(false,'Can not Unrchived.',false,1000)
+        const unpublishdata = (id,version,title) => {
+            $.confirm({
+                title: 'Confirm!',
+                content: 'Confirm Unpublished '+title+' ?',
+                buttons: {
+                    confirm:{
+                        action: function () {
+                            processModal.show();
+                            setTimeout(() => {
+                                $.ajax({
+                                    url:'{{route('unpublished')}}',
+                                    method:"post",
+                                    async: false,
+                                    cache: false,
+                                    data:{id:id,version:version},
+                                    success:function(response){
+                                        if(response.result){
+                                            showAlert(true,'Unpublished successful',false,2000)
+                                            cversion = response.data.sys.version;
+                                            $('#publish').removeClass('d-none');
+                                            $('#unpublish').addClass('d-none');
+                                            $('#archive').removeClass('d-none');
+                                            $('#unarchive').addClass('d-none');
+                                        }else{
+                                            showAlert(false,'Can not Unpublished.',false,2000)
+                                        }
                                     }
-                                }
-                            })
-                        },1000);
-                    }
-                },
-                cancel:{
-                    btnClass: 'btn-red',
-                    action: function () {
+                                })
+                            }, 1000);
+                        }
+                    },
+                    cancel:{
+                        btnClass: 'btn-red',
+                        action: function () {
 
+                        }
                     }
                 }
-            }
-        });
-    }
+            });
+        }
+
+        const archivedata = (id,version,title) => {
+            $.confirm({
+                title: 'Confirm!',
+                content: 'Confirm Archived '+title+' ?',
+                buttons: {
+                    confirm:{
+                        action: function () {
+                            processModal.show();
+                            setTimeout(() => {
+                                $.ajax({
+                                    url:'{{route('archived')}}',
+                                    method:"post",
+                                    async: false,
+                                    cache: false,
+                                    data:{id:id,version:version},
+                                    success:function(response){
+                                        if(response.result){
+                                            showAlert(true,'Archived successful',false,1000)
+                                            cversion = response.data.sys.version;
+                                            $('#publish').addClass('d-none');
+                                            $('#unpublish').addClass('d-none');
+                                            $('#archive').addClass('d-none');
+                                            $('#unarchive').removeClass('d-none');
+                                        }else{
+                                            showAlert(false,'Can not Archived.',false,1000)
+                                        }
+                                    }
+                                })
+                            },1000)
+                        }
+                    },
+                    cancel:{
+                        btnClass: 'btn-red',
+                        action: function () {
+
+                        }
+                    }
+                }
+            });
+        }
+
+        const unarchivedata = (id,version,title) => {
+            $.confirm({
+                title: 'Confirm!',
+                content: 'Confirm Unrchived '+title+' ?',
+                buttons: {
+                    confirm:{
+                        action: function () {
+                            processModal.show();
+                            setTimeout(() => {
+                                $.ajax({
+                                    url:'{{route('unarchived')}}',
+                                    method:"post",
+                                    async: false,
+                                    cache: false,
+                                    data:{id:id,version:version},
+                                    success:function(response){
+                                        if(response.result){
+                                            showAlert(true,'Unrchived successful',false,1000)
+                                            cversion = response.data.sys.version;
+                                            $('#publish').removeClass('d-none');
+                                            $('#unpublish').addClass('d-none');
+                                            $('#archive').removeClass('d-none');
+                                            $('#unarchive').addClass('d-none');
+                                        }else{
+                                            showAlert(false,'Can not Unrchived.',false,1000)
+                                        }
+                                    }
+                                })
+                            },1000);
+                        }
+                    },
+                    cancel:{
+                        btnClass: 'btn-red',
+                        action: function () {
+
+                        }
+                    }
+                }
+            });
+        }
     </script>
 @endsection

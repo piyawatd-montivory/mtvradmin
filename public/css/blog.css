@@ -1,0 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Libre Franklin', sans-serif;
+    /* background-color: #eee; */
+    font-size: 16px;
+    font-weight: 400!important;
+}
+h1 {
+    font-size: 96px;
+    font-weight: 700!important;
+}
+h2 {
+    font-size: 55px;
+    font-weight: 700!important;
+}
+h3 {
+    font-size: 48px;
+    font-weight: 700!important;
+}
+h4 {
+    font-size: 34px;
+    font-weight: 700!important;
+}
+h5 {
+    font-size: 24px;
+    font-weight: 700!important;
+}
+h6 {
+    font-size: 20px;
+    font-weight: 700!important;
+}
+.sub-title {
+    font-weight: bold;
+}
+.logo {
+    height: 30px;
+}
+.nav-link {
+    font-size: 14px;
+    color: #1E222A;
+    font-weight: 700;
+}
+.active {
+    color: #0D66D0;
+    border-bottom: 4px solid #0D66D0;
+    padding-left: 0!important;
+    padding-right: 0!important;
+    padding-bottom: 3px!important;
+    margin-left: .5rem!important;
+}
+.navbar-second {
+    background-color: #182B45;
+    height: 70px;
+}
+.navbar-second-item {
+    height: 70px;
+    overflow-x: scroll;
+}
+.navbar-second-item ul {
+    height: 70px;
+    width: 800px;
+}
+.navbar-second-item ul li {
+    float: left;
+}
+.navbar-second-item ul li a {
+    color: #FFF;
+    line-height: 54px;
+}
+.btn-search {
+    border-radius: 0;
+    border-left: 1px solid #FFF;
+}
+
+.hero-section {
+    height: 550px;
+    display: flex;
+    position: relative;
+}
+.hero-content-banner {
+    height: 550px;
+}
+.hero-content {
+    padding-top: 69px;
+    padding-left: 70px;
+    padding-right: 70px;
+    position: absolute;
+    bottom: 0;
+    height: 347px;
+    background: rgb(24,43,69);
+    background: linear-gradient(0deg, rgba(24,43,69,1) 0%, rgba(24,43,69,0) 100%);
+}
+.hero-content span {
+    font-size: 20px;
+    line-height: 25px;
+}
+.btn-readnow {
+    background-color: #0D66D0;
+    font-weight: 700!important;
+    color: #FFF;
+    transition: 0.3s;
+}
+.btn-readnow:hover {
+    opacity: .5!important;
+    color: #FFF!important;
+
+}
+.binary-craft {
+    min-height: 836px;
+    background-image: url('/images/default/binary-craft-bg.jpg');
+    background-size: contain;
+    padding-top: 48px;
+    color: #FFF;
+}
+.binary-title {
+    max-height: 62px;
+    overflow: hidden;
+}
+.display-time-w {
+    line-height: 16px;
+}
+.display-time-w::before {
+    content: "";
+    display: block;
+    background: url('/images/icon/time-icon-w-16.png') no-repeat!important;
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    float: left;
+}
+.display-time {
+    line-height: 16px;
+}
+.display-time::before {
+    content: "";
+    display: block;
+    background: url('/images/icon/time-icon.png') no-repeat!important;
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    float: left;
+}
+.content-block {
+    padding-top: 48px;
+}
+.business-color {
+    color: #0D66D0;
+    border: 2px solid #0D66D0;
+}
+.business-main-title {
+    font-size: 32px;
+    line-height: 44px;
+}
+.business-title {
+    font-size: 20px;
+    line-height: 25px;
+}
+.data-and-tech-color {
+    color: #63D583;
+    border: 2px solid #63D583;
+}
+.data-and-tech-main-title {
+    font-size: 32px;
+    line-height: 44px;
+}
+.icon-chevron {
+    display: inline-block;
+    background: url('/images/icon/chevron-right.png') no-repeat!important;
+    background-position: bottom;
+    width: 32px;
+    height: 26px;
+    margin-left: 5px;
+}
+.data-and-tech-title {
+    font-size: 20px;
+    line-height: 25px;
+}
+
+@media only screen and (max-width: 576px) {
+    .active {
+        color: #0D66D0!important;
+        margin-left: 0!important;
+    }
+    .hero-content {
+        padding-top: 21px;
+        padding-right: var(--bs-gutter-x,.75rem);
+        padding-left: var(--bs-gutter-x,.75rem);
+    }
+    .hero-content span {
+        font-size: 14px;
+        line-height: 24px;
+    }
+
+    .hero-content h3 {
+        font-size: 24px;
+        line-height: 34px;
+        max-height: 136px;
+        overflow: hidden;
+    }
+}

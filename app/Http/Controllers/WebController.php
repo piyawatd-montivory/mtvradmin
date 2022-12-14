@@ -10,11 +10,6 @@ use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Http;
 use Response;
-use App\Models\Partner;
-use App\Models\Content;
-use App\Models\SkillInterest;
-use App\Models\Position;
-use App\Models\TeamMontivory;
 
 class WebController extends Controller
 {
