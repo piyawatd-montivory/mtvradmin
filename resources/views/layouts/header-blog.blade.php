@@ -1,3 +1,11 @@
+<?php
+    $catesel = '';
+    if(isset($category)){
+        $catesel = $category;
+    }else{
+        $catesel = isset(app('request')->slug)?app('request')->slug:'';
+    }
+?>
 <nav class="navbar navbar-expand-md navbar-light bg-light">
     <div class="container">
         <a class="navbar-brand" href="{{ route('home') }}">
@@ -14,59 +22,59 @@
         </div>
     </div>
 </nav>
-<div class="container-fluid px-0 navbar-second">
+<div class="container-fluid navbar-second">
     <div class="row">
         <div class="col-md-12 d-none d-md-block navbar-second-item px-0 justify-content-center">
             <ul class="px-0 mx-auto my-0">
                 <li class="nav-item">
-                  <a class="nav-link" aria-current="page" href="#">BINARY.CRAFT</a>
+                  <a class="nav-link @if($catesel === 'binary-craft') category-active @endif" href="{{route('category',['slug'=>'binary-craft'])}}">BINARY.CRAFT</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">BUSINESS</a>
+                  <a class="nav-link @if($catesel === 'business') category-active @endif" href="{{route('category',['slug'=>'business'])}}">BUSINESS</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">CREATIVE</a>
+                  <a class="nav-link @if($catesel === 'creative') category-active @endif" href="{{route('category',['slug'=>'creative'])}}">CREATIVE</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link">DATA AND TECH</a>
+                  <a class="nav-link @if($catesel === 'data-and-tech') category-active @endif" href="{{route('category',['slug'=>'data-and-tech'])}}">DATA AND TECH</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">PRIVACY</a>
+                    <a class="nav-link @if($catesel === 'privacy') category-active @endif" href="{{route('category',['slug'=>'privacy'])}}">PRIVACY</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">RESEARCH</a>
+                    <a class="nav-link @if($catesel === 'research') category-active @endif" href="{{route('category',['slug'=>'research'])}}">RESEARCH</a>
                 </li>
-                <li class="nav-item">
-                    <button type="button" class="btn mt-2">
+                <li class="nav-item search-block">
+                    <button type="button" class="btn">
                         <img src="{{asset('images/icon/Search-icon-w.png')}}" class="w-75"/>
                     </button>
                 </li>
             </ul>
         </div>
-        <div class="col-10 d-md-none navbar-second-item">
-            <ul class="my-0">
+        <div class="col-10 d-md-none px-0 navbar-second-item">
+            <ul>
                 <li class="nav-item">
-                  <a class="nav-link" aria-current="page" href="#">BINARY.CRAFT</a>
+                  <a class="nav-link @if($catesel === 'binary-craft') category-active @endif" href="{{route('category',['slug'=>'binary-craft'])}}">BINARY.CRAFT</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">BUSINESS</a>
+                  <a class="nav-link @if($catesel === 'business') category-active @endif" href="{{route('category',['slug'=>'business'])}}">BUSINESS</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">CREATIVE</a>
+                  <a class="nav-link @if($catesel === 'creative') category-active @endif" href="{{route('category',['slug'=>'creative'])}}">CREATIVE</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link">DATA AND TECH</a>
+                  <a class="nav-link @if($catesel === 'data-and-tech') category-active @endif" href="{{route('category',['slug'=>'data-and-tech'])}}">DATA AND TECH</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">PRIVACY</a>
+                    <a class="nav-link @if($catesel === 'privacy') category-active @endif" href="{{route('category',['slug'=>'privacy'])}}">PRIVACY</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">RESEARCH</a>
+                    <a class="nav-link @if($catesel === 'research') category-active @endif" href="{{route('category',['slug'=>'research'])}}">RESEARCH</a>
                 </li>
             </ul>
         </div>
-        <div class="col-2 d-md-none px-0 mobile-search-block py-2 text-center">
-            <button type="button" class="btn btn-search px-0">
+        <div class="col-2 d-md-none mobile-search-block text-center px-0">
+            <button type="button" class="btn btn-search px-0 mt-2">
                 <img src="{{asset('images/icon/Search-icon-w.png')}}" class="w-75 px-1"/>
             </button>
         </div>

@@ -1,0 +1,33 @@
+.content-detail-block h3 {
+    line-height: 58px;
+}
+.content-detail-block h4 {
+    font-size: 32px;
+    line-height: 44px;
+}
+.content-detail-block h5 {
+    line-height: 43px;
+}
+.content-detail-block h6 {
+    line-height: 25px;
+}
+.content-detail-block p {
+    line-height: 25px;
+}
+.tag-link {
+    color: #1E222A;
+    /* background-color: #212529; */
+    border-color: #DBDCDD;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    border-radius: 1.5rem;
+    margin-right: 10px;
+}
+.tag-link:hover {
+    color: #1E222A;
+    /* background-color: #212529; */
+    border-color: #DBDCDD;
+}
+.info-title {
+    margin-right: 30px;
+}

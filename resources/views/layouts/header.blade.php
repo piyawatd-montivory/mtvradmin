@@ -6,7 +6,7 @@
             <nav>
                 <ul class="menu">
                     <li><a href="{{ route('career') }}">CAREER</a></li>
-                    <li><a href="http://read.montivory.com">READ.MONTIVORY.COM</a></li>
+                    <li><a href="{{ route('blog') }}">READ.MONTIVORY.COM</a></li>
                 </ul>
             </nav>
         </div>
