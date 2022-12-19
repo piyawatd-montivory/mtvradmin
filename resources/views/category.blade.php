@@ -40,19 +40,19 @@ Montivory Category
                             <button class="btn custom-dropdown dropdown-toggle w-100 text-start dropdownMonth" type="button" id="dropdownMonth" data-bs-toggle="dropdown" aria-expanded="false">
                                 All months
                             </button>
-                            <ul class="dropdown-menu w-100" aria-labelledby="dropdownMonth">
-                            <li><a class="dropdown-item month-select check-selected" href="javascript:void(0);" data="all">All months</a></li>
-                            <li><a class="dropdown-item month-select" href="javascript:void(0);" data="january">January</a></li>
-                            <li><a class="dropdown-item month-select" href="javascript:void(0);" data="february">February</a></li>
-                            <li><a class="dropdown-item month-select" href="javascript:void(0);" data="march">March</a></li>
-                            <li><a class="dropdown-item month-select" href="javascript:void(0);" data="april">April</a></li>
-                            <li><a class="dropdown-item month-select" href="javascript:void(0);" data="may">May</a></li>
-                            <li><a class="dropdown-item month-select" href="javascript:void(0);" data="june">June</a></li>
-                            <li><a class="dropdown-item month-select" href="javascript:void(0);" data="july">July</a></li>
-                            <li><a class="dropdown-item month-select" href="javascript:void(0);" data="august">August</a></li>
-                            <li><a class="dropdown-item month-select" href="javascript:void(0);" data="september">September</a></li>
-                            <li><a class="dropdown-item month-select" href="javascript:void(0);" data="november">November</a></li>
-                            <li><a class="dropdown-item month-select" href="javascript:void(0);" data="december">December</a></li>
+                            <ul class="dropdown-menu w-100" id="dropdownMonthList" aria-labelledby="dropdownMonth">
+                            <li><a class="dropdown-item month-select month-select-desktop check-selected" href="javascript:void(0);" data="all">All months</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="january">January</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="february">February</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="march">March</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="april">April</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="may">May</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="june">June</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="july">July</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="august">August</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="september">September</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="november">November</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="december">December</a></li>
                             </ul>
                         </div>
                     </div>
@@ -62,10 +62,10 @@ Montivory Category
                                 All years
                             </button>
                             <ul class="dropdown-menu w-100" aria-labelledby="dropdownYear">
-                            <li><a class="dropdown-item year-select check-selected" href="javascript:void(0);" data="all">All years</a></li>
-                            <li><a class="dropdown-item year-select" href="javascript:void(0);" data="2022">2022</a></li>
-                            <li><a class="dropdown-item year-select" href="javascript:void(0);" data="2021">2021</a></li>
-                            <li><a class="dropdown-item year-select" href="javascript:void(0);" data="2022">2020</a></li>
+                            <li><a class="dropdown-item year-select year-select-desktop check-selected" href="javascript:void(0);" data="all">All years</a></li>
+                            <li><a class="dropdown-item year-select year-select-desktop" href="javascript:void(0);" data="2022">2022</a></li>
+                            <li><a class="dropdown-item year-select year-select-desktop" href="javascript:void(0);" data="2021">2021</a></li>
+                            <li><a class="dropdown-item year-select year-select-desktop" href="javascript:void(0);" data="2020">2020</a></li>
                             </ul>
                         </div>
                     </div>
@@ -76,23 +76,22 @@ Montivory Category
                             </button>
                             <ul class="dropdown-menu w-100" aria-labelledby="dropdownTag">
                                 <li>
-                                    <a class="dropdown-item tag-select d-none" data="all"><input type="checkbox" class="form-check-input" id="alltag" value="all" label="All tags" checked>All tags</a>
                                     <a class="dropdown-item tag-clear" href="javascript:cleartag();">CLEAR</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item tag-select" data="all"><input type="checkbox" class="form-check-input" value="valtag1" label="Tag 1">Tag 1</a>
+                                    <a class="dropdown-item tag-select" data="all"><input type="checkbox" class="form-check-input form-check-input-desktop" value="valtag1" label="Tag 1">Tag 1</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item tag-select" data="all"><input type="checkbox" class="form-check-input" value="tag2" label="Tag 2">Tag 2</a>
+                                    <a class="dropdown-item tag-select" data="all"><input type="checkbox" class="form-check-input form-check-input-desktop" value="tag2" label="Tag 2">Tag 2</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item tag-select" data="all"><input type="checkbox" class="form-check-input" value="tag3" label="Tag 3">Tag 3</a>
+                                    <a class="dropdown-item tag-select" data="all"><input type="checkbox" class="form-check-input form-check-input-desktop" value="tag3" label="Tag 3">Tag 3</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-3">
-                        <button class="btn btn-readnow px-3" type="button" >APPLY</button>
+                        <button class="btn btn-readnow px-3" type="button" onclick="filtercontent('desktop');" >APPLY</button>
                     </div>
                 </div>
             </div>
@@ -167,18 +166,18 @@ Montivory Category
                                     All months
                                 </button>
                                 <ul class="dropdown-menu w-100" aria-labelledby="dropdownMonth">
-                                <li><a class="dropdown-item month-select check-selected" href="javascript:void(0);" data="all">All months</a></li>
-                                <li><a class="dropdown-item month-select" href="javascript:void(0);" data="january">January</a></li>
-                                <li><a class="dropdown-item month-select" href="javascript:void(0);" data="february">February</a></li>
-                                <li><a class="dropdown-item month-select" href="javascript:void(0);" data="march">March</a></li>
-                                <li><a class="dropdown-item month-select" href="javascript:void(0);" data="april">April</a></li>
-                                <li><a class="dropdown-item month-select" href="javascript:void(0);" data="may">May</a></li>
-                                <li><a class="dropdown-item month-select" href="javascript:void(0);" data="june">June</a></li>
-                                <li><a class="dropdown-item month-select" href="javascript:void(0);" data="july">July</a></li>
-                                <li><a class="dropdown-item month-select" href="javascript:void(0);" data="august">August</a></li>
-                                <li><a class="dropdown-item month-select" href="javascript:void(0);" data="september">September</a></li>
-                                <li><a class="dropdown-item month-select" href="javascript:void(0);" data="november">November</a></li>
-                                <li><a class="dropdown-item month-select" href="javascript:void(0);" data="december">December</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile check-selected" href="javascript:void(0);" data="all">All months</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="january">January</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="february">February</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="march">March</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="april">April</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="may">May</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="june">June</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="july">July</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="august">August</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="september">September</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="november">November</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="december">December</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -188,10 +187,10 @@ Montivory Category
                                     All years
                                 </button>
                                 <ul class="dropdown-menu w-100" aria-labelledby="dropdownYear">
-                                <li><a class="dropdown-item year-select check-selected" href="javascript:void(0);" data="all">All years</a></li>
-                                <li><a class="dropdown-item year-select" href="javascript:void(0);" data="2022">2022</a></li>
-                                <li><a class="dropdown-item year-select" href="javascript:void(0);" data="2021">2021</a></li>
-                                <li><a class="dropdown-item year-select" href="javascript:void(0);" data="2022">2020</a></li>
+                                <li><a class="dropdown-item year-select year-select-mobile check-selected" href="javascript:void(0);" data="all">All years</a></li>
+                                <li><a class="dropdown-item year-select year-select-mobile" href="javascript:void(0);" data="2022">2022</a></li>
+                                <li><a class="dropdown-item year-select year-select-mobile" href="javascript:void(0);" data="2021">2021</a></li>
+                                <li><a class="dropdown-item year-select year-select-mobile" href="javascript:void(0);" data="2020">2020</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -202,17 +201,16 @@ Montivory Category
                                 </button>
                                 <ul class="dropdown-menu w-100" aria-labelledby="dropdownTagMobile">
                                     <li>
-                                        <a class="dropdown-item tag-select d-none" data="all"><input type="checkbox" class="form-check-input" id="alltag" value="all" label="All tags" checked>All tags</a>
                                         <a class="dropdown-item tag-clear" href="javascript:cleartag();">CLEAR</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item tag-select" data="all"><input type="checkbox" class="form-check-input" value="valtag1" label="Tag 1">Tag 1</a>
+                                        <a class="dropdown-item tag-select" data="all"><input type="checkbox" class="form-check-input form-check-input-mobile" value="valtag1" label="Tag 1">Tag 1</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item tag-select" data="all"><input type="checkbox" class="form-check-input" value="tag2" label="Tag 2">Tag 2</a>
+                                        <a class="dropdown-item tag-select" data="all"><input type="checkbox" class="form-check-input form-check-input-mobile" value="tag2" label="Tag 2">Tag 2</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item tag-select" data="all"><input type="checkbox" class="form-check-input" value="tag3" label="Tag 3">Tag 3</a>
+                                        <a class="dropdown-item tag-select" data="all"><input type="checkbox" class="form-check-input form-check-input-mobile" value="tag3" label="Tag 3">Tag 3</a>
                                     </li>
                                 </ul>
                             </div>
@@ -223,7 +221,7 @@ Montivory Category
         </div>
         <div class="modal-footer">
             <div class="d-grid gap-2 col-12">
-                <button type="button" class="btn btn-primary">APPLY</button>
+                <button type="button" class="btn btn-primary" onclick="filtercontent('mobile');">APPLY</button>
             </div>
         </div>
       </div>
@@ -249,7 +247,7 @@ Montivory Category
     const tagDropdown = document.getElementById('dropdownTag')
     tagDropdown.addEventListener('hide.bs.dropdown', function () {
         let showlabel = ''
-        $.each($('.form-check-input'),function(index,value){
+        $.each($('.form-check-input-desktop'),function(index,value){
             if(value.checked){
                 if(showlabel === ''){
                     showlabel = $(value).attr('label');
@@ -260,7 +258,6 @@ Montivory Category
             }
         })
         if(showlabel === ''){
-            $('#alltag').prop("checked",true);
             showlabel = 'All tags';
         }
         $('#dropdownTag').text(showlabel);
@@ -269,7 +266,7 @@ Montivory Category
     const tagDropdownMobile = document.getElementById('dropdownTagMobile')
     tagDropdownMobile.addEventListener('hide.bs.dropdown', function () {
         let showlabel = ''
-        $.each($('.form-check-input'),function(index,value){
+        $.each($('.form-check-input-mobile'),function(index,value){
             if(value.checked){
                 if(showlabel === ''){
                     showlabel = $(value).attr('label');
@@ -280,7 +277,6 @@ Montivory Category
             }
         })
         if(showlabel === ''){
-            $('#alltag').prop("checked",true);
             showlabel = 'All tags';
         }
         $('#dropdownTagMobile').text(showlabel);
@@ -290,19 +286,53 @@ Montivory Category
         $.each($('.form-check-input'),function(index,value){
             $(value).prop("checked",false);
         });
-        $('#alltag').prop("checked",true);
     }
 
-    const filtercontent = () => {
+    const filtercontent = (typewindows) => {
         let filter = {}
         let tags = []
-        $.each($('.form-check-input'),function(index,value){
-            if(value.checked){
-                tags.push(value.defaultValue);
+        if(typewindows === 'desktop')
+        {
+            $.each($('.month-select-desktop'),function(index,value){
+                if($(value).hasClass('check-selected')){
+                    filter.month = $(value).attr('data');
+                }
+            });
+            $.each($('.year-select-desktop'),function(index,value){
+                if($(value).hasClass('check-selected')){
+                    filter.year = $(value).attr('data');
+                }
+            });
+            $.each($('.form-check-input-desktop'),function(index,value){
+                if(value.checked){
+                    tags.push(value.defaultValue);
+                }
+            })
+            if(tags.length === 0){
+                tags.push("all");
             }
-        })
+        }else{
+            $.each($('.month-select-mobile'),function(index,value){
+                if($(value).hasClass('check-selected')){
+                    filter.month = $(value).attr('data');
+                }
+            });
+            $.each($('.year-select-mobile'),function(index,value){
+                if($(value).hasClass('check-selected')){
+                    filter.year = $(value).attr('data');
+                }
+            });
+            $.each($('.form-check-input-mobile'),function(index,value){
+                if(value.checked){
+                    tags.push(value.defaultValue);
+                }
+            })
+            if(tags.length === 0){
+                tags.push("all");
+            }
+        }
         filter.tags = tags;
-
+        console.log(filter)
     }
 
 </script>
