@@ -1,5 +1,6 @@
 .hero-section {
     height: 300px;
+    border-bottom: 10px solid #EB5253;
 }
 .hero-content-banner {
     height: 300px;
@@ -9,6 +10,65 @@
     background: none;
     height: auto;
     padding-top: 0;
+}
+.dropdown-month > .show {
+    color: #0D66D0;
+    border-bottom: 1px solid #0D66D0;
+}
+.dropdown-year > .show {
+    color: #0D66D0;
+    border-bottom: 1px solid #0D66D0;
+}
+.dropdown-toggle::after {
+    content: none;
+}
+.custom-dropdown {
+    border-bottom: 1px solid #1E222A;
+    border-radius: 0;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right .75rem center;
+    background-size: 16px 12px;
+}
+.check-selected {
+    background-image: url('../images/icon/Checkbox-active.png');
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+    background-position: center right;
+    background-color: #0d66d0;
+    color: #fff;
+}
+.check-selected:hover {
+    background-color: #0d66d0;
+    color: #fff;
+}
+.form-check-input {
+    margin-right: 10px;
+}
+.btn-outline-filter {
+    border: 1px solid #0D66D0;
+    color: #0D66D0;
+}
+.btn-outline-filter:hover {
+    border: 1px solid #0D66D0;
+    color: #0D66D0;
+}
+.filter-icon {
+    height: 20px;
+    margin-top: -5px;
+}
+.modal-header {
+    border-bottom: none;
+}
+.modal-footer {
+    border-top: none;
+}
+.tag-clear {
+    color: #E4002B;
+    font-weight: 700;
+}
+.tag-clear:hover {
+    color: #E4002B;
 }
 @media only screen and (max-width: 576px) {
     .active {
