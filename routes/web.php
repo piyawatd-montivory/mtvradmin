@@ -33,6 +33,8 @@ use App\Http\Middleware\EnsureSignin;
 Route::get('/', [WebController::class, 'index'])->name('home');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 Route::get('/category/{slug}', [BlogController::class, 'category'])->name('category');
+Route::get('/tags/{slug}', [BlogController::class, 'tags'])->name('tags');
+Route::get('/search/{search}', [BlogController::class, 'search'])->name('search');
 Route::get('/blog/{slug}', [BlogController::class, 'detail'])->name('blogpost');
 Route::get('/career', [WebController::class, 'career'])->name('career');
 Route::get('/career/{alias}', [WebController::class, 'careerdetail'])->name('careerdetail');

@@ -27,6 +27,16 @@ class BlogController extends Controller
     {
         return view('blogpost',['data'=>'','category'=>'binary-craft','categoryname'=>'Binary Craft']);
     }
+
+    function tags($slug)
+    {
+        return view('tags');
+    }
+
+    function search($search)
+    {
+        return view('search');
+    }
 }
 ?>
 

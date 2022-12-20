@@ -41,7 +41,19 @@ Montivory Category
         <div class="row justify-content-center">
             <div class="col-md-10 col-12">
                 <h3 class="content-detail-title mt-3">Article Title Article Title Article Title Article Title Article Title Article Title</h3>
-                <p class="mt-3">Published:01 Dec 2022</p>
+                <div class="row pt-3">
+                    <div class="col-12 col-md-6">
+                        <p>Published:01 Dec 2022</p>
+                    </div>
+                    <div class="col-12 col-md-6 text-md-end">
+                        <p>Share
+                            <a href="#" class="social-link px-2"><img src="{{ asset('images/icon/facebook-b.png')}}"/></a>
+                            <a href="#" class="social-link px-2"><img src="{{ asset('images/icon/twitter-b.png')}}"/></a>
+                            <a href="#" class="social-link px-2"><img src="{{ asset('images/icon/instagram-b.png')}}"/></a>
+                            <a href="#" class="social-link ps-2"><img src="{{ asset('images/icon/linkedin-b.png')}}"/></a>
+                        </p>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-12 pb-5">
                         <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="img-fluid">
