@@ -277,7 +277,7 @@ Montivory Blog
                 <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="img-fluid" alt="...">
                 <div class="slide-img-overlay">
                     <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                        <h6 class="content-title content-title-three-row mt-3 mt-md-0 text-white">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                        <h6 class="content-title slide-content-title content-title-three-row mt-3 mt-md-0 text-white">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                     </a>
                     <p class="mt-3 display-time-w">01 Dec 2022</p>
                 </div>
@@ -288,7 +288,7 @@ Montivory Blog
                 <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="img-fluid" alt="...">
                 <div class="slide-img-overlay">
                     <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                        <h6 class="content-title content-title-three-row mt-3 mt-md-0 text-white">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                        <h6 class="content-title slide-content-title content-title-three-row mt-3 mt-md-0 text-white">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                     </a>
                     <p class="mt-3 display-time-w">01 Dec 2022</p>
                 </div>
@@ -299,7 +299,7 @@ Montivory Blog
                 <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="img-fluid" alt="...">
                 <div class="slide-img-overlay">
                     <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                        <h6 class="content-title content-title-three-row mt-3 mt-md-0 text-white">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                        <h6 class="content-title slide-content-title content-title-three-row mt-3 mt-md-0 text-white">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                     </a>
                     <p class="mt-3 display-time-w">01 Dec 2022</p>
                 </div>
@@ -310,7 +310,7 @@ Montivory Blog
                 <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="img-fluid" alt="...">
                 <div class="slide-img-overlay">
                     <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                        <h6 class="content-title content-title-three-row mt-3 mt-md-0 text-white">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                        <h6 class="content-title slide-content-title content-title-three-row mt-3 mt-md-0 text-white">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                     </a>
                     <p class="mt-3 display-time-w">01 Dec 2022</p>
                 </div>
@@ -323,13 +323,23 @@ Montivory Blog
 <script type="text/javascript" src="{{asset('slick/slick.js')}}"></script>
 <script type="text/javascript">
     $(function() {
-      $(".trending-slide").slick({
-        dots: true,
-        infinite: true,
-        centerMode: true,
-        slidesToShow: 2,
-        slidesToScroll: 1
-      });
+        $(".trending-slide").slick({
+            dots: true,
+            infinite: true,
+            centerMode: true,
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            responsive: [
+                {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        arrows: false
+                    }
+                }
+            ]
+        });
     });
 
 </script>
