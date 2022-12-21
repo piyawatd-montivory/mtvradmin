@@ -51,10 +51,9 @@ h6 {
 .category-active {
     color: #fff!important;
     border-bottom: 4px solid #fff;
-    /* padding-left: 0!important;
-    padding-right: 0!important;
-    padding-bottom: 3px!important;
-    margin-left: .5rem!important; */
+}
+.navbar-second-item ul {
+    list-style: none;
 }
 .navbar-second {
     background-color: #182B45;
@@ -245,6 +244,44 @@ h6 {
 .social-link img {
     height: 20px;
 }
+.custom-search {
+    border-radius: 18px;
+}
+.search-label {
+    background-color:#fff;
+    border-top-left-radius: 18px!important;
+    border-bottom-left-radius: 18px!important;
+    line-height: 38px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.form-control-search {
+    border:0;
+}
+.btn-close {
+    padding-right: 25px;
+    margin-top:6px;
+}
+#searchModal {
+    height: 70px;
+    top:58px;
+}
+.trending-card {
+    border-radius: 0;
+    position: relative;
+}
+.slick-slide {
+    opacity: 1!important;
+}
+.slide-img-overlay {
+    position: absolute;
+    height: 150px;
+    bottom: 0;
+    padding: 1.8rem 1rem 0 1rem;
+    background: linear-gradient(0deg, rgba(24,43,69,1) 0%, rgba(24,43,69,0) 100%);
+}
+
+
 @media only screen and (max-width: 576px) {
     .active {
         color: #0D66D0!important;

@@ -27,7 +27,7 @@ Montivory Category
     <div class="container pt-5">
         <div class="row">
             <div class="col-12 d-none d-md-block">
-                <h6>Keywords</h6>
+                <h6><span class="font-normal">96 results of: </span>Keywords</h6>
                 <div class="row">
                     <div class="col-11">
                         <div class="row">

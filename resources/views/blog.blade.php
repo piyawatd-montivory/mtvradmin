@@ -15,10 +15,11 @@ Montivory Blog
     <meta property="twitter:image" content="{{ asset('/images/frontend/og.jpg')}}">
 @endsection
 @section('stylesheet')
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"
-/>
+<!-- Add the slick-theme.css if you want default styling -->
+<link rel="stylesheet" type="text/css" href="{{asset('slick/slick.css')}}"/>
+<!-- Add the slick-theme.css if you want default styling -->
+<link rel="stylesheet" type="text/css" href="{{asset('slick/slick-theme.css')}}"/>
+<link rel="stylesheet" type="text/css" href="{{asset('css/slick-custom.css')}}"/>
 <style>
 
 </style>
@@ -267,11 +268,69 @@ Montivory Blog
         </div>
     </div>
 </section>
+<div class="container pb-4">
+    <h4 class="text-center mt-3">Trending</h4>
+    <p class="text-center">Keep up with the latest trending articles</p>
+    <section class="trending-slide mt-3 pb-2">
+        <div>
+            <div class="text-white pb-2 trending-card">
+                <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="img-fluid" alt="...">
+                <div class="slide-img-overlay">
+                    <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
+                        <h6 class="content-title content-title-three-row mt-3 mt-md-0 text-white">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                    </a>
+                    <p class="mt-3 display-time-w">01 Dec 2022</p>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="text-white pb-2 trending-card">
+                <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="img-fluid" alt="...">
+                <div class="slide-img-overlay">
+                    <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
+                        <h6 class="content-title content-title-three-row mt-3 mt-md-0 text-white">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                    </a>
+                    <p class="mt-3 display-time-w">01 Dec 2022</p>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="text-white pb-2 trending-card">
+                <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="img-fluid" alt="...">
+                <div class="slide-img-overlay">
+                    <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
+                        <h6 class="content-title content-title-three-row mt-3 mt-md-0 text-white">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                    </a>
+                    <p class="mt-3 display-time-w">01 Dec 2022</p>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="text-white pb-2 trending-card">
+                <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="img-fluid" alt="...">
+                <div class="slide-img-overlay">
+                    <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
+                        <h6 class="content-title content-title-three-row mt-3 mt-md-0 text-white">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                    </a>
+                    <p class="mt-3 display-time-w">01 Dec 2022</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
 @endsection
 @section('script')
-<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+<script type="text/javascript" src="{{asset('slick/slick.js')}}"></script>
 <script type="text/javascript">
-
+    $(function() {
+      $(".trending-slide").slick({
+        dots: true,
+        infinite: true,
+        centerMode: true,
+        slidesToShow: 2,
+        slidesToScroll: 1
+      });
+    });
 
 </script>
 @endsection
