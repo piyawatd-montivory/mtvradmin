@@ -183,6 +183,14 @@ h6 {
     font-size: 32px;
     line-height: 44px;
 }
+.content-main-title a {
+    text-decoration: none;
+    color:#212529;
+}
+.content-main-title a:hover {
+    text-decoration: none;
+    color:#212529;
+}
 .content-title {
     line-height: 25px;
     max-height: 50px;
@@ -265,16 +273,6 @@ h6 {
     border-radius: 0;
     position: relative;
 }
-.slick-slide {
-    opacity: 1!important;
-}
-.slide-img-overlay {
-    position: absolute;
-    height: 150px;
-    bottom: 0;
-    padding: 1.8rem 1rem 0 1rem;
-    background: linear-gradient(0deg, rgba(24,43,69,1) 0%, rgba(24,43,69,0) 100%);
-}
 
 
 @media only screen and (max-width: 576px) {
@@ -306,11 +304,5 @@ h6 {
     }
     .content-title {
         max-height: 75px;
-    }
-    .slide-content-title {
-        overflow: hidden;
-        font-size: 16px;
-        line-height: 25px;
-        max-height: 50px;
     }
 }

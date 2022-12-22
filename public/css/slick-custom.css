@@ -1,12 +1,21 @@
+.slide-img-overlay {
+    position: absolute;
+    height: 150px;
+    bottom: 0;
+    padding: 1.8rem 1rem 0 1rem;
+    background: linear-gradient(0deg, rgba(24,43,69,1) 0%, rgba(24,43,69,0) 100%);
+}
+.slide-img-overlay p {
+    color: #fff;
+}
 .slider {
     width: 50%;
     margin: 100px auto;
 }
-
 .slick-slide {
-  margin: 0px 20px;
+  margin: 0px 10px;
+  opacity: 1!important;
 }
-
 .slick-slide img {
   width: 100%;
 }
@@ -54,4 +63,13 @@
     background: url('/images/icon/chevron-right.png') no-repeat !important;
     width: 32px;
     height: 32px;
+}
+
+@media only screen and (max-width: 576px) {
+    .slide-content-title {
+        overflow: hidden;
+        font-size: 16px;
+        line-height: 25px;
+        max-height: 50px;
+    }
 }

@@ -1,2 +1,16 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /admins/
+Disallow: /assets/
+Disallow: /ckeditor/
+Disallow: /css/
+Disallow: /files/
+Disallow: /font/
+Disallow: /images/
+Disallow: /js/
+Disallow: /photos/
+Disallow: /plugin/
+Disallow: /slick/
+Disallow: /vendor/
+Disallow: /*.json
+Disallow: /*.txt
