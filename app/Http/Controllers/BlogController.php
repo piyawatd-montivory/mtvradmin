@@ -35,7 +35,12 @@ class BlogController extends Controller
 
     function search($search)
     {
-        return view('search');
+        return view('search',['data'=>["a","b"]]);
+    }
+
+    function noresult()
+    {
+        return view('search',['data'=>[]]);
     }
 }
 ?>

@@ -36,6 +36,7 @@ Route::get('/category/{slug}', [BlogController::class, 'category'])->name('categ
 Route::get('/tags/{slug}', [BlogController::class, 'tags'])->name('tags');
 Route::get('/search/{search}', [BlogController::class, 'search'])->name('search');
 Route::get('/blog/{slug}', [BlogController::class, 'detail'])->name('blogpost');
+Route::get('/noresult', [BlogController::class, 'noresult'])->name('noresult');
 Route::get('/career', [WebController::class, 'career'])->name('career');
 Route::get('/career/{alias}', [WebController::class, 'careerdetail'])->name('careerdetail');
 Route::get('/careerfinish', [WebController::class, 'careerfinish'])->name('careerfinish');
