@@ -46,12 +46,12 @@
                 </li>
                 <li class="nav-item search-block">
                     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#searchModal">
-                        <img src="{{asset('images/icon/Search-icon-w.png')}}" class="w-75"/>
+                        <img src="{{asset('images/icon/Search-icon-w.png')}}" class="search-icon"/>
                     </button>
                 </li>
             </ul>
         </div>
-        <div class="col-10 d-md-none px-0 navbar-second-item">
+        <div class="col-10 d-md-none navbar-second-item navbar-second-mobile">
             <ul>
                 <li class="nav-item">
                   <a class="nav-link @if($catesel === 'binary-craft') category-active @endif" href="{{route('category',['slug'=>'binary-craft'])}}">BINARY.CRAFT</a>
@@ -74,8 +74,8 @@
             </ul>
         </div>
         <div class="col-2 d-md-none mobile-search-block text-center px-0">
-            <button type="button" class="btn btn-search px-0 mt-2" data-bs-toggle="modal" data-bs-target="#searchModal">
-                <img src="{{asset('images/icon/Search-icon-w.png')}}" class="w-75 px-1"/>
+            <button type="button" class="btn btn-search px-0 py-0" data-bs-toggle="modal" data-bs-target="#searchModal">
+                <img src="{{asset('images/icon/Search-icon-w.png')}}" class="search-icon-mobile"/>
             </button>
         </div>
     </div>

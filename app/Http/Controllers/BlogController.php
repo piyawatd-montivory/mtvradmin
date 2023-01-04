@@ -20,7 +20,7 @@ class BlogController extends Controller
 
     function category($slug)
     {
-        return view('category');
+        return view('category',['slug'=>$slug]);
     }
 
     function detail($slug)

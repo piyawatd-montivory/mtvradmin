@@ -14,6 +14,14 @@
 .content-detail-block p {
     line-height: 25px;
 }
+.content-detail-block ol {
+    margin-top: 16px;
+    margin-bottom: 0;
+}
+.content-detail-block ul {
+    margin-top: 16px;
+    margin-bottom: 0;
+}
 .tag-link {
     color: #1E222A;
     /* background-color: #212529; */
@@ -22,12 +30,49 @@
     padding-right: 1.5rem;
     border-radius: 1.5rem;
     margin-right: 10px;
+    font-size: 12px;
+    font-weight: 500;
 }
 .tag-link:hover {
     color: #1E222A;
     /* background-color: #212529; */
     border-color: #DBDCDD;
+    font-size: 12px;
+    font-weight: 500;
+}
+.profile-img {
+    height: 90px;
+    display: block;
+    float: left;
+    margin-right: 15px;
+}
+.profile-detail {
+    display: block;
+    /* float: right; */
+}
+.profile-detail p {
+    margin-bottom: 8px;
 }
 .info-title {
     margin-right: 30px;
+}
+.caption-image {
+    margin-top: 8px;
+    display: block;
+}
+.image-block {
+    margin-top: 32px;
+}
+.hyper-link {
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    margin-right: 16px;
+}
+hr {
+    margin-top: 37px;
+}
+.related-articles-title {
+    margin-top: 56px;
+    margin-bottom: 25px;
 }

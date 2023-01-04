@@ -29,7 +29,7 @@ Montivory Category
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">{{$categoryname}}</a></li>
-                    <li class="breadcrumb-item active">Library</li>
+                    <li class="breadcrumb-item">Library</li>
                     </ol>
                 </nav>
             </div>
@@ -89,15 +89,15 @@ Montivory Category
                             <li>Number</li>
                             <li>Number</li>
                         </ol>
-                        <h6>Single Image</h6>
-                        <div class="row">
+                        <div class="row image-block">
+                            <h6>Single Image</h6>
                             <div class="col-12">
                                 <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="img-fluid w-100">
                                 <span class="caption-image">Caption Image</span>
                             </div>
                         </div>
-                        <h6>2 Columns</h6>
-                        <div class="row">
+                        <div class="row image-block">
+                            <h6>2 Columns</h6>
                             <div class="col-12 col-md-6">
                                 <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="img-fluid">
                                 <span class="caption-image">Caption Image</span>
@@ -127,34 +127,35 @@ Montivory Category
                 </div>
                 <div class="row">
                     <strong class="pb-2">Writer</strong>
-                    <div class="col-3 col-md-1">
-                        <img src="{{ asset('/images/default/Writer-default-image.png')}}" class="img-fluid"/>
-                    </div>
-                    <div class="col-9 col-md-11">
-                        <p><strong>Kittichai Kaweekijmanee</strong></p>
-                        <p>Writer</p>
+                    <div class="col-12">
+                        <img src="{{ asset('/images/default/Writer-default-image.png')}}" class="profile-img"/>
+                        <div class="profile-detail">
+                            <p><strong>Kittichai Kaweekijmanee</strong></p>
+                            <p>Writer</p>
+                        </div>
                     </div>
                 </div>
                 <hr>
+                <h6 class="related-articles-title">Related articles</h6>
                 <div class="row row-cols-md-3">
                     <div class="col col-12">
                         <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
                         <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                            <h6 class="content-title content-title-three-row mt-3">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                            <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                         </a>
                         <p class="mt-3 display-time">01 Dec 2022</p>
                     </div>
                     <div class="col col-12">
                         <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
                         <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                            <h6 class="content-title content-title-three-row mt-3">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                            <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                         </a>
                         <p class="mt-3 display-time">01 Dec 2022</p>
                     </div>
                     <div class="col col-12">
                         <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
                         <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                            <h6 class="content-title content-title-three-row mt-3">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                            <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                         </a>
                         <p class="mt-3 display-time">01 Dec 2022</p>
                     </div>

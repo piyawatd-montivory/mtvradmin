@@ -38,7 +38,7 @@
                                 <div class="input-group mt-3 bg-white custom-search">
                                     <span class="search-label">Typing</span>
                                     <input type="text" class="form-control form-control-search" id="search" name="search" aria-label="Search">
-                                    <button class="btn btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <button class="btn btn-close btn-close-icon" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                             </div>
                         </div>

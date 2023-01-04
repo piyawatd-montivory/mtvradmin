@@ -76,7 +76,7 @@ Montivory Blog
             </div>
         </div>
         <div class="d-grid gap-2 mt-3 d-md-block text-center">
-            <a class="btn btn-readnow px-5" type="button" href="{{route('category',['slug'=>'binary-craft'])}}">VIEW ALL</a>
+            <a class="btn btn-viewall" type="button" href="{{route('category',['slug'=>'binary-craft'])}}">VIEW ALL</a>
         </div>
     </div>
 </section>
@@ -95,7 +95,7 @@ Montivory Blog
                         </div>
                         <div class="col-12">
                             <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                                <h6 class="content-title mt-3">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                                <h6 class="content-title">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                             </a>
                             <p class="mt-3 display-time">01 Dec 2022</p>
                         </div>
@@ -106,7 +106,7 @@ Montivory Blog
                         </div>
                         <div class="col-12 col-md-8">
                             <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                            <h6 class="content-title content-title-three-row mt-3 mt-md-0">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                            <h6 class="content-title content-title-three-row mt-md-0">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                             </a>
                             <p class="mt-3 display-time">01 Dec 2022</p>
                         </div>
@@ -117,7 +117,7 @@ Montivory Blog
                         </div>
                         <div class="col-12 col-md-8">
                             <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                            <h6 class="content-title content-title-three-row mt-3 mt-md-0">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                            <h6 class="content-title content-title-three-row mt-md-0">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                             </a>
                             <p class="mt-3 display-time">01 Dec 2022</p>
                         </div>
@@ -138,7 +138,7 @@ Montivory Blog
                         </div>
                         <div class="col-12">
                             <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                            <h6 class="content-title mt-3">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                            <h6 class="content-title">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                             </a>
                             <p class="mt-3 display-time">01 Dec 2022</p>
                         </div>
@@ -149,7 +149,7 @@ Montivory Blog
                         </div>
                         <div class="col-12 col-md-8">
                             <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                            <h6 class="content-title content-title-three-row mt-3 mt-md-0">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                            <h6 class="content-title content-title-three-row mt-md-0">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                             </a>
                             <p class="mt-3 display-time">01 Dec 2022</p>
                         </div>
@@ -160,7 +160,7 @@ Montivory Blog
                         </div>
                         <div class="col-12 col-md-8">
                             <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                            <h6 class="content-title content-title-three-row mt-3 mt-md-0">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                            <h6 class="content-title content-title-three-row mt-md-0">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                             </a>
                             <p class="mt-3 display-time">01 Dec 2022</p>
                         </div>
@@ -181,7 +181,7 @@ Montivory Blog
                         </div>
                         <div class="col-12">
                             <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                            <h6 class="content-title content-title-three-row mt-3">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                            <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                             </a>
                             <p class="mt-3 display-time">01 Dec 2022</p>
                         </div>
@@ -192,7 +192,7 @@ Montivory Blog
                         </div>
                         <div class="col-12 col-md-6">
                             <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                            <h6 class="content-title content-title-four-row mt-3 mt-md-0">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                            <h6 class="content-title content-title-four-row mt-md-0">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                             </a>
                             <p class="mt-3 display-time">01 Dec 2022</p>
                         </div>
@@ -203,7 +203,7 @@ Montivory Blog
                         </div>
                         <div class="col-12 col-md-6">
                             <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                            <h6 class="content-title content-title-four-row mt-3 mt-md-0">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                            <h6 class="content-title content-title-four-row mt-md-0">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                             </a>
                             <p class="mt-3 display-time">01 Dec 2022</p>
                         </div>
@@ -222,7 +222,7 @@ Montivory Blog
                         </div>
                         <div class="col-12">
                             <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                            <h6 class="content-title content-title-three-row mt-3">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                            <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                             </a>
                             <p class="mt-3 display-time">01 Dec 2022</p>
                         </div>
@@ -233,7 +233,7 @@ Montivory Blog
                         </div>
                         <div class="col-12 col-md-6">
                             <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                            <h6 class="content-title content-title-four-row mt-3 mt-md-0">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                            <h6 class="content-title content-title-four-row mt-md-0">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                             </a>
                             <p class="mt-3 display-time">01 Dec 2022</p>
                         </div>
@@ -244,7 +244,7 @@ Montivory Blog
                         </div>
                         <div class="col-12 col-md-6">
                             <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                            <h6 class="content-title content-title-four-row mt-3 mt-md-0">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                            <h6 class="content-title content-title-four-row mt-md-0">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                             </a>
                             <p class="mt-3 display-time">01 Dec 2022</p>
                         </div>
@@ -263,7 +263,7 @@ Montivory Blog
                         </div>
                         <div class="col-12">
                             <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                            <h6 class="content-title content-title-three-row mt-3">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                            <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                             </a>
                             <p class="mt-3 display-time">01 Dec 2022</p>
                         </div>
@@ -274,7 +274,7 @@ Montivory Blog
                         </div>
                         <div class="col-12 col-md-6">
                             <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                            <h6 class="content-title content-title-four-row mt-3 mt-md-0">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                            <h6 class="content-title content-title-four-row mt-md-0">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                             </a>
                             <p class="mt-3 display-time">01 Dec 2022</p>
                         </div>
@@ -285,7 +285,7 @@ Montivory Blog
                         </div>
                         <div class="col-12 col-md-6">
                             <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                            <h6 class="content-title content-title-four-row mt-3 mt-md-0">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                            <h6 class="content-title content-title-four-row mt-md-0">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                             </a>
                             <p class="mt-3 display-time">01 Dec 2022</p>
                         </div>
@@ -296,7 +296,7 @@ Montivory Blog
     </div>
 </section>
 <div class="container pb-4">
-    <h4 class="content-main-title text-center mt-3"><a href="{{route('category',['slug'=>'trending'])}}">Trending</a></h4>
+    <h4 class="content-main-title text-center"><a href="{{route('category',['slug'=>'trending'])}}">Trending</a></h4>
     <p class="text-center">Keep up with the latest trending articles</p>
     <section class="trending-slide mt-3 pb-2">
         <div>
@@ -304,8 +304,8 @@ Montivory Blog
                 <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
                     <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="img-fluid" alt="...">
                     <div class="slide-img-overlay">
-                        <h6 class="content-title slide-content-title content-title-three-row mt-3 mt-md-0 text-white">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
-                        <p class="mt-3 display-time-w">01 Dec 2022</p>
+                        <h6 class="content-title slide-content-title content-title-three-row mt-md-0 text-white">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                        <p class="display-time-w display-time-w-slick">01 Dec 2022</p>
                     </div>
                 </a>
             </div>
@@ -315,8 +315,8 @@ Montivory Blog
                 <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
                     <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="img-fluid" alt="...">
                     <div class="slide-img-overlay">
-                        <h6 class="content-title slide-content-title content-title-three-row mt-3 mt-md-0 text-white">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
-                        <p class="mt-3 display-time-w">01 Dec 2022</p>
+                        <h6 class="content-title slide-content-title content-title-three-row mt-md-0 text-white">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                        <p class="display-time-w display-time-w-slick">01 Dec 2022</p>
                     </div>
                 </a>
             </div>
@@ -326,8 +326,8 @@ Montivory Blog
                 <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
                     <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="img-fluid" alt="...">
                     <div class="slide-img-overlay">
-                        <h6 class="content-title slide-content-title content-title-three-row mt-3 mt-md-0 text-white">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
-                        <p class="mt-3 display-time-w">01 Dec 2022</p>
+                        <h6 class="content-title slide-content-title content-title-three-row mt-md-0 text-white">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                        <p class="display-time-w display-time-w-slick">01 Dec 2022</p>
                     </div>
                 </a>
             </div>
@@ -351,7 +351,8 @@ Montivory Blog
                     settings: {
                         slidesToShow: 1,
                         slidesToScroll: 1,
-                        arrows: false
+                        arrows: false,
+                        centerPadding: '32px',
                     }
                 }
             ]

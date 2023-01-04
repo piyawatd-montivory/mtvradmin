@@ -1,6 +1,23 @@
 .hero-section {
     height: 300px;
+}
+.binary-craft-header-line {
+    border-bottom: 10px solid #182B45;
+}
+.business-header-line {
+    border-bottom: 10px solid #0D66D0;
+}
+.creative-header-line {
+    border-bottom: 10px solid #63D583;
+}
+.data-and-tech-header-line {
     border-bottom: 10px solid #EB5253;
+}
+.privacy-header-line {
+    border-bottom: 10px solid #A148F5;
+}
+.research-header-line {
+    border-bottom: 10px solid #F8D147;
 }
 .hero-content-banner {
     height: 300px;
@@ -10,6 +27,9 @@
     background: none;
     height: auto;
     padding-top: 0;
+}
+.hero-sub-title {
+    margin-left: 2px;
 }
 .dropdown-month > .show {
     color: #0D66D0;
@@ -48,6 +68,8 @@
 .btn-outline-filter {
     border: 1px solid #0D66D0;
     color: #0D66D0;
+    width:137px;
+    height:49px;
 }
 .btn-outline-filter:hover {
     border: 1px solid #0D66D0;
@@ -86,10 +108,10 @@
 }
 .category-link {
     font-size: 14px;
-    margin-top: 16px;
+    /* margin-top: 16px; */
     display: block;
     text-decoration: none;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
 }
 .category-link a {
     text-decoration: none;
@@ -119,5 +141,10 @@
     }
     .notfound-img {
         height: 67.5px;
+    }
+    .hero-title-mobile {
+        font-size: 48px;
+        font-weight: 700;
+        line-height: 58px;
     }
 }

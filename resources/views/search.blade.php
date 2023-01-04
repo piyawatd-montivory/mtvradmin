@@ -25,11 +25,11 @@ Montivory @if(count($data) > 0) Search @else Not Found @endif
 @section('content')
 <!-- Content -->
 <section class="content">
-    <div class="container pt-5">
+    <div class="container pt-3">
         @if(count($data) > 0)
-            <div class="row">
+            <div class="row filter-block">
                 <div class="col-12 col-md-10 d-none d-md-block">
-                    <h6><span class="font-normal">{{ count($data) }} results of: </span>Keywords</h6>
+                    <h6 class="search-result-display"><span class="font-normal">{{ count($data) }} results of: </span>Keywords</h6>
                     <div class="row">
                         <div class="col-11">
                             <div class="row">
@@ -70,7 +70,7 @@ Montivory @if(count($data) > 0) Search @else Not Found @endif
                                 <div class="col-3">
                                     <div class="dropdown dropdown-year">
                                         <button class="btn custom-dropdown dropdown-toggle w-100 text-start" type="button" id="dropdownCategoryDesktopLabel" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                                            All Category
+                                            All categories
                                         </button>
                                         <ul class="dropdown-menu w-100" aria-labelledby="dropdownCategoryDesktopLabel" id="dropdownCategoryDesktop">
                                             <li>
@@ -100,7 +100,7 @@ Montivory @if(count($data) > 0) Search @else Not Found @endif
                                 <div class="col-3">
                                     <div class="dropdown dropdown-year">
                                         <button class="btn custom-dropdown dropdown-toggle w-100 text-start" type="button" id="dropdownTagDesktopLabel" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                                            All Tags
+                                            All tags
                                         </button>
                                         <ul class="dropdown-menu w-100" aria-labelledby="dropdownTagDesktopLabel" id="dropdownTagDesktop">
                                             <li>
@@ -121,72 +121,122 @@ Montivory @if(count($data) > 0) Search @else Not Found @endif
                             </div>
                         </div>
                         <div class="col-1">
-                            <button class="btn btn-readnow px-3" type="button" onclick="filtercontent('desktop');" >APPLY</button>
+                            <button class="btn btn-apply px-3" type="button" onclick="filtercontent('desktop');" >APPLY</button>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 d-md-none">
+                    <h6 class="search-result-display"><span class="font-normal">{{ count($data) }} results of: <br></span>Keywords</h6>
                     <button class="btn px-3 btn-outline-filter" type="button" data-bs-toggle="modal" data-bs-target="#filterModal">
                         <img src="{{asset('images/icon/Filter-icon.png')}}" class="filter-icon"/>
                         FILTER
                     </button>
                 </div>
             </div>
-            <div class="row content-section">
+            <div class="row">
                 <div class="col-12 col-md-4 content-block">
                     <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
+                    <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
+                        <h6>Category</h6>
+                    </a>
                     <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                        <h6 class="content-title content-title-three-row mt-3">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                        <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                     </a>
                     <p class="mt-3 display-time">01 Dec 2022</p>
                 </div>
                 <div class="col-12 col-md-4 content-block">
                     <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
+                    <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
+                        <h6>Category</h6>
+                    </a>
                     <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                        <h6 class="content-title content-title-three-row mt-3">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                        <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                     </a>
                     <p class="mt-3 display-time">01 Dec 2022</p>
                 </div>
                 <div class="col-12 col-md-4 content-block">
                     <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
+                    <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
+                        <h6>Category</h6>
+                    </a>
                     <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                        <h6 class="content-title content-title-three-row mt-3">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                        <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                     </a>
                     <p class="mt-3 display-time">01 Dec 2022</p>
                 </div>
                 <div class="col-12 col-md-4 content-block">
                     <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
+                    <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
+                        <h6>Category</h6>
+                    </a>
                     <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                        <h6 class="content-title content-title-three-row mt-3">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                        <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                     </a>
                     <p class="mt-3 display-time">01 Dec 2022</p>
                 </div>
                 <div class="col-12 col-md-4 content-block">
                     <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
+                    <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
+                        <h6>Category</h6>
+                    </a>
                     <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                        <h6 class="content-title content-title-three-row mt-3">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                        <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                     </a>
                     <p class="mt-3 display-time">01 Dec 2022</p>
                 </div>
                 <div class="col-12 col-md-4 content-block">
                     <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
+                    <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
+                        <h6>Category</h6>
+                    </a>
                     <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                        <h6 class="content-title content-title-three-row mt-3">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                        <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                     </a>
                     <p class="mt-3 display-time">01 Dec 2022</p>
+                </div>
+            </div>
+            <div class="row page-row">
+                <div class="col-12 text-center d-none d-md-block">
+                    <a href="" class="btn btn-page btn-page-nav">FIRST</a>
+                    <a href="" class="btn btn-page btn-page-nav">PREVIOUS</a>
+                    <a href="" class="btn btn-page active">1</a>
+                    <a href="" class="btn btn-page">2</a>
+                    <a href="" class="btn btn-page">3</a>
+                    <a href="" class="btn btn-page btn-page-nav">NEXT</a>
+                    <a href="" class="btn btn-page btn-page-nav">LAST</a>
+                </div>
+                <div class="col-12 text-center d-md-none">
+                    <a href="" class="btn btn-page btn-page-nav">
+                        <img src="{{ asset('images/icon/btn-first-mb.png')}}"/>
+                    </a>
+                    <a href="" class="btn btn-page btn-page-nav">
+                        <img src="{{ asset('images/icon/btn-previous-mb.png')}}"/>
+                    </a>
+                    <a href="" class="btn btn-page active">1</a>
+                    <a href="" class="btn btn-page">2</a>
+                    <a href="" class="btn btn-page">3</a>
+                    <a href="" class="btn btn-page btn-page-nav">
+                        <img src="{{ asset('images/icon/btn-next-mb.png')}}"/>
+                    </a>
+                    <a href="" class="btn btn-page btn-page-nav">
+                        <img src="{{ asset('images/icon/btn-last-mb.png')}}"/>
+                    </a>
                 </div>
             </div>
         @else
             <div class="row justify-content-center">
                 <div class="col-12 col-md-10 d-none d-md-block">
-                    <h6><span class="font-normal">0 results of: </span>Keywords</h6>
+                    <h6 class="search-result-display"><span class="font-normal">{{ count($data) }} results of: </span>Keywords</h6>
+                </div>
+                <div class="col-12 d-md-none">
+                    <h6 class="search-result-display"><span class="font-normal">{{ count($data) }} results of: <br></span>Keywords</h6>
                 </div>
             </div>
             <div class="row justify-content-center">
                 <div class="col-12 col-md-10 text-center">
-                    <img src="{{ asset('images/icon/Not-found-icon.png') }}" class="notfound-img img-fluid mx-auto d-block"/>
-                    <h3 class="notfound-color">Sorry</h3>
-                    <h6 class="notfound-color">Please try another keyword</h6>
+                    <img src="{{ asset('images/icon/Not-found-icon.png') }}" class="notfound-img mx-auto d-block"/>
+                    <h3 class="notfound-color sorry-title">Sorry</h3>
+                    <h6 class="notfound-color sorry-sub-title">Please try another keyword</h6>
                 </div>
             </div>
             <div class="row justify-content-center">
@@ -207,8 +257,10 @@ Montivory @if(count($data) > 0) Search @else Not Found @endif
                     <h4 class="mb-0 article-like">Article you may like</h4>
                     <div class="row article-like-section">
                         <div class="col-12 col-md-4 content-block">
-                            <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top d-block" alt="...">
-                            <span class="sub-title category-link"><a href="#">Category</a></span>
+                            <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
+                            <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
+                                <h6>Category</h6>
+                            </a>
                             <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
                                 <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                             </a>
@@ -216,7 +268,9 @@ Montivory @if(count($data) > 0) Search @else Not Found @endif
                         </div>
                         <div class="col-12 col-md-4 content-block">
                             <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
-                            <span class="sub-title category-link"><a href="#">Category</a></span>
+                            <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
+                                <h6>Category</h6>
+                            </a>
                             <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
                                 <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                             </a>
@@ -224,7 +278,9 @@ Montivory @if(count($data) > 0) Search @else Not Found @endif
                         </div>
                         <div class="col-12 col-md-4 content-block">
                             <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
-                            <span class="sub-title category-link"><a href="#">Category</a></span>
+                            <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
+                                <h6>Category</h6>
+                            </a>
                             <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
                                 <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                             </a>
@@ -285,7 +341,7 @@ Montivory @if(count($data) > 0) Search @else Not Found @endif
                         <div class="col-12">
                             <div class="dropdown dropdown-category">
                                 <button class="btn custom-dropdown dropdown-toggle w-100 text-start ps-0 dropdownCategory" type="button" id="dropdownCategoryMobileLabel" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                                    All Category
+                                    All categories
                                 </button>
                                 <ul class="dropdown-menu w-100" aria-labelledby="dropdownCategoryMobile" id="dropdownCategoryMobile">
                                     <li>
@@ -315,7 +371,7 @@ Montivory @if(count($data) > 0) Search @else Not Found @endif
                         <div class="col-12">
                             <div class="dropdown">
                                 <button class="btn custom-dropdown dropdown-toggle w-100 text-start ps-0 dropdownTag" type="button" id="dropdownTagMobileLabel" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                                    All Tags
+                                    All tags
                                 </button>
                                 <ul class="dropdown-menu w-100" aria-labelledby="dropdownTagMobileLabel" id="dropdownTagMobile">
                                     <li>
@@ -339,7 +395,7 @@ Montivory @if(count($data) > 0) Search @else Not Found @endif
         </div>
         <div class="modal-footer">
             <div class="d-grid gap-2 col-12">
-                <button type="button" class="btn btn-primary" onclick="filtercontent('mobile');">APPLY</button>
+                <button type="button" class="btn btn-primary btn-search-mobile" onclick="filtercontent('mobile');">APPLY</button>
             </div>
         </div>
       </div>
@@ -376,7 +432,7 @@ Montivory @if(count($data) > 0) Search @else Not Found @endif
             }
         })
         if(showlabel === ''){
-            showlabel = 'All Category';
+            showlabel = 'All categories';
         }
         $('#dropdownCategoryDesktopLabel').text(showlabel);
     })
@@ -395,7 +451,7 @@ Montivory @if(count($data) > 0) Search @else Not Found @endif
             }
         })
         if(showlabel === ''){
-            showlabel = 'All Category';
+            showlabel = 'All categories';
         }
         $('#dropdownCategoryMobileLabel').text(showlabel);
     })

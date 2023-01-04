@@ -26,7 +26,7 @@ Montivory Category
 <section class="content">
     <div class="container pt-5">
         <h3 class="hero-title pb-4">Tag : Politic</h3>
-        <div class="row">
+        <div class="row filter-block">
             <div class="col-12 d-none d-md-block">
                 <div class="row">
                     <div class="col-3">
@@ -66,7 +66,7 @@ Montivory Category
                     <div class="col-3">
                         <div class="dropdown dropdown-year">
                             <button class="btn custom-dropdown dropdown-toggle w-100 text-start" type="button" id="dropdownCategory" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                                All Category
+                                All categories
                             </button>
                             <ul class="dropdown-menu w-100" aria-labelledby="dropdownCategory">
                                 <li>
@@ -94,7 +94,7 @@ Montivory Category
                         </div>
                     </div>
                     <div class="col-3">
-                        <button class="btn btn-readnow px-3" type="button" onclick="filtercontent('desktop');" >APPLY</button>
+                        <button class="btn btn-apply px-3" type="button" onclick="filtercontent('desktop');" >APPLY</button>
                     </div>
                 </div>
             </div>
@@ -108,45 +108,91 @@ Montivory Category
         <div class="row">
             <div class="col-12 col-md-4 content-block">
                 <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
+                <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
+                    <h6>Category</h6>
+                </a>
                 <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                    <h6 class="content-title content-title-three-row mt-3">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                    <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                 </a>
                 <p class="mt-3 display-time">01 Dec 2022</p>
             </div>
             <div class="col-12 col-md-4 content-block">
                 <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
+                <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
+                    <h6>Category</h6>
+                </a>
                 <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                    <h6 class="content-title content-title-three-row mt-3">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                    <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                 </a>
                 <p class="mt-3 display-time">01 Dec 2022</p>
             </div>
             <div class="col-12 col-md-4 content-block">
                 <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
+                <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
+                    <h6>Category</h6>
+                </a>
                 <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                    <h6 class="content-title content-title-three-row mt-3">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                    <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                 </a>
                 <p class="mt-3 display-time">01 Dec 2022</p>
             </div>
             <div class="col-12 col-md-4 content-block">
                 <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
+                <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
+                    <h6>Category</h6>
+                </a>
                 <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                    <h6 class="content-title content-title-three-row mt-3">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                    <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                 </a>
                 <p class="mt-3 display-time">01 Dec 2022</p>
             </div>
             <div class="col-12 col-md-4 content-block">
                 <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
+                <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
+                    <h6>Category</h6>
+                </a>
                 <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                    <h6 class="content-title content-title-three-row mt-3">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                    <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                 </a>
                 <p class="mt-3 display-time">01 Dec 2022</p>
             </div>
             <div class="col-12 col-md-4 content-block">
                 <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
+                <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
+                    <h6>Category</h6>
+                </a>
                 <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                    <h6 class="content-title content-title-three-row mt-3">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
+                    <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                 </a>
                 <p class="mt-3 display-time">01 Dec 2022</p>
+            </div>
+        </div>
+        <div class="row page-row">
+            <div class="col-12 text-center d-none d-md-block">
+                <a href="" class="btn btn-page btn-page-nav">FIRST</a>
+                <a href="" class="btn btn-page btn-page-nav">PREVIOUS</a>
+                <a href="" class="btn btn-page active">1</a>
+                <a href="" class="btn btn-page">2</a>
+                <a href="" class="btn btn-page">3</a>
+                <a href="" class="btn btn-page btn-page-nav">NEXT</a>
+                <a href="" class="btn btn-page btn-page-nav">LAST</a>
+            </div>
+            <div class="col-12 text-center d-md-none">
+                <a href="" class="btn btn-page btn-page-nav">
+                    <img src="{{ asset('images/icon/btn-first-mb.png')}}"/>
+                </a>
+                <a href="" class="btn btn-page btn-page-nav">
+                    <img src="{{ asset('images/icon/btn-previous-mb.png')}}"/>
+                </a>
+                <a href="" class="btn btn-page active">1</a>
+                <a href="" class="btn btn-page">2</a>
+                <a href="" class="btn btn-page">3</a>
+                <a href="" class="btn btn-page btn-page-nav">
+                    <img src="{{ asset('images/icon/btn-next-mb.png')}}"/>
+                </a>
+                <a href="" class="btn btn-page btn-page-nav">
+                    <img src="{{ asset('images/icon/btn-last-mb.png')}}"/>
+                </a>
             </div>
         </div>
     </div>
@@ -200,7 +246,7 @@ Montivory Category
                         <div class="col-12">
                             <div class="dropdown dropdown-category">
                                 <button class="btn custom-dropdown dropdown-toggle w-100 text-start ps-0 dropdownCategory" type="button" id="dropdownCategoryMobile" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                                    All Category
+                                    All categories
                                 </button>
                                 <ul class="dropdown-menu w-100" aria-labelledby="dropdownCategoryMobile">
                                     <li>
@@ -233,7 +279,7 @@ Montivory Category
         </div>
         <div class="modal-footer">
             <div class="d-grid gap-2 col-12">
-                <button type="button" class="btn btn-primary" onclick="filtercontent('mobile');">APPLY</button>
+                <button type="button" class="btn btn-primary btn-search-mobile" onclick="filtercontent('mobile');">APPLY</button>
             </div>
         </div>
       </div>
@@ -270,7 +316,7 @@ Montivory Category
             }
         })
         if(showlabel === ''){
-            showlabel = 'All tags';
+            showlabel = 'All categories';
         }
         $('#dropdownCategory').text(showlabel);
     })
@@ -289,7 +335,7 @@ Montivory Category
             }
         })
         if(showlabel === ''){
-            showlabel = 'All tags';
+            showlabel = 'All categories';
         }
         $('#dropdownCategoryMobile').text(showlabel);
     })
