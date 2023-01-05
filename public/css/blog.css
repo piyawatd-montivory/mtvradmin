@@ -60,7 +60,7 @@ h6 {
     height: 70px;
 }
 .navbar-second-item {
-    overflow-x: scroll;
+    /* overflow-x: scroll; */
     height: 70px;
 }
 .navbar-second-item ul {
@@ -69,11 +69,11 @@ h6 {
 }
 .nav-item {
     float: left;
-    padding: 1.4rem 1rem;
+    /* padding: 1.4rem 1rem 0 1rem; */
 }
 .nav-item > .nav-link {
     color: #FFF;
-    padding: 0;
+    padding: 24px 1rem;
 }
 .search-block {
     padding: 0.5rem 1rem;
@@ -89,7 +89,10 @@ h6 {
 }
 .search-icon {
     width: 18px;
-    margin-top: 4px;
+    margin-top: -4px;
+}
+.search-desktop {
+    margin-top: 7px;
 }
 hr {
     opacity: 1!important;
@@ -393,6 +396,13 @@ hr {
     margin-bottom: 0;
 }
 @media only screen and (max-width: 576px) {
+    .navbar-second-item ul {
+        margin: 0;
+    }
+    .navbar-second-item {
+        overflow-x: scroll;
+        height: 70px;
+    }
     .active {
         color: #0D66D0!important;
         margin-left: 0!important;

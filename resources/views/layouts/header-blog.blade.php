@@ -45,7 +45,7 @@
                     <a class="nav-link @if($catesel === 'research') category-active @endif" href="{{route('category',['slug'=>'research'])}}">RESEARCH</a>
                 </li>
                 <li class="nav-item search-block">
-                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#searchModal">
+                    <button type="button" class="btn search-desktop" data-bs-toggle="modal" data-bs-target="#searchModal">
                         <img src="{{asset('images/icon/Search-icon-w.png')}}" class="search-icon"/>
                     </button>
                 </li>
