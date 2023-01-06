@@ -146,6 +146,11 @@
                 $('#iframeBrowseImage').attr('src',"{{ route('imagebrowse')}}?type=single");
                 imageModal.show();
             })
+            $('#mobileimage-btn').on('click',function(){
+                browsetype = 'mobileimage';
+                $('#iframeBrowseImage').attr('src',"{{ route('imagebrowse')}}?type=single");
+                imageModal.show();
+            })
             $('#ogimage-btn').on('click',function(){
                 browsetype = 'ogimage';
                 $('#iframeBrowseImage').attr('src',"{{ route('imagebrowse')}}?type=single");
@@ -393,6 +398,8 @@
                 data.owner = '{{$data->owner}}';
                 //hero content
                 data.heroimage = $('#heroimage').val().trim();
+                //mobile image
+                data.mobileimage = $('#mobileimage').val().trim();
                 //content
                 data.content = createData();
                 //reference
@@ -433,6 +440,9 @@
                             $('#error-list').html('');
                             cversion = response.sys.version;
                             showAlert(true,'Save successful')
+                            if(savetype === 'preview'){
+                                let win = window.open('/admins/contents/preview/'+response.sys.id, '_blank');
+                            }
                             window.location.href = '/admins/contents/edit/'+response.sys.id;
                         }
                     })
@@ -513,6 +523,11 @@
                 $('#heroimage').val(imageData.id);
                 $('#displayheroimage').attr("src",imageData.url);
                 $('#displayheroimage').removeClass('d-none');
+            }
+            if(browsetype === 'mobileimage'){
+                $('#mobileimage').val(imageData.id);
+                $('#displaymobileimage').attr("src",imageData.url);
+                $('#displaymobileimage').removeClass('d-none');
             }
             if(browsetype === 'ogimage'){
                 $('#ogimage').val(imageData.id);

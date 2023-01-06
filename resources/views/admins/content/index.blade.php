@@ -93,7 +93,7 @@ Content
                     orderable: false,
                     targets:   4,
                     render: function(data){
-                        let toolsstr = `<a href="/admins/contents/preview?id=${data.id}" class="btn btn-outline-success btn-sm" target="_blank">Preview</a> `;
+                        let toolsstr = `<a href="/admins/contents/preview/${data.id}" class="btn btn-outline-success btn-sm" target="_blank">Preview</a> `;
                         if(data.updatetool){
                             toolsstr = toolsstr+`<a href="/admins/contents/edit/${data.id}" class="btn btn-outline-primary btn-sm">Edit</a> `;
                         }

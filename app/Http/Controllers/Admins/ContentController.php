@@ -36,6 +36,8 @@ class ContentController extends Controller
         $data->status = 'draft';
         $data->thumbnailid = '';
         $data->thumbnail = '';
+        $data->mobileimageid = '';
+        $data->mobileimage = '';
         $data->heroimageid = '';
         $data->heroimage = '';
         $data->categories = [];
@@ -149,24 +151,25 @@ class ContentController extends Controller
         $data->thumbnail = '';
         if(isset($resObj->items[0]->fields->thumbnail))
         {
-            foreach($refsAsset as $ref){
-                if($ref->sys->id == $resObj->items[0]->fields->thumbnail->{'en-US'}->sys->id){
-                    $data->thumbnailid = $resObj->items[0]->fields->thumbnail->{'en-US'}->sys->id;
-                    $data->thumbnail = 'https:'.$ref->fields->file->{'en-US'}->url;
-                    break;
-                }
-            }
+            $imgResult = getImageById($resObj->items[0]->fields->thumbnail,$refsAsset);
+            $data->thumbnailid = $imgResult->thumbnailid;
+            $data->thumbnail = $imgResult->thumbnail;
+        }
+        // mobileimage
+        $data->mobileimageid = '';
+        $data->mobileimage = '';
+        if(isset($resObj->items[0]->fields->mobileimage))
+        {
+            $imgResult = getImageById($resObj->items[0]->fields->mobileimage,$refsAsset);
+            $data->mobileimageid = $imgResult->thumbnailid;
+            $data->mobileimage = $imgResult->thumbnail;
         }
         //hero
         $data->heroimage = '';
         $data->heroimageid = '';
-        foreach($refsAsset as $ref){
-            if($ref->sys->id == $resObj->items[0]->fields->thumbnail->{'en-US'}->sys->id){
-                $data->heroimageid = $resObj->items[0]->fields->thumbnail->{'en-US'}->sys->id;
-                $data->heroimage = 'https:'.$ref->fields->file->{'en-US'}->url;
-                break;
-            }
-        }
+        $imgResult = getImageById($resObj->items[0]->fields->heroimage,$refsAsset);
+        $data->heroimageid = $imgResult->thumbnailid;
+        $data->heroimage = $imgResult->thumbnail;
         //social
         $data->ogtitle = isset($resObj->items[0]->fields->ogtitle->{'en-US'})?$resObj->items[0]->fields->ogtitle->{'en-US'}:'';
         $data->ogdescription = $resObj->items[0]->fields->ogdescription->{'en-US'};
@@ -175,13 +178,9 @@ class ContentController extends Controller
         $data->ogimage = '';
         if(isset($resObj->items[0]->fields->ogimage->{'en-US'}->sys))
         {
-            foreach($refsAsset as $ref){
-                if($ref->sys->id == $resObj->items[0]->fields->ogimage->{'en-US'}->sys->id){
-                    $data->ogimageid = $resObj->items[0]->fields->ogimage->{'en-US'}->sys->id;
-                    $data->ogimage = 'https:'.$ref->fields->file->{'en-US'}->url;
-                    break;
-                }
-            }
+            $imgResult = getImageById($resObj->items[0]->fields->ogimage,$refsAsset);
+            $data->ogimageid = $imgResult->thumbnailid;
+            $data->ogimage = $imgResult->thumbnail;
         }
         $data->status = 'draft';
         if(isset($resObj->items[0]->sys->publishedAt)){
@@ -191,6 +190,132 @@ class ContentController extends Controller
             $data->status = 'archive';
         }
         return view('admins.content.form',['data'=>$data,'tags'=>$tags,'categories'=>$categories,'components'=>$resObj->items[0]->fields->content->{'en-US'},'publiccredits'=>$allpseudonyms,'pseudonyms'=>$pseudonyms,'reference'=>isset($resObj->items[0]->fields->reference->{'en-US'})?$resObj->items[0]->fields->reference->{'en-US'}:[]]);
+    }
+
+    public function preview($id)
+    {
+        $response = Http::withToken(config('app.cmaaccesstoken'))
+        ->get(getCtUrl().'/entries/'.$id.'/references?include=10');
+        $resObj = $response->object();
+        if(authuser()->role == 'author'){
+            if($resObj->items[0]->fields->owner->{'en-US'} != authuser()->username){
+                return redirect()->route('contentindex');
+            }
+        }
+        $tags = getTags();
+        $categories = getCategory();
+        // $categories = authuser()->permission;
+        $data = new \stdClass;
+        $refsAsset = $resObj->includes->Asset;
+        $refsEntry = $resObj->includes->Entry;
+        $data->id = $resObj->items[0]->sys->id;
+        $data->version = $resObj->items[0]->sys->version;
+        $data->title = $resObj->items[0]->fields->title->{'en-US'};
+        $data->slug = isset($resObj->items[0]->fields->slug->{'en-US'})?$resObj->items[0]->fields->slug->{'en-US'}:'';
+        $data->excerpt = $resObj->items[0]->fields->excerpt->{'en-US'};
+        $data->owner = $resObj->items[0]->fields->owner->{'en-US'};
+        $data->categories = [];
+        //category
+        if(isset($resObj->items[0]->fields->category->{'en-US'})){
+            foreach($resObj->items[0]->fields->category->{'en-US'} as $catecontent){
+                foreach($categories as $ref){
+                    if($ref->id == $catecontent->sys->id){
+                        $cateObj = new \stdClass;
+                        $cateObj->id = $ref->id;
+                        $cateObj->name = $ref->name;
+                        array_push($data->categories,$cateObj);
+                        break;
+                    }
+                }
+            }
+        }
+        $data->tags = [];
+        //category
+        if(isset($resObj->items[0]->metadata->tags)){
+            foreach($resObj->items[0]->metadata->tags as $tagcontent){
+                foreach($tags as $tag){
+                    if($tag->id == $tagcontent->sys->id){
+                        $tagObj = new \stdClass;
+                        $tagObj->id = $tag->id;
+                        $tagObj->name = $tag->name;
+                        array_push($data->tags,$tagObj);
+                        break;
+                    }
+                }
+            }
+        }
+        $data->pseudonyms = [];
+        //pseudonyms
+        $pseudonyms = authuser()->pseudonyms;
+        $allpseudonyms = getPseudonym('',false,true);
+        if(isset($resObj->items[0]->fields->pseudonym->{'en-US'})){
+            foreach($resObj->items[0]->fields->pseudonym->{'en-US'} as $pseudonymcontent){
+                foreach($allpseudonyms as $item){
+                    if($item->id == $pseudonymcontent->sys->id)
+                    {
+                        $pseudonymObj = new \stdClass;
+                        $pseudonymObj->id = $item->id;
+                        $pseudonymObj->name = $item->name;
+                        array_push($data->pseudonyms,$pseudonymObj);
+                        break;
+                    }
+                }
+                foreach($pseudonyms as $item){
+                    if($item->id == $pseudonymcontent->sys->id)
+                    {
+                        $pseudonymObj = new \stdClass;
+                        $pseudonymObj->id = $item->id;
+                        $pseudonymObj->name = $item->name;
+                        array_push($data->pseudonyms,$pseudonymObj);
+                        break;
+                    }
+                }
+            }
+        }
+        //thumbnail
+        $data->thumbnailid = '';
+        $data->thumbnail = '';
+        if(isset($resObj->items[0]->fields->thumbnail))
+        {
+            $imgResult = getImageById($resObj->items[0]->fields->thumbnail,$refsAsset);
+            $data->thumbnailid = $imgResult->thumbnailid;
+            $data->thumbnail = $imgResult->thumbnail;
+        }
+        // mobileimage
+        $data->mobileimageid = '';
+        $data->mobileimage = '';
+        if(isset($resObj->items[0]->fields->mobileimage))
+        {
+            $imgResult = getImageById($resObj->items[0]->fields->mobileimage,$refsAsset);
+            $data->mobileimageid = $imgResult->thumbnailid;
+            $data->mobileimage = $imgResult->thumbnail;
+        }
+        //hero
+        $data->heroimage = '';
+        $data->heroimageid = '';
+        $imgResult = getImageById($resObj->items[0]->fields->heroimage,$refsAsset);
+        $data->heroimageid = $imgResult->thumbnailid;
+        $data->heroimage = $imgResult->thumbnail;
+        //social
+        $data->ogtitle = isset($resObj->items[0]->fields->ogtitle->{'en-US'})?$resObj->items[0]->fields->ogtitle->{'en-US'}:'';
+        $data->ogdescription = $resObj->items[0]->fields->ogdescription->{'en-US'};
+        $data->keyword = isset($resObj->items[0]->fields->keyword->{'en-US'})?$resObj->items[0]->fields->keyword->{'en-US'}:'';
+        $data->ogimageid = '';
+        $data->ogimage = '';
+        if(isset($resObj->items[0]->fields->ogimage->{'en-US'}->sys))
+        {
+            $imgResult = getImageById($resObj->items[0]->fields->ogimage,$refsAsset);
+            $data->ogimageid = $imgResult->thumbnailid;
+            $data->ogimage = $imgResult->thumbnail;
+        }
+        $data->status = 'draft';
+        if(isset($resObj->items[0]->sys->publishedAt)){
+            $data->status = 'publish';
+        }
+        if(isset($resObj->items[0]->sys->archivedAt)){
+            $data->status = 'archive';
+        }
+        return view('admins.content.preview',['data'=>$data,'tags'=>$tags,'categories'=>$categories,'components'=>$resObj->items[0]->fields->content->{'en-US'},'publiccredits'=>$allpseudonyms,'pseudonyms'=>$pseudonyms,'reference'=>isset($resObj->items[0]->fields->reference->{'en-US'})?$resObj->items[0]->fields->reference->{'en-US'}:[]]);
     }
 
     public function checkslug(Request $request){
@@ -259,11 +384,17 @@ class ContentController extends Controller
         }
         //thumbnail
         $json->fields->thumbnail = new \stdClass;
-        $json->fields->thumbnail->{'en-US'} = new \stdClass;
-        $json->fields->thumbnail->{'en-US'}->sys = new \stdClass;
-        $json->fields->thumbnail->{'en-US'}->sys->type = "Link";
-        $json->fields->thumbnail->{'en-US'}->sys->linkType = "Asset";
-        $json->fields->thumbnail->{'en-US'}->sys->id = $data->thumbnail;
+        $json->fields->thumbnail = createAssetLink($data->thumbnail);
+        // $json->fields->thumbnail->{'en-US'} = new \stdClass;
+        // $json->fields->thumbnail->{'en-US'}->sys = new \stdClass;
+        // $json->fields->thumbnail->{'en-US'}->sys->type = "Link";
+        // $json->fields->thumbnail->{'en-US'}->sys->linkType = "Asset";
+        // $json->fields->thumbnail->{'en-US'}->sys->id = $data->thumbnail;
+
+        //mobile image
+        $json->fields->mobileimage = new \stdClass;
+        $json->fields->mobileimage = createLink($data->mobileimage);
+
         $json->fields->title = new \stdClass;
         $json->fields->title->{'en-US'} = $data->title;
         $json->fields->slug = new \stdClass;
@@ -272,17 +403,19 @@ class ContentController extends Controller
         $json->fields->excerpt->{'en-US'} = $data->excerpt;
         $json->fields->heroimage = new \stdClass;
         $json->fields->heroimage->{'en-US'} = new \stdClass;
-        $json->fields->heroimage->{'en-US'}->sys = new \stdClass;
-        $json->fields->heroimage->{'en-US'}->sys->type = "Link";
-        $json->fields->heroimage->{'en-US'}->sys->linkType = "Asset";
-        $json->fields->heroimage->{'en-US'}->sys->id = $data->heroimage;
+        $json->fields->heroimage = createLink($data->heroimage);
+        // $json->fields->heroimage->{'en-US'}->sys = new \stdClass;
+        // $json->fields->heroimage->{'en-US'}->sys->type = "Link";
+        // $json->fields->heroimage->{'en-US'}->sys->linkType = "Asset";
+        // $json->fields->heroimage->{'en-US'}->sys->id = $data->heroimage;
         //og image
         $json->fields->ogimage = new \stdClass;
-        $json->fields->ogimage->{'en-US'} = new \stdClass;
-        $json->fields->ogimage->{'en-US'}->sys = new \stdClass;
-        $json->fields->ogimage->{'en-US'}->sys->type = "Link";
-        $json->fields->ogimage->{'en-US'}->sys->linkType = "Asset";
-        $json->fields->ogimage->{'en-US'}->sys->id = $data->ogimage;
+        $json->fields->ogimage = createLink($data->ogimage);
+        // $json->fields->ogimage->{'en-US'} = new \stdClass;
+        // $json->fields->ogimage->{'en-US'}->sys = new \stdClass;
+        // $json->fields->ogimage->{'en-US'}->sys->type = "Link";
+        // $json->fields->ogimage->{'en-US'}->sys->linkType = "Asset";
+        // $json->fields->ogimage->{'en-US'}->sys->id = $data->ogimage;
         //og title
         $json->fields->ogtitle = new \stdClass;
         $json->fields->ogtitle->{'en-US'} = $data->ogtitle;

@@ -16,7 +16,7 @@
         <img id="displaythumbnail" class="img-thumbnail @if($data->thumbnailid == '') d-none @endif" src="@if($data->thumbnailid != '') {{$data->thumbnail}} @endif"/>
     </div>
 </div>
-<div class="row">
+<div class="row mb-3">
     <label for="heroimage" class="col-2 form-label">Hero Image</label>
     <div class="col-2">
         <button type="button" class="btn btn-sm btn-outline-primary" id="heroimage-btn">
@@ -32,5 +32,20 @@
     </div>
     <div class="col-5">
         <img id="displayheroimage" class="img-thumbnail @if($data->heroimageid == '') d-none @endif" src="@if($data->heroimageid != '') {{$data->heroimage}} @endif"/>
+    </div>
+</div>
+<div class="row mb-3">
+    <label for="mobileimage" class="col-2 form-label">Mobile Image</label>
+    <div class="col-2">
+        <button type="button" class="btn btn-sm btn-outline-primary" id="mobileimage-btn">
+            Browse
+        </button>
+        <div id="mobileimageHelp" class="form-text text-hint">
+            Image Size 950 x 640 pixels
+        </div>
+        <input type="hidden" id="mobileimage" name="mobileimage" class="form-control" value="{{$data->mobileimageid}}">
+    </div>
+    <div class="col-5">
+        <img id="displaymobileimage" class="img-mobileimage @if($data->mobileimageid == '') d-none @endif" src="@if($data->mobileimageid != '') {{$data->mobileimage}} @endif"/>
     </div>
 </div>
