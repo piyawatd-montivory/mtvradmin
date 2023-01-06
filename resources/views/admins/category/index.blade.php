@@ -102,7 +102,7 @@ table.dataTable.table-striped > tbody > tr.even.selected > * {
                     orderable: false,
                     targets:   2,
                     render: function(data){
-                        let toolsstr = `<a href="/categories/edit/${data.id}" class="btn btn-outline-primary btn-sm">Edit</a> `;
+                        let toolsstr = `<a href="/admins/categories/edit/${data.id}" class="btn btn-outline-primary btn-sm">Edit</a> `;
                         if(data.archivetool){
                             toolsstr = toolsstr+`<a href="javascript:archivedata('${data.id}',${data.version},'${data.title}');" class="btn btn-sm btn-outline-warning">Archive</a> `;
                         }
@@ -145,7 +145,7 @@ table.dataTable.table-striped > tbody > tr.even.selected > * {
                     orderable: false,
                     targets:   2,
                     render: function(data){
-                        let toolsstr = `<a href="/categories/edit/${data.id}" class="btn btn-outline-primary btn-sm">Edit</a> `;
+                        let toolsstr = `<a href="/admins/categories/edit/${data.id}" class="btn btn-outline-primary btn-sm">Edit</a> `;
                         if(data.archivetool){
                             toolsstr = toolsstr+`<a href="javascript:archivedata('${data.id}',${data.version},'${data.title}');" class="btn btn-sm btn-outline-warning">Archive</a> `;
                         }

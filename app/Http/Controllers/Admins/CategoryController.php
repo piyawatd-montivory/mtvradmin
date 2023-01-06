@@ -32,6 +32,8 @@ class CategoryController extends Controller
         $data->version = 0;
         $data->title = '';
         $data->slug = '';
+        $data->banner = '';
+        $data->bannerid = '';
         $data->parent = 'main';
         $data->categoryorder = 1;
         //social
@@ -59,21 +61,21 @@ class CategoryController extends Controller
             $json->fields->parent = new \stdClass;
             $json->fields->parent->{'en-US'} = $categoryRef;
         }
-
         $json->fields->title = new \stdClass;
         $json->fields->title->{'en-US'} = $data->title;
         $json->fields->slug = new \stdClass;
         $json->fields->slug->{'en-US'} = $data->slug;
         $json->fields->categoryorder = new \stdClass;
         $json->fields->categoryorder->{'en-US'} = intval($data->categoryorder);
+        //banner
+        if(isset($data->banner)){
+            $json->fields->banner = new \stdClass;
+            $json->fields->banner = createAssetLink($data->banner);
+        }
+        //og image
         if(isset($data->ogimage)){
-            //og image
             $json->fields->ogimage = new \stdClass;
-            $json->fields->ogimage->{'en-US'} = new \stdClass;
-            $json->fields->ogimage->{'en-US'}->sys = new \stdClass;
-            $json->fields->ogimage->{'en-US'}->sys->type = "Link";
-            $json->fields->ogimage->{'en-US'}->sys->linkType = "Asset";
-            $json->fields->ogimage->{'en-US'}->sys->id = $data->ogimage;
+            $json->fields->ogimage = createAssetLink($data->ogimage);
         }
         //og description
         $json->fields->ogdescription = new \stdClass;
@@ -125,6 +127,15 @@ class CategoryController extends Controller
         $data->version = $resObj->items[0]->sys->version;
         $data->title = $resObj->items[0]->fields->title->{'en-US'};
         $data->slug = isset($resObj->items[0]->fields->slug->{'en-US'})?$resObj->items[0]->fields->slug->{'en-US'}:'';
+        //banner
+        $data->bannerid = '';
+        $data->banner = '';
+        if(isset($resObj->items[0]->fields->banner))
+        {
+            $imgResult = getImageById($resObj->items[0]->fields->banner,$refsAsset);
+            $data->bannerid = $imgResult->thumbnailid;
+            $data->banner = $imgResult->thumbnail;
+        }
         $data->parent = 'main';
         if(isset($resObj->items[0]->fields->parent->{'en-US'}))
         {
@@ -134,18 +145,25 @@ class CategoryController extends Controller
         //social
         $data->ogdescription = isset($resObj->items[0]->fields->ogdescription->{'en-US'})?$resObj->items[0]->fields->ogdescription->{'en-US'}:'';
         $data->keyword = isset($resObj->items[0]->fields->keyword->{'en-US'})?$resObj->items[0]->fields->keyword->{'en-US'}:'';
+        //og image
         $data->ogimageid = '';
         $data->ogimage = '';
-        if(isset($resObj->items[0]->fields->ogimage->{'en-US'}->sys))
+        if(isset($resObj->items[0]->fields->ogimage))
         {
-            foreach($refsAsset as $ref){
-                if($ref->sys->id == $resObj->items[0]->fields->ogimage->{'en-US'}->sys->id){
-                    $data->ogimageid = $resObj->items[0]->fields->ogimage->{'en-US'}->sys->id;
-                    $data->ogimage = 'https:'.$ref->fields->file->{'en-US'}->url;
-                    break;
-                }
-            }
+            $imgResult = getImageById($resObj->items[0]->fields->ogimage,$refsAsset);
+            $data->ogimageid = $imgResult->thumbnailid;
+            $data->ogimage = $imgResult->thumbnail;
         }
+        // if(isset($resObj->items[0]->fields->ogimage->{'en-US'}->sys))
+        // {
+        //     foreach($refsAsset as $ref){
+        //         if($ref->sys->id == $resObj->items[0]->fields->ogimage->{'en-US'}->sys->id){
+        //             $data->ogimageid = $resObj->items[0]->fields->ogimage->{'en-US'}->sys->id;
+        //             $data->ogimage = 'https:'.$ref->fields->file->{'en-US'}->url;
+        //             break;
+        //         }
+        //     }
+        // }
         $data->status = 'draft';
         if(isset($resObj->items[0]->sys->publishedAt)){
             $data->status = 'publish';

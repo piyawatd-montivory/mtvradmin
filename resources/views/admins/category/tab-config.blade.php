@@ -34,3 +34,21 @@
         </select>
     </div>
 </div>
+<div class="mb-3 row">
+    <label for="banner" class="col-2 form-label">Banner</label>
+    <div class="col-2">
+        <button type="button" class="btn btn-sm btn-outline-primary" id="banner-btn">
+            Browse
+        </button>
+        <div id="bannerHelp" class="form-text text-hint">
+            Image Size 950 x 640 pixels
+        </div>
+        <input type="hidden" id="banner" name="banner" class="form-control validate" value="{{$data->bannerid}}">
+        <div class="invalid-feedback">
+            Please provide a valid Banner.
+        </div>
+    </div>
+    <div class="col-5">
+        <img id="displaybanner" class="img-banner @if($data->bannerid == '') d-none @endif" src="@if($data->bannerid != '') {{$data->banner}} @endif"/>
+    </div>
+</div>
