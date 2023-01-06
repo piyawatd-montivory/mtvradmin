@@ -389,4 +389,83 @@ if (! function_exists('getRole')) {
         return $result;
     }
 }
+
+function getImageById($id,$refsAsset) {
+    $data = new \stdClass;
+    $data->thumbnailid = '';
+    $data->thumbnail = '';
+    foreach($refsAsset as $ref){
+        if($ref->sys->id == $id->{'en-US'}->sys->id){
+            $data->thumbnailid = $id->{'en-US'}->sys->id;
+            $data->thumbnail = 'https:'.$ref->fields->file->{'en-US'}->url;
+            break;
+        }
+    }
+    return $data;
+}
+
+function createAssetLink($id) {
+    $result = new \stdClass;
+    $result->{'en-US'} = new \stdClass;
+    $result->{'en-US'}->sys = new \stdClass;
+    $result->{'en-US'}->sys->type = "Link";
+    $result->{'en-US'}->sys->linkType = "Asset";
+    $result->{'en-US'}->sys->id = $id;
+    return $result;
+}
+
+function renderContent($components) {
+    foreach ($components as $component) {
+        if($component->display){
+            $data = '';
+            switch($component->component){
+                case 'content':
+                    $data = $component->content;
+                    break;
+                case 'blockquote':
+                    $data = "<blockquote class='blockquote'>".$component->title."<br>".$component->content."<br>".$component->credit."</blockquote>";
+                    break;
+                case 'image-left':
+                    $data = "<div class='row image-block'>
+                        <div class='col-12 col-md-6'>
+                            <img src='".$component->image."' class='img-fluid'>
+                            <span class='caption-image'>".$component->imagetitle."</span>
+                        </div>
+                        <div class='col-12 col-md-6'>".$component->content."</div>
+                    </div>";
+                    break;
+                case 'image-right':
+                    $data = "<div class='row image-block'>
+                        <div class='col-12 col-md-6'>".$component->content."</div>
+                        <div class='col-12 col-md-6'>
+                            <img src='".$component->image."' class='img-fluid'>
+                            <span class='caption-image'>".$component->imagetitle."</span>
+                        </div>
+                    </div>";
+                    break;
+                case 'double-image':
+                    $data = "<div class='row image-block'>
+                        <div class='col-12 col-md-6'>
+                            <img src='".$component->imageleft."' class='img-fluid'>
+                            <span class='caption-image'>".$component->imagelefttitle."</span>
+                        </div>
+                        <div class='col-12 col-md-6'>
+                            <img src='".$component->imageright."' class='img-fluid'>
+                            <span class='caption-image'>".$component->imagerighttitle."</span>
+                        </div>
+                    </div>";
+                    break;
+                case 'single-image':
+                    $data = "<div class='row image-block'>
+                        <div class='col-12'>
+                            <img src='".$component->image."' class='img-fluid w-100'>
+                            <span class='caption-image'>".$component->imagetitle."</span>
+                        </div>
+                    </div>";
+                    break;
+            }
+            echo $data;
+        }
+    }
+}
 ?>
