@@ -17,6 +17,7 @@ use App\Http\Controllers\Admins\PagecontentController;
 use App\Http\Controllers\Admins\ImageController;
 use App\Http\Controllers\Admins\CategoryController;
 use App\Http\Controllers\Admins\ConfigController;
+use App\Http\Controllers\Admins\TagsController;
 use App\Http\Middleware\EnsureSignin;
 
 /*
@@ -37,6 +38,7 @@ Route::get('/tags/{slug}', [BlogController::class, 'tags'])->name('tags');
 Route::get('/search/{search}', [BlogController::class, 'search'])->name('search');
 Route::get('/blog/{slug}', [BlogController::class, 'detail'])->name('blogpost');
 Route::get('/noresult', [BlogController::class, 'noresult'])->name('noresult');
+Route::get('/importblog', [BlogController::class, 'importblog'])->name('importblog');
 Route::get('/career', [WebController::class, 'career'])->name('career');
 Route::get('/career/{alias}', [WebController::class, 'careerdetail'])->name('careerdetail');
 Route::get('/careerfinish', [WebController::class, 'careerfinish'])->name('careerfinish');
@@ -55,11 +57,22 @@ Route::prefix('admins')->group(function () {
         Route::post('/archived', [CategoryController::class, 'archived'])->name('categoryarchived');
         Route::get('/list', [CategoryController::class, 'list'])->name('categorylist');
     });
+    Route::prefix('tags')->middleware([EnsureSignin::class])->group(function () {
+        Route::get('/', [TagsController::class, 'index'])->name('tagsindex');
+        Route::get('/new', [TagsController::class, 'new'])->name('tagsnew');
+        Route::get('/edit/{id}', [TagsController::class, 'edit'])->name('tagsedit');
+        Route::post('/create', [TagsController::class, 'create'])->name('tagscreate');
+        Route::post('/checktag', [TagsController::class, 'checkid'])->name('checktag');
+        Route::post('/checktagname', [TagsController::class, 'checkname'])->name('checktagname');
+        Route::get('/list', [TagsController::class, 'list'])->name('tagslist');
+        Route::delete('/delete/{id}', [TagsController::class, 'delete'])->name('tagsdelete');
+    });
     Route::prefix('contents')->middleware([EnsureSignin::class])->group(function () {
         Route::get('/', [ContentController::class, 'index'])->name('contentindex');
         Route::get('/new', [ContentController::class, 'new'])->name('contentnew');
         Route::post('/checkslug', [ContentController::class, 'checkslug'])->name('contentcheckslug');
         Route::get('/edit/{id}', [ContentController::class, 'edit'])->name('contentedit');
+        Route::get('/preview/{id}', [ContentController::class, 'preview'])->name('contentpreview');
         Route::get('/gallery/{id}', [ContentController::class, 'gallery'])->name('contentgallery');
         Route::post('/gallery/{id}', [ContentController::class, 'updategallery'])->name('contentgalleryupdate');
         Route::post('/create', [ContentController::class, 'create'])->name('contentcreate');
