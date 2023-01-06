@@ -56,7 +56,7 @@ Montivory Category
                 </div>
                 <div class="row">
                     <div class="col-12 pb-5">
-                        <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="img-fluid">
+                        <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="img-fluid w-100">
                     </div>
                     <div class="col-12 content-detail-block">
                         <h3>H3</h3>
@@ -101,6 +101,30 @@ Montivory Category
                             <div class="col-12 col-md-6">
                                 <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="img-fluid">
                                 <span class="caption-image">Caption Image</span>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="img-fluid">
+                                <span class="caption-image">Caption Image</span>
+                            </div>
+                        </div>
+                        <div class="row image-block">
+                            <h6>Image Left & Conent</h6>
+                            <div class="col-12 col-md-6">
+                                <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="img-fluid">
+                                <span class="caption-image">Caption Image</span>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <p>
+                                    This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row image-block">
+                            <h6>Image Right & Conent</h6>
+                            <div class="col-12 col-md-6">
+                                <p>
+                                    This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component.
+                                </p>
                             </div>
                             <div class="col-12 col-md-6">
                                 <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="img-fluid">
