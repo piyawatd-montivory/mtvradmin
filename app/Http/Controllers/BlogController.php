@@ -13,14 +13,112 @@ use Response;
 
 class BlogController extends Controller
 {
+    function getCdaDataList($categoryId,$limit,$skip){
+        $result = new \stdClass;
+        $result->total = 0;
+        $result->data = [];
+        if(config('app.mockupdata')){
+            $result->total = 50;
+            for($x = 1;$x <= $limit;$x++){
+                $itemObj = new \stdClass;
+                $itemObj->title = "Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article";
+                $itemObj->slug = "article-sample";
+                $itemObj->thumbnail = asset('images/default/ArticleTeaser.jpg');
+                $itemObj->createAt = "01 Jan 2023";
+                array_push($result->data,$itemObj);
+            }
+        }else{
+            $contentarrayquery = array("content_type"=>"content");
+            $contentarrayquery['select'] = "sys.id,sys.createdAt,fields.title,fields.slug,fields.thumbnail";
+            $contentarrayquery['fields.category.sys.id'] = $categoryId;
+            $contentarrayquery['limit'] = $limit;
+            $contentarrayquery['skip'] = $skip;
+            $contentresponse = Http::withToken(config('app.cdaaccesstoken'))
+            ->get(getCtCdaUrl().'/entries',$contentarrayquery);
+            $contentresult = $contentresponse->object();
+            $contentAsset = $contentresult->includes->Asset;
+            $result->total = $contentresult->total;
+            foreach($contentresult->items as $item){
+                $itemObj = new \stdClass;
+                $itemObj->title = $item->fields->title;
+                $itemObj->slug = $item->fields->slug;
+                $imgResult = getImageByIdCda($item->fields->thumbnail->sys->id,$contentAsset);
+                $itemObj->thumbnail = $imgResult->thumbnail;
+                $createAt = explode(".",$item->sys->createdAt);
+                $dt = date_create_from_format('Y-m-d\TH:i:s', $createAt[0]);
+                date_add($dt,date_interval_create_from_date_string("7 hours"));
+                $itemObj->createAt = date_format($dt,"d M Y");
+                array_push($result->data,$itemObj);
+            }
+        }
+        return $result;
+    }
+
     function index()
     {
-        return view('blog');
+        $data = new \stdClass;
+        $data->binarycrafts = $this->getCdaDataList("7dHUF3e7w2hlepZrYFqElu",2,0)->data;
+        $data->business = $this->getCdaDataList("3MM9Y8CV9dlTmCEfxvjYKt",3,0)->data;
+        $data->dataandtech = $this->getCdaDataList("20cSGbk3xUXJAeL924bhE3",3,0)->data;
+        $data->creative = $this->getCdaDataList("wU47nGJOS11QOsx34Ec8M",3,0)->data;
+        $data->privacy = $this->getCdaDataList("6x6Hu9HD10xS1RVgRr1g93",3,0)->data;
+        $data->research = $this->getCdaDataList("3l6y4L0LBQ3WO0gDZbTcdN",3,0)->data;
+        $data->trending = $this->getCdaDataList("7dHUF3e7w2hlepZrYFqElu",6,0)->data;
+        return view('blog',['data'=>$data]);
     }
 
     function category($slug)
     {
-        return view('category',['slug'=>$slug]);
+        $query = 'query categoryCollectionQuery {
+            categoryCollection (
+                where:
+                    {
+                        slug:"'.$slug.'"},
+                limit:1
+            ) {
+                items {
+                    sys {
+                        id
+                    }
+                title,
+                slug,
+                banner {
+                  url
+                },
+                ogdescription,
+                ogimage {
+                  url
+                },
+                keyword
+              }
+            }
+        }';
+        if(config('app.mockupdata')){
+            $category = new \stdClass;
+            $category->sys = new \stdClass;
+            $category->sys->id = 'sample-id';
+            $category->title = 'Binary Craft';
+            $category->slug = 'binary-craft';
+            $category->ogdescription = '';
+            $category->keyword = '';
+            $category->banner = new \stdClass;
+            $category->banner->url = asset('images/default/cover-image.jpg');
+            $category->ogimage = new \stdClass;
+            $category->ogimage->url = asset('images/default/cover-image.jpg');
+            $category->description = 'Description';
+        }else{
+            $response = Http::withBody(json_encode([
+                'query' => $query
+            ]),'')
+                ->withToken(config('app.cdaaccesstoken'))
+                ->post(getCtGraphqlUrl());
+            $resObj = $response->object();
+            $category = $resObj->data->categoryCollection->items[0];
+            if(!isset($category->description)){
+                $category->description = '';
+            }
+        }
+        return view('category',['category'=>$category,'data'=>$this->getCdaDataList($category->sys->id,12,0)]);
     }
 
     function detail($slug)

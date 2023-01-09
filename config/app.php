@@ -31,6 +31,7 @@ return [
     'pseudonymtitle' => env('PSEUDONYM_TITLE','กองบรรณาธิการ Montivory'),
     'mockauth' => env('DEV_MOCKAUTH', false),
     'mockauthrole' => env('DEV_MOCKAUTH', 'admin'),
+    'mockupdata' => env('DEV_MOCKUPDATA', true),
     'defaultthumbnaildesktop' => env('DEFAULT_IMAGE','6ON2Fh4DxVmOh7VSkz3gYv'),
     'defaultthumbnaildesktopurl' => env('DEFAULT_IMAGE_URL','https://images.ctfassets.net/12hhoq6qt7p6/6ON2Fh4DxVmOh7VSkz3gYv/1534c1f364bc17873d0037f9f6fafa9d/ArticleTeaser.jpg'),
     'defaultthumbnailmobile' => env('DEFAULT_IMAGE','5hQ4G7bHGJk2jWnMseH95H'),

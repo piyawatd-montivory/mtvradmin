@@ -1,31 +1,40 @@
-@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai&family=Sarabun&display=swap');
 
 body {
-    font-family: 'Libre Franklin', sans-serif;
+    font-family: 'Sarabun', sans-serif;
     font-size: 16px;
     font-weight: 400!important;
 }
+a {
+    font-family: 'Sarabun', sans-serif!important;
+}
 h1 {
+    font-family: 'IBM Plex Sans Thai', sans-serif!important;
     font-size: 96px;
     font-weight: 700!important;
 }
 h2 {
+    font-family: 'IBM Plex Sans Thai', sans-serif!important;
     font-size: 55px;
     font-weight: 700!important;
 }
 h3 {
+    font-family: 'IBM Plex Sans Thai', sans-serif!important;
     font-size: 48px;
     font-weight: 700!important;
 }
 h4 {
+    font-family: 'IBM Plex Sans Thai', sans-serif!important;
     font-size: 34px;
     font-weight: 700!important;
 }
 h5 {
+    font-family: 'IBM Plex Sans Thai', sans-serif!important;
     font-size: 24px;
     font-weight: 700!important;
 }
 h6 {
+    font-family: 'IBM Plex Sans Thai', sans-serif!important;
     font-size: 20px;
     font-weight: 700!important;
 }
@@ -395,6 +404,12 @@ hr {
     padding-bottom: 32px;
     margin-bottom: 0;
 }
+#filterModalLabel {
+    font-size: 32px;
+}
+.btn {
+    font-family: 'IBM Plex Sans Thai', sans-serif!important;
+}
 @media only screen and (max-width: 576px) {
     .navbar-second-item ul {
         margin: 0;
@@ -423,6 +438,10 @@ hr {
         max-height: 136px;
         overflow: hidden;
     }
+    .binary-craft-header {
+        font-size: 32px;
+        font-weight: 700;
+    }
     .binary-craft-title {
         overflow: hidden;
         font-size: 20px;
@@ -441,5 +460,11 @@ hr {
     .content-detail-title {
         font-size: 32px;
         font-weight: 700;
+    }
+    .published-label {
+        font-size: 12px;
+    }
+    .share-label {
+        font-size: 12px;
     }
 }

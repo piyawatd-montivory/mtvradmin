@@ -76,3 +76,16 @@ hr {
     margin-top: 56px;
     margin-bottom: 25px;
 }
+.category-link {
+    font-size: 14px;
+    margin-top: 16px;
+    display: block;
+    text-decoration: none;
+    margin-bottom: 5px;
+}
+.card-img-top {
+    padding-bottom: 0;
+}
+.related-articles-section {
+    padding-bottom: 54px;
+}

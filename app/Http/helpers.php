@@ -404,6 +404,20 @@ function getImageById($id,$refsAsset) {
     return $data;
 }
 
+function getImageByIdCda($id,$refsAsset) {
+    $data = new \stdClass;
+    $data->thumbnailid = '';
+    $data->thumbnail = '';
+    foreach($refsAsset as $ref){
+        if($ref->sys->id == $id){
+            $data->thumbnailid = $id;
+            $data->thumbnail = 'https:'.$ref->fields->file->url;
+            break;
+        }
+    }
+    return $data;
+}
+
 function createAssetLink($id) {
     $result = new \stdClass;
     $result->{'en-US'} = new \stdClass;

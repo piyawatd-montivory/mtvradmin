@@ -25,7 +25,8 @@ Montivory Category
 <!-- Content -->
 <section class="content">
     <div class="container pt-5">
-        <h3 class="hero-title pb-4">Tag : Politic</h3>
+        <h3 class="hero-title pb-4 d-none d-md-block">Tag : Politic</h3>
+        <h4 class="hero-title pb-4 d-md-none">Tag : Politic</h4>
         <div class="row filter-block">
             <div class="col-12 d-none d-md-block">
                 <div class="row">
@@ -109,7 +110,7 @@ Montivory Category
             <div class="col-12 col-md-4 content-block">
                 <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
                 <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
-                    <h6>Category</h6>
+                    <h6 class="category-label">Category</h6>
                 </a>
                 <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
                     <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>

@@ -18,16 +18,20 @@ Montivory Category
 <link rel="stylesheet" href="{{asset('/css/blog-category.css')}}" type="text/css">
 <!-- Latest compiled and minified CSS -->
 <style>
-
+/* .hero-section {
+    background-image: url("{{$category->banner->url}}");
+    background-repeat: no-repeat;
+    background-position: center;
+} */
 </style>
 @endsection
 @section('content')
 <!-- Content -->
-<section class="hero-section {{$slug}}-header-line">
-    <img src="{{ asset('images/default/cover-image.jpg') }}" class="img-fluid hero-content-banner mx-auto d-block"/>
+<section class="hero-section {{ $category->slug}}-header-line">
+    <img src="{{ $category->banner->url }}" class="img-fluid hero-content-banner mx-auto d-block"/>
     <div class="container-fluid hero-content">
-        <h3 class="hero-title hero-title-mobile">Binary Craft</h3>
-        <h6 class="hero-sub-title">Description</h6>
+        <h3 class="hero-title hero-title-mobile">{{ $category->title}}</h3>
+        <h6 class="hero-sub-title">{{ $category->description}}</h6>
     </div>
 </section>
 <section class="content">
@@ -103,48 +107,15 @@ Montivory Category
             </div>
         </div>
         <div class="row">
-            <div class="col-12 col-md-4 content-block">
-                <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
-                <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                    <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
-                </a>
-                <p class="display-time">01 Dec 2022</p>
-            </div>
-            <div class="col-12 col-md-4 content-block">
-                <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
-                <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                    <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
-                </a>
-                <p class="display-time">01 Dec 2022</p>
-            </div>
-            <div class="col-12 col-md-4 content-block">
-                <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
-                <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                    <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
-                </a>
-                <p class="display-time">01 Dec 2022</p>
-            </div>
-            <div class="col-12 col-md-4 content-block">
-                <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
-                <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                    <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
-                </a>
-                <p class="display-time">01 Dec 2022</p>
-            </div>
-            <div class="col-12 col-md-4 content-block">
-                <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
-                <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                    <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
-                </a>
-                <p class="display-time">01 Dec 2022</p>
-            </div>
-            <div class="col-12 col-md-4 content-block">
-                <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
-                <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                    <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
-                </a>
-                <p class="display-time">01 Dec 2022</p>
-            </div>
+            @foreach ($data->data as $item)
+                <div class="col-12 col-md-4 content-block">
+                    <img src="{{ $item->thumbnail }}" class="card-img-top" alt="...">
+                    <a href="{{route('blogpost',['slug'=>$item->slug])}}" class="content-link">
+                        <h6 class="content-title content-title-three-row">{{ $item->title }}</h6>
+                    </a>
+                    <p class="display-time">{{ $item->createAt }}</p>
+                </div>
+            @endforeach
         </div>
         <div class="row page-row">
             <div class="col-12 text-center d-none d-md-block">
@@ -181,7 +152,7 @@ Montivory Category
     <div class="modal-dialog modal-fullscreen">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="filterModalLabel">Filter</h5>
+          <h4 class="modal-title" id="filterModalLabel">Filter</h4>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">

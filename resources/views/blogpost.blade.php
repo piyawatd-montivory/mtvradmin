@@ -43,10 +43,10 @@ Montivory Category
                 <h3 class="content-detail-title mt-3">Article Title Article Title Article Title Article Title Article Title Article Title</h3>
                 <div class="row pt-3">
                     <div class="col-12 col-md-6">
-                        <p>Published:01 Dec 2022</p>
+                        <p class="published-label">Published:01 Dec 2022</p>
                     </div>
                     <div class="col-12 col-md-6 text-md-end">
-                        <p>Share
+                        <p class="share-label">Share
                             <a href="#" class="social-link px-2"><img src="{{ asset('images/icon/facebook-b.png')}}"/></a>
                             <a href="#" class="social-link px-2"><img src="{{ asset('images/icon/twitter-b.png')}}"/></a>
                             <a href="#" class="social-link px-2"><img src="{{ asset('images/icon/instagram-b.png')}}"/></a>
@@ -161,9 +161,12 @@ Montivory Category
                 </div>
                 <hr>
                 <h6 class="related-articles-title">Related articles</h6>
-                <div class="row row-cols-md-3">
+                <div class="row row-cols-md-3 related-articles-section">
                     <div class="col col-12">
                         <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
+                        <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
+                            <h6>Category</h6>
+                        </a>
                         <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
                             <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                         </a>
@@ -171,6 +174,9 @@ Montivory Category
                     </div>
                     <div class="col col-12">
                         <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
+                        <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
+                            <h6>Category</h6>
+                        </a>
                         <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
                             <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                         </a>
@@ -178,6 +184,9 @@ Montivory Category
                     </div>
                     <div class="col col-12">
                         <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
+                        <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
+                            <h6>Category</h6>
+                        </a>
                         <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
                             <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                         </a>
