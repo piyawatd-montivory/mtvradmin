@@ -134,16 +134,16 @@ class ContentController extends Controller
                         break;
                     }
                 }
-                foreach($pseudonyms as $item){
-                    if($item->id == $pseudonymcontent->sys->id)
-                    {
-                        $pseudonymObj = new \stdClass;
-                        $pseudonymObj->id = $item->id;
-                        $pseudonymObj->name = $item->name;
-                        array_push($data->pseudonyms,$pseudonymObj);
-                        break;
-                    }
-                }
+                // foreach($pseudonyms as $item){
+                //     if($item->id == $pseudonymcontent->sys->id)
+                //     {
+                //         $pseudonymObj = new \stdClass;
+                //         $pseudonymObj->id = $item->id;
+                //         $pseudonymObj->name = $item->name;
+                //         array_push($data->pseudonyms,$pseudonymObj);
+                //         break;
+                //     }
+                // }
             }
         }
         //thumbnail
@@ -393,7 +393,7 @@ class ContentController extends Controller
 
         //mobile image
         $json->fields->mobileimage = new \stdClass;
-        $json->fields->mobileimage = createLink($data->mobileimage);
+        $json->fields->mobileimage = createAssetLink($data->mobileimage);
 
         $json->fields->title = new \stdClass;
         $json->fields->title->{'en-US'} = $data->title;
@@ -403,14 +403,14 @@ class ContentController extends Controller
         $json->fields->excerpt->{'en-US'} = $data->excerpt;
         $json->fields->heroimage = new \stdClass;
         $json->fields->heroimage->{'en-US'} = new \stdClass;
-        $json->fields->heroimage = createLink($data->heroimage);
+        $json->fields->heroimage = createAssetLink($data->heroimage);
         // $json->fields->heroimage->{'en-US'}->sys = new \stdClass;
         // $json->fields->heroimage->{'en-US'}->sys->type = "Link";
         // $json->fields->heroimage->{'en-US'}->sys->linkType = "Asset";
         // $json->fields->heroimage->{'en-US'}->sys->id = $data->heroimage;
         //og image
         $json->fields->ogimage = new \stdClass;
-        $json->fields->ogimage = createLink($data->ogimage);
+        $json->fields->ogimage = createAssetLink($data->ogimage);
         // $json->fields->ogimage->{'en-US'} = new \stdClass;
         // $json->fields->ogimage->{'en-US'}->sys = new \stdClass;
         // $json->fields->ogimage->{'en-US'}->sys->type = "Link";

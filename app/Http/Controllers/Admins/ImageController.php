@@ -41,7 +41,7 @@ class ImageController extends Controller
         $arrayquery['skip'] = $skip;
         $arrayquery['limit'] = $limit;
         $arrayquery['order'] = '-sys.createdAt';
-        $arrayquery['metadata.tags.sys.id[nin]'] = 'profileimage';
+        $arrayquery['metadata.tags.sys.id[nin]'] = 'profileimage,defaultimage';
         $response = Http::withToken(config('app.cmaaccesstoken'))
         ->get(getCtUrl().'/assets',$arrayquery);
         $resObj = $response->object();

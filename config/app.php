@@ -31,6 +31,14 @@ return [
     'pseudonymtitle' => env('PSEUDONYM_TITLE','กองบรรณาธิการ Montivory'),
     'mockauth' => env('DEV_MOCKAUTH', false),
     'mockauthrole' => env('DEV_MOCKAUTH', 'admin'),
+    'defaultthumbnaildesktop' => env('DEFAULT_IMAGE','6ON2Fh4DxVmOh7VSkz3gYv'),
+    'defaultthumbnaildesktopurl' => env('DEFAULT_IMAGE_URL','https://images.ctfassets.net/12hhoq6qt7p6/6ON2Fh4DxVmOh7VSkz3gYv/1534c1f364bc17873d0037f9f6fafa9d/ArticleTeaser.jpg'),
+    'defaultthumbnailmobile' => env('DEFAULT_IMAGE','5hQ4G7bHGJk2jWnMseH95H'),
+    'defaultthumbnailmobileurl' => env('DEFAULT_IMAGE_URL','https://images.ctfassets.net/12hhoq6qt7p6/5hQ4G7bHGJk2jWnMseH95H/6e122ebf8d615e6f6f766defeab797b2/ArticleTeaser.jpg'),
+    'defaultheroimage' => env('DEFAULT_IMAGE','3Xl0L4hqwT0GjBo815ouoQ'),
+    'defaultheroimageurl' => env('DEFAULT_IMAGE_URL','https://images.ctfassets.net/12hhoq6qt7p6/3Xl0L4hqwT0GjBo815ouoQ/a906273cf95aa2d9f4647224ab575dc6/Hero-Banner.jpg'),
+    'defaultcategorybanner' => env('DEFAULT_IMAGE','kjdh60orkOhqYJit7IyxA'),
+    'defaultcategorybannerurl' => env('DEFAULT_IMAGE_URL','https:/images.ctfassets.net/12hhoq6qt7p6/kjdh60orkOhqYJit7IyxA/6b37b133fd23889f54770b272ed6b9f9/cover-image.jpg'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment
