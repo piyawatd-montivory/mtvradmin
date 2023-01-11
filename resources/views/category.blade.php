@@ -1,13 +1,13 @@
 @extends('layouts.blog')
 @section('title')
-Montivory Category
+Montivory Category : {{ $category->title }}
 @endsection
 @section('meta')
-    <meta property="og:title" content="Montivory">
+    <meta property="og:title" content="Montivory Category : {{ $category->title }}">
     <meta property="og:description" content="">
     <meta property="og:image" content="{{ asset('/images/frontend/og.jpg')}}">
-    <meta property="og:url" content="">
-    <meta property="og:site_name" content="">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:site_name" content="Montivory">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="" />
     <meta property="fb:pages" content="">
@@ -18,17 +18,15 @@ Montivory Category
 <link rel="stylesheet" href="{{asset('/css/blog-category.css')}}" type="text/css">
 <!-- Latest compiled and minified CSS -->
 <style>
-/* .hero-section {
+.hero-section {
     background-image: url("{{$category->banner->url}}");
-    background-repeat: no-repeat;
-    background-position: center;
-} */
+}
 </style>
 @endsection
 @section('content')
 <!-- Content -->
 <section class="hero-section {{ $category->slug}}-header-line">
-    <img src="{{ $category->banner->url }}" class="img-fluid hero-content-banner mx-auto d-block"/>
+    {{-- <img src="{{ $category->banner->url }}" class="img-fluid hero-content-banner mx-auto d-block"/> --}}
     <div class="container-fluid hero-content">
         <h3 class="hero-title hero-title-mobile">{{ $category->title}}</h3>
         <h6 class="hero-sub-title">{{ $category->description}}</h6>
@@ -45,18 +43,19 @@ Montivory Category
                                 All months
                             </button>
                             <ul class="dropdown-menu w-100" id="dropdownMonthList" aria-labelledby="dropdownMonth">
-                            <li><a class="dropdown-item month-select month-select-desktop check-selected" href="javascript:void(0);" data="all">All months</a></li>
-                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="january">January</a></li>
-                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="february">February</a></li>
-                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="march">March</a></li>
-                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="april">April</a></li>
-                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="may">May</a></li>
-                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="june">June</a></li>
-                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="july">July</a></li>
-                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="august">August</a></li>
-                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="september">September</a></li>
-                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="november">November</a></li>
-                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="december">December</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop check-selected" href="javascript:void(0);" data="0">All months</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="1">January</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="2">February</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="3">March</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="4">April</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="5">May</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="6">June</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="7">July</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="8">August</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="9">September</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="10">October</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="11">November</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="12">December</a></li>
                             </ul>
                         </div>
                     </div>
@@ -66,7 +65,7 @@ Montivory Category
                                 All years
                             </button>
                             <ul class="dropdown-menu w-100" aria-labelledby="dropdownYear">
-                            <li><a class="dropdown-item year-select year-select-desktop check-selected" href="javascript:void(0);" data="all">All years</a></li>
+                            <li><a class="dropdown-item year-select year-select-desktop check-selected" href="javascript:void(0);" data="0">All years</a></li>
                             <li><a class="dropdown-item year-select year-select-desktop" href="javascript:void(0);" data="2022">2022</a></li>
                             <li><a class="dropdown-item year-select year-select-desktop" href="javascript:void(0);" data="2021">2021</a></li>
                             <li><a class="dropdown-item year-select year-select-desktop" href="javascript:void(0);" data="2020">2020</a></li>
@@ -110,7 +109,7 @@ Montivory Category
             @foreach ($data->data as $item)
                 <div class="col-12 col-md-4 content-block">
                     <img src="{{ $item->thumbnail }}" class="card-img-top" alt="...">
-                    <a href="{{route('blogpost',['slug'=>$item->slug])}}" class="content-link">
+                    <a href="{{$item->url}}" class="content-link">
                         <h6 class="content-title content-title-three-row">{{ $item->title }}</h6>
                     </a>
                     <p class="display-time">{{ $item->createAt }}</p>
@@ -119,28 +118,36 @@ Montivory Category
         </div>
         <div class="row page-row">
             <div class="col-12 text-center d-none d-md-block">
-                <a href="" class="btn btn-page btn-page-nav">FIRST</a>
-                <a href="" class="btn btn-page btn-page-nav">PREVIOUS</a>
-                <a href="" class="btn btn-page active">1</a>
-                <a href="" class="btn btn-page">2</a>
-                <a href="" class="btn btn-page">3</a>
-                <a href="" class="btn btn-page btn-page-nav">NEXT</a>
-                <a href="" class="btn btn-page btn-page-nav">LAST</a>
+                <a href="{{ route('category',['slug'=>$category->slug,'page'=>1]) }}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif first-btn">FIRST</a>
+                <a href="{{ route('category',['slug'=>$category->slug,'page'=>$currentPage-1]) }}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif previous-btn">PREVIOUS</a>
+                @for($i = $page->min;$i <= $page->max;$i++)
+                    @if($i == $currentPage)
+                        <a href="javascript:void(0);" class="btn btn-page active">{{ $i }}</a>
+                    @else
+                        <a href="{{ route('category',['slug'=>$category->slug,'page'=>$i]) }}" class="btn btn-page">{{ $i }}</a>
+                    @endif
+                @endfor
+                <a href="{{ route('category',['slug'=>$category->slug,'page'=>$currentPage+1]) }}" class="btn btn-page btn-page-nav @if(!$page->last) d-none @endif next-btn">NEXT</a>
+                <a href="{{ route('category',['slug'=>$category->slug,'page'=>$data->pages]) }}" class="btn btn-page btn-page-nav @if(!$page->last) d-none @endif last-btn">LAST</a>
             </div>
             <div class="col-12 text-center d-md-none">
-                <a href="" class="btn btn-page btn-page-nav">
+                <a href="{{ route('category',['slug'=>$category->slug,'page'=>1]) }}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif first-btn">
                     <img src="{{ asset('images/icon/btn-first-mb.png')}}"/>
                 </a>
-                <a href="" class="btn btn-page btn-page-nav">
+                <a href="{{ route('category',['slug'=>$category->slug,'page'=>$currentPage-1]) }}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif previous-btn">
                     <img src="{{ asset('images/icon/btn-previous-mb.png')}}"/>
                 </a>
-                <a href="" class="btn btn-page active">1</a>
-                <a href="" class="btn btn-page">2</a>
-                <a href="" class="btn btn-page">3</a>
-                <a href="" class="btn btn-page btn-page-nav">
+                @for($i = $page->min;$i <= $page->max;$i++)
+                    @if($i == $currentPage)
+                        <a href="javascript:void(0);" class="btn btn-page active">{{ $i }}</a>
+                    @else
+                        <a href="{{ route('category',['slug'=>$category->slug,'page'=>$i]) }}" class="btn btn-page">{{ $i }}</a>
+                    @endif
+                @endfor
+                <a href="{{ route('category',['slug'=>$category->slug,'page'=>$currentPage+1]) }}" class="btn btn-page btn-page-nav next-btn @if(!$page->last) d-none @endif ">
                     <img src="{{ asset('images/icon/btn-next-mb.png')}}"/>
                 </a>
-                <a href="" class="btn btn-page btn-page-nav">
+                <a href="{{ route('category',['slug'=>$category->slug,'page'=>$data->pages]) }}" class="btn btn-page btn-page-nav last-btn @if(!$page->last) d-none @endif ">
                     <img src="{{ asset('images/icon/btn-last-mb.png')}}"/>
                 </a>
             </div>
@@ -165,18 +172,19 @@ Montivory Category
                                     All months
                                 </button>
                                 <ul class="dropdown-menu w-100" aria-labelledby="dropdownMonth">
-                                <li><a class="dropdown-item month-select month-select-mobile check-selected" href="javascript:void(0);" data="all">All months</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="january">January</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="february">February</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="march">March</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="april">April</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="may">May</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="june">June</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="july">July</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="august">August</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="september">September</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="november">November</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="december">December</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile check-selected" href="javascript:void(0);" data="0">All months</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="1">January</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="2">February</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="3">March</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="4">April</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="5">May</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="6">June</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="7">July</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="8">August</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="9">September</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="10">October</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="11">November</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="12">December</a></li>
                                 </ul>
                             </div>
                         </div>

@@ -1,7 +1,7 @@
 <?php
     $catesel = '';
     if(isset($category)){
-        $catesel = $category;
+        $catesel = $category->slug;
     }else{
         $catesel = isset(app('request')->slug)?app('request')->slug:'';
     }

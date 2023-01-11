@@ -428,6 +428,345 @@ function createAssetLink($id) {
     return $result;
 }
 
+function getCdaDataList($categoryId,$limit,$page,$excludeid = '',$tag = '',$search = ''){
+    $page = ($page - 1) * $limit;
+    $result = new \stdClass;
+    $result->total = 0;
+    $result->data = [];
+    if(config('app.mockupdata')){
+        $result->total = 50;
+        for($x = 1;$x <= $limit;$x++){
+            $itemObj = new \stdClass;
+            $itemObj->id = 'sample-id';
+            $itemObj->title = "Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article";
+            $itemObj->slug = "article-sample";
+            $itemObj->url = route('blogpost',['slug'=>'article-sample']);
+            $itemObj->thumbnail = asset('images/default/Thumnail.png');
+            $itemObj->mobileimage = asset('images/default/Thumbnail-Mobile.png');
+            $itemObj->heroimage = asset('images/default/Hero-Banner.png');
+            $itemObj->category = 'Binary Craft';
+            $itemObj->categoryslug = 'binary-craft';
+            $itemObj->categoryurl = route('category',['slug'=>'binary-craft']);
+            $itemObj->createAt = "01 Jan 2023";
+            $itemObj->ogimage = asset('images/default/Hero-Banner.png');
+            $itemObj->ogtitle = 'ท่อนหนึ่งของ Lorem Ipsum ที่ใช้กันเป็นมาตรฐานมาตั้งแต่ศตวรรษที่ 16';
+            $itemObj->ogdescription = 'Lorem Ipsum คือ เนื้อหาจำลองแบบเรียบๆ ที่ใช้กันในธุรกิจงานพิมพ์หรืองานเรียงพิมพ์ มันได้กลายมาเป็นเนื้อหาจำลองมาตรฐานของธุรกิจดังกล่าวมาตั้งแต่ศตวรรษที่ 16';
+            array_push($result->data,$itemObj);
+        }
+    }else{
+        $contentarrayquery = array("content_type"=>"content");
+        $contentarrayquery['select'] = "sys.id,sys.createdAt,fields.title,fields.slug,fields.thumbnail,fields.heroimage,fields.mobileimage,fields.category";
+        if($categoryId <> ''){
+            $contentarrayquery['fields.category.sys.id'] = $categoryId;
+        }
+        if($excludeid <> ''){
+            $contentarrayquery['sys.id[nin]'] = $excludeid;
+        }
+        if($tag <> ''){
+            $contentarrayquery['metadata.tags.sys.id[all]'] = $tag;
+        }
+        if($search <> ''){
+            $contentarrayquery['fields.title[match]'] = $search;
+        }
+        $contentarrayquery['limit'] = $limit;
+        $contentarrayquery['skip'] = $page;
+        $contentresponse = Http::withToken(config('app.cdaaccesstoken'))
+        ->get(getCtCdaUrl().'/entries',$contentarrayquery);
+        $contentresult = $contentresponse->object();
+        // $contentAsset = $contentresult->includes->Asset;
+        $result->total = $contentresult->total;
+        foreach($contentresult->items as $item){
+            $itemObj = new \stdClass;
+            $itemObj->id = $item->sys->id;
+            $itemObj->title = $item->fields->title;
+            $itemObj->slug = $item->fields->slug;
+            $itemObj->url = route('blogpost',['slug'=>$item->fields->slug]);
+            //thumbnail
+            $imgResult = getImageByIdCda($item->fields->thumbnail->sys->id,$contentresult->includes->Asset);
+            $itemObj->thumbnail = $imgResult->thumbnail;
+            //hero
+            $imgResult = getImageByIdCda($item->fields->heroimage->sys->id,$contentresult->includes->Asset);
+            $itemObj->heroimage = $imgResult->thumbnail;
+            //mobile
+            if(isset($item->fields->mobileimage)){
+                $imgMobileResult = getImageByIdCda($item->fields->mobileimage->sys->id,$contentresult->includes->Asset);
+                $itemObj->mobileimage = $imgMobileResult->thumbnail;
+            }else{
+                $itemObj->mobileimage = $itemObj->thumbnail;
+            }
+            foreach($contentresult->includes->Entry as $entry) {
+                if($entry->sys->id == $item->fields->category[0]->sys->id){
+                    $itemObj->category = $entry->fields->title;
+                    $itemObj->categoryslug = $entry->fields->slug;
+                    $itemObj->categoryurl = route('category',['slug'=>$entry->fields->slug]);
+                    break;
+                }
+            }
+            $createAt = explode(".",$item->sys->createdAt);
+            $dt = date_create_from_format('Y-m-d\TH:i:s', $createAt[0]);
+            date_add($dt,date_interval_create_from_date_string("7 hours"));
+            $itemObj->createAt = date_format($dt,"d M Y");
+            array_push($result->data,$itemObj);
+        }
+    }
+    if($result->total < $limit) {
+        $result->pages = 1;
+    }else{
+        $result->pages = ceil($result->total/$limit);
+    }
+    return $result;
+}
+
+function getCdaData($slug){
+    $tags = getGenerateCustomFile('tag.json');
+    $result = new \stdClass;
+    $result->total = 0;
+    $result->data = [];
+    if(config('app.mockupdata')){
+        $result->total = 1;
+        for($x = 1;$x <= 1;$x++){
+            $itemObj = new \stdClass;
+            $itemObj->id = 'sample-id';
+            $itemObj->title = "Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article";
+            $itemObj->slug = "article-sample";
+            $itemObj->url = route('blogpost',['slug'=>'article-sample']);
+            $itemObj->thumbnail = asset('images/default/Thumnail.png');
+            $itemObj->mobileimage = asset('images/default/Thumbnail-Mobile.png');
+            $itemObj->heroimage = asset('images/default/Hero-Banner.png');
+            $itemObj->categoryid = 'sample-cate-id';
+            $itemObj->category = 'Binary Craft';
+            $itemObj->categoryslug = 'binary-craft';
+            $itemObj->categoryurl = route('category',['slug'=>'binary-craft']);
+            $itemObj->ogimage = asset('images/default/Hero-Banner.png');
+            $itemObj->ogtitle = 'ท่อนหนึ่งของ Lorem Ipsum ที่ใช้กันเป็นมาตรฐานมาตั้งแต่ศตวรรษที่ 16';
+            $itemObj->ogdescription = 'Lorem Ipsum คือ เนื้อหาจำลองแบบเรียบๆ ที่ใช้กันในธุรกิจงานพิมพ์หรืองานเรียงพิมพ์ มันได้กลายมาเป็นเนื้อหาจำลองมาตรฐานของธุรกิจดังกล่าวมาตั้งแต่ศตวรรษที่ 16';
+            $itemObj->createAt = "01 Jan 2023";
+            $contentArray = [];
+            $contentJson = new \stdClass;
+            $contentJson->display = true;
+            $contentJson->component = 'content';
+            $contentJson->content = '
+                <h3>H3</h3>
+                <h4>H4</h4>
+                <h5>H5</h5>
+                <h6>H6</h6>
+                <p>
+                    This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component.
+                </p>
+                <blockquote class="blockquote">
+                    <p>
+                        Quote text components
+                        Quote text components
+                        Quote text components
+                    </p>
+                </blockquote>
+                <ul>
+                    <li>Bullet</li>
+                    <li>Bullet</li>
+                    <li>Bullet</li>
+                    <li>Bullet</li>
+                    <li>Bullet</li>
+                    <li>Bullet</li>
+                </ul>
+                <ol>
+                    <li>Number</li>
+                    <li>Number</li>
+                    <li>Number</li>
+                    <li>Number</li>
+                    <li>Number</li>
+                    <li>Number</li>
+                </ol>
+            ';
+            array_push($contentArray,$contentJson);
+            $contentJson = new \stdClass;
+            $contentJson->display = true;
+            $contentJson->component = 'single-image';
+            $contentJson->image = asset('images/default/ArticleTeaser.jpg');
+            $contentJson->imagetitle = 'Caption Image';
+            array_push($contentArray,$contentJson);
+            $contentJson = new \stdClass;
+            $contentJson->display = true;
+            $contentJson->component = 'image-left';
+            $contentJson->image = asset('images/default/ArticleTeaser.jpg');
+            $contentJson->imagetitle = 'Caption Image';
+            $contentJson->content = 'This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component.';
+            array_push($contentArray,$contentJson);
+            $contentJson = new \stdClass;
+            $contentJson->display = true;
+            $contentJson->component = 'image-right';
+            $contentJson->image = asset('images/default/ArticleTeaser.jpg');
+            $contentJson->imagetitle = 'Caption Image';
+            $contentJson->content = 'This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component. This is bodytext component.';
+            array_push($contentArray,$contentJson);
+            $contentJson = new \stdClass;
+            $contentJson->display = true;
+            $contentJson->component = 'double-image';
+            $contentJson->imageleft = asset('images/default/ArticleTeaser.jpg');
+            $contentJson->imagelefttitle = 'Caption Image';
+            $contentJson->imageright = asset('images/default/ArticleTeaser.jpg');
+            $contentJson->imagerighttitle = 'Caption Image';
+            array_push($contentArray,$contentJson);
+            $itemObj->content = $contentArray;
+            //Reference
+            $itemObj->reference = [];
+            $refObj = new \stdClass;
+            $refObj->title = 'HYPERLINK';
+            $refObj->link = '#';
+            array_push($itemObj->reference,$refObj);
+            $refObj = new \stdClass;
+            $refObj->title = 'HYPERLINK';
+            $refObj->link = '#';
+            array_push($itemObj->reference,$refObj);
+            $refObj = new \stdClass;
+            $refObj->title = 'HYPERLINK';
+            $refObj->link = '#';
+            array_push($itemObj->reference,$refObj);
+            //Tag
+            $itemObj->tags = [];
+            for($i = 0;$i <= 2;$i++){
+                $tagItem = $tags->items[$i]->name;
+                $tagObj = new \stdClass;
+                $tagObj->name = $tags->items[$i]->name;
+                $tagObj->id = $tags->items[$i]->sys->id;
+                $tagObj->url = route('tags',['slug'=>$tags->items[$i]->sys->id]);
+                array_push($itemObj->tags,$tagObj);
+            }
+            //pseudonym
+            $itemObj->pseudonym = new \stdClass;
+            $itemObj->pseudonym->name = 'Kittichai Kaweekijmanee';
+            $itemObj->pseudonym->title = 'Writer';
+            $itemObj->pseudonym->description = '';
+            $itemObj->pseudonym->profileimage = asset('/images/default/Writer-default-image.png');
+            array_push($result->data,$itemObj);
+        }
+    }else{
+        $contentarrayquery = array("content_type"=>"content");
+        $contentarrayquery['limit'] = 1;
+        $contentarrayquery['fields.slug'] = $slug;
+        $contentresponse = Http::withToken(config('app.cdaaccesstoken'))
+        ->get(getCtCdaUrl().'/entries',$contentarrayquery);
+        $contentresult = $contentresponse->object();
+        $result->total = $contentresult->total;
+        foreach($contentresult->items as $item){
+            $itemObj = new \stdClass;
+            $itemObj->id = $item->sys->id;
+            $itemObj->title = $item->fields->title;
+            $itemObj->slug = $item->fields->slug;
+            $itemObj->content = $item->fields->content;
+            $itemObj->url = route('blogpost',['slug'=>$item->fields->slug]);
+            //thumbnail
+            $imgResult = getImageByIdCda($item->fields->thumbnail->sys->id,$contentresult->includes->Asset);
+            $itemObj->thumbnail = $imgResult->thumbnail;
+            //hero
+            $imgResult = getImageByIdCda($item->fields->heroimage->sys->id,$contentresult->includes->Asset);
+            $itemObj->heroimage = $imgResult->thumbnail;
+            //mobile
+            if(isset($item->fields->mobileimage)){
+                $imgMobileResult = getImageByIdCda($item->fields->mobileimage->sys->id,$contentresult->includes->Asset);
+                $itemObj->mobileimage = $imgMobileResult->thumbnail;
+            }else{
+                $itemObj->mobileimage = $itemObj->thumbnail;
+            }
+            foreach($contentresult->includes->Entry as $entry) {
+                if($entry->sys->id == $item->fields->category[0]->sys->id){
+                    $itemObj->categoryid = $entry->sys->id;
+                    $itemObj->category = $entry->fields->title;
+                    $itemObj->categoryslug = $entry->fields->slug;
+                    $itemObj->categoryurl = route('category',['slug'=>$entry->fields->slug]);
+                    break;
+                }
+            }
+            //pseudonym
+            $itemObj->pseudonym = new \stdClass;
+            foreach($contentresult->includes->Entry as $entry) {
+                if($entry->sys->id == $item->fields->pseudonym[0]->sys->id){
+                    $itemObj->pseudonym->name = $entry->fields->name;
+                    $itemObj->pseudonym->title = $entry->fields->title;
+                    $itemObj->pseudonym->description = $entry->fields->description;
+                    $imgResult = getImageByIdCda($entry->fields->profileimage->sys->id,$contentresult->includes->Asset);
+                    $itemObj->pseudonym->profileimage = $imgResult->thumbnail;
+                    break;
+                }
+            }
+            //reference
+            if(isset($item->reference)){
+                $itemObj->reference = $item->reference;
+            }else{
+                $itemObj->reference = [];
+            }
+            //Tag
+            $itemObj->tags = [];
+            foreach($item->metadata->tags as $systag){
+                foreach($tags->items as $ctag){
+                    if($ctag->sys->id == $systag->sys->id){
+                        $tagObj = new \stdClass;
+                        $tagObj->name = $ctag->name;
+                        $tagObj->id = $ctag->sys->id;
+                        array_push($itemObj->tags,$tagObj);
+                        break;
+                    }
+                }
+            }
+            //social
+            $itemObj->ogimage = $itemObj->heroimage;
+            if(isset($item->fields->ogimage)){
+                $imgOgResult = getImageByIdCda($item->fields->ogimage->sys->id,$contentresult->includes->Asset);
+                $itemObj->ogimage = $imgResult->thumbnail;
+            }
+            $itemObj->ogtitle = isset($item->ogtitle)?$item->ogtitle:'';
+            $itemObj->ogdescription = isset($item->ogdescription)?$item->ogdescription:'';
+            $createAt = explode(".",$item->sys->createdAt);
+            $dt = date_create_from_format('Y-m-d\TH:i:s', $createAt[0]);
+            date_add($dt,date_interval_create_from_date_string("7 hours"));
+            $itemObj->createAt = date_format($dt,"d M Y");
+            array_push($result->data,$itemObj);
+        }
+    }
+    return $result;
+}
+
+function buildPage($pages = 1,$currentPage = 1){
+    $page = new \stdClass;
+    $page->first = false;
+    $page->last = false;
+    $page->min = 0;
+    $page->max = 0;
+    if($pages <= 3){
+        $page->min = 1;
+        $page->max = $pages;
+    }else{
+        if($currentPage == 1){
+            $page->min = 1;
+            $page->max = 3;
+        }else{
+            if($currentPage <> $pages){
+                $page->min = $currentPage - 1;
+                $page->max = $currentPage + 1;
+            }else{
+                $page->min = $pages - 2;
+                $page->max = $pages;
+            }
+        }
+    }
+    if($pages == 1){
+        $page->first = false;
+        $page->last = false;
+    }else{
+        if($currentPage == 1){
+            $page->last = true;
+        }else{
+            if($currentPage == $pages){
+                $page->first = true;
+                $page->last = false;
+            }else{
+                $page->first = true;
+                $page->last = true;
+            }
+        }
+    }
+    return $page;
+}
+
 function renderContent($components) {
     foreach ($components as $component) {
         if($component->display){

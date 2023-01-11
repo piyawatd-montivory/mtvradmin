@@ -38,6 +38,9 @@ h6 {
     font-size: 20px;
     font-weight: 700!important;
 }
+.binary-craft-header {
+    font-family: 'IBM Plex Sans Thai', sans-serif!important;
+}
 .sub-title {
     font-weight: bold;
 }
@@ -69,7 +72,6 @@ h6 {
     height: 70px;
 }
 .navbar-second-item {
-    /* overflow-x: scroll; */
     height: 70px;
 }
 .navbar-second-item ul {
@@ -78,11 +80,10 @@ h6 {
 }
 .nav-item {
     float: left;
-    /* padding: 1.4rem 1rem 0 1rem; */
 }
 .nav-item > .nav-link {
     color: #FFF;
-    padding: 24px 1rem;
+    padding: 24px 1rem 5px;
 }
 .search-block {
     padding: 0.5rem 1rem;
@@ -113,7 +114,6 @@ hr {
 }
 .search-icon-mobile {
     width: 18px;
-    /* margin-left: 25px; */
 }
 .hero-section {
     height: 550px;
@@ -142,6 +142,7 @@ hr {
     line-height: 58px;
     max-height: 116px;
     overflow: hidden;
+    color: #fff;
 }
 .btn-readnow {
     background-color: #0D66D0;
@@ -152,8 +153,9 @@ hr {
     width: 139px;
 }
 .btn-readnow:hover {
-    opacity: .5!important;
+    /* opacity: .5!important; */
     color: #FFF!important;
+    background-color: #0850A6;
 
 }
 .btn-apply {
@@ -168,7 +170,7 @@ hr {
 .btn-apply:hover {
     opacity: .5!important;
     color: #FFF!important;
-
+    /* background-color: #0850A6; */
 }
 .btn-viewall {
     background-color: #0D66D0;
@@ -180,8 +182,9 @@ hr {
     line-height: 36px;
 }
 .btn-viewall:hover {
-    opacity: .5!important;
+    /* opacity: .5!important; */
     color: #FFF!important;
+    background-color: #0850A6;
     line-height: 36px;
 }
 .binary-craft {
@@ -196,10 +199,6 @@ hr {
     overflow: hidden;
     line-height: 34px;
     max-height: 68px;
-    /* display: -webkit-box;
-    -webkit-line-clamp: 2;
-            line-clamp: 2;
-    -webkit-box-orient: vertical; */
 }
 .binary-craft-link {
     text-decoration: none;
@@ -213,7 +212,7 @@ hr {
     color: #1E222A;
 }
 .content-link:hover {
-    color: #1E222A;
+    color: #0850A6;
 }
 .display-time-w {
     line-height: 16px;
@@ -250,12 +249,15 @@ hr {
     line-height: 44px;
 }
 .content-main-title a {
+    font-family: 'IBM Plex Sans Thai', sans-serif!important;
+}
+.content-main-title a {
     text-decoration: none;
     color:#212529;
 }
 .content-main-title a:hover {
     text-decoration: none;
-    color:#212529;
+    color:#0850A6;
 }
 .content-title {
     line-height: 25px;
@@ -304,7 +306,7 @@ hr {
     color: #fff;
 }
 .link-footer:hover {
-    color: #fff;
+    color: #0850A6;
 }
 .footer-menu {
     list-style: none;
@@ -370,7 +372,7 @@ hr {
 .btn-page.active {
     color: #fff!important;
     font-weight: 700!important;
-    padding: 4px 10px!important;
+    padding: 6px 9px!important;
     line-height: 16px!important;
     margin: 0 7px!important;
     background-color: #0D66D0;
@@ -409,6 +411,9 @@ hr {
 }
 .btn {
     font-family: 'IBM Plex Sans Thai', sans-serif!important;
+}
+.slide-content-title {
+    height: 74px;
 }
 @media only screen and (max-width: 576px) {
     .navbar-second-item ul {

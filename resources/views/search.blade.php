@@ -1,6 +1,6 @@
 @extends('layouts.blog')
 @section('title')
-Montivory @if(count($data) > 0) Search @else Not Found @endif
+Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
 @endsection
 @section('meta')
     <meta property="og:title" content="Montivory">
@@ -26,10 +26,10 @@ Montivory @if(count($data) > 0) Search @else Not Found @endif
 <!-- Content -->
 <section class="content">
     <div class="container pt-3">
-        @if(count($data) > 0)
+        @if($data->total > 0)
             <div class="row filter-block">
                 <div class="col-12 col-md-10 d-none d-md-block">
-                    <h6 class="search-result-display"><span class="font-normal">{{ count($data) }} results of: </span>Keywords</h6>
+                    <h6 class="search-result-display"><span class="font-normal">{{ $data->total }} results of : </span>{{$search}}</h6>
                     <div class="row">
                         <div class="col-11">
                             <div class="row">
@@ -126,7 +126,7 @@ Montivory @if(count($data) > 0) Search @else Not Found @endif
                     </div>
                 </div>
                 <div class="col-12 d-md-none">
-                    <h6 class="search-result-display"><span class="font-normal">{{ count($data) }} results of: <br></span>Keywords</h6>
+                    <h6 class="search-result-display"><span class="font-normal">{{ $data->total }} results of : <br></span>{{$search}}</h6>
                     <button class="btn px-3 btn-outline-filter" type="button" data-bs-toggle="modal" data-bs-target="#filterModal">
                         <img src="{{asset('images/icon/Filter-icon.png')}}" class="filter-icon"/>
                         FILTER
@@ -134,91 +134,51 @@ Montivory @if(count($data) > 0) Search @else Not Found @endif
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 col-md-4 content-block">
-                    <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
-                    <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
-                        <h6>Category</h6>
-                    </a>
-                    <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                        <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
-                    </a>
-                    <p class="mt-3 display-time">01 Dec 2022</p>
-                </div>
-                <div class="col-12 col-md-4 content-block">
-                    <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
-                    <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
-                        <h6>Category</h6>
-                    </a>
-                    <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                        <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
-                    </a>
-                    <p class="mt-3 display-time">01 Dec 2022</p>
-                </div>
-                <div class="col-12 col-md-4 content-block">
-                    <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
-                    <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
-                        <h6>Category</h6>
-                    </a>
-                    <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                        <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
-                    </a>
-                    <p class="mt-3 display-time">01 Dec 2022</p>
-                </div>
-                <div class="col-12 col-md-4 content-block">
-                    <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
-                    <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
-                        <h6>Category</h6>
-                    </a>
-                    <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                        <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
-                    </a>
-                    <p class="mt-3 display-time">01 Dec 2022</p>
-                </div>
-                <div class="col-12 col-md-4 content-block">
-                    <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
-                    <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
-                        <h6>Category</h6>
-                    </a>
-                    <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                        <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
-                    </a>
-                    <p class="mt-3 display-time">01 Dec 2022</p>
-                </div>
-                <div class="col-12 col-md-4 content-block">
-                    <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
-                    <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
-                        <h6>Category</h6>
-                    </a>
-                    <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                        <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
-                    </a>
-                    <p class="mt-3 display-time">01 Dec 2022</p>
-                </div>
+                @foreach ($data->data as $item)
+                    <div class="col-12 col-md-4 content-block">
+                        <img src="{{ $item->thumbnail }}" class="card-img-top" alt="...">
+                        <a href="{{ $item->categoryurl }}" class="category-link">
+                            <h6 class="category-label">{{ $item->category }}</h6>
+                        </a>
+                        <a href="{{$item->url}}" class="content-link">
+                            <h6 class="content-title content-title-three-row">{{ $item->title }}</h6>
+                        </a>
+                        <p class="mt-3 display-time">{{ $item->createAt }}</p>
+                    </div>
+                @endforeach
             </div>
             <div class="row page-row">
                 <div class="col-12 text-center d-none d-md-block">
-                    <a href="" class="btn btn-page btn-page-nav">FIRST</a>
-                    <a href="" class="btn btn-page btn-page-nav">PREVIOUS</a>
-                    <a href="" class="btn btn-page active">1</a>
-                    <a href="" class="btn btn-page">2</a>
-                    <a href="" class="btn btn-page">3</a>
-                    <a href="" class="btn btn-page btn-page-nav">NEXT</a>
-                    <a href="" class="btn btn-page btn-page-nav">LAST</a>
+                    <a href="{{ route('search',['search'=>$search,'page'=>1]) }}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif first-btn">FIRST</a>
+                    <a href="{{ route('search',['search'=>$search,'page'=>$currentPage-1]) }}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif previous-btn">PREVIOUS</a>
+                    @for($i = $page->min;$i <= $page->max;$i++)
+                        @if($i == $currentPage)
+                            <a href="javascript:void(0);" class="btn btn-page active">{{ $i }}</a>
+                        @else
+                            <a href="{{ route('search',['search'=>$search,'page'=>$i]) }}" class="btn btn-page">{{ $i }}</a>
+                        @endif
+                    @endfor
+                    <a href="{{ route('search',['search'=>$search,'page'=>$currentPage+1]) }}" class="btn btn-page btn-page-nav @if(!$page->last) d-none @endif next-btn">NEXT</a>
+                    <a href="{{ route('search',['search'=>$search,'page'=>$data->pages]) }}" class="btn btn-page btn-page-nav @if(!$page->last) d-none @endif last-btn">LAST</a>
                 </div>
                 <div class="col-12 text-center d-md-none">
-                    <a href="" class="btn btn-page btn-page-nav">
+                    <a href="{{ route('search',['search'=>$search,'page'=>1]) }}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif first-btn">
                         <img src="{{ asset('images/icon/btn-first-mb.png')}}"/>
                     </a>
-                    <a href="" class="btn btn-page btn-page-nav">
+                    <a href="{{ route('search',['search'=>$search,'page'=>$currentPage-1]) }}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif previous-btn">
                         <img src="{{ asset('images/icon/btn-previous-mb.png')}}"/>
                     </a>
-                    <a href="" class="btn btn-page active">1</a>
-                    <a href="" class="btn btn-page">2</a>
-                    <a href="" class="btn btn-page">3</a>
-                    <a href="" class="btn btn-page btn-page-nav">
+                    @for($i = $page->min;$i <= $page->max;$i++)
+                        @if($i == $currentPage)
+                            <a href="javascript:void(0);" class="btn btn-page active">{{ $i }}</a>
+                        @else
+                            <a href="{{ route('search',['search'=>$search,'page'=>$i]) }}" class="btn btn-page">{{ $i }}</a>
+                        @endif
+                    @endfor
+                    <a href="{{ route('search',['search'=>$search,'page'=>$currentPage+1]) }}" class="btn btn-page btn-page-nav next-btn @if(!$page->last) d-none @endif ">
                         <img src="{{ asset('images/icon/btn-next-mb.png')}}"/>
                     </a>
-                    <a href="" class="btn btn-page btn-page-nav">
+                    <a href="{{ route('search',['search'=>$search,'page'=>$data->pages]) }}" class="btn btn-page btn-page-nav last-btn @if(!$page->last) d-none @endif ">
                         <img src="{{ asset('images/icon/btn-last-mb.png')}}"/>
                     </a>
                 </div>
@@ -226,10 +186,10 @@ Montivory @if(count($data) > 0) Search @else Not Found @endif
         @else
             <div class="row justify-content-center">
                 <div class="col-12 col-md-10 d-none d-md-block">
-                    <h6 class="search-result-display"><span class="font-normal">{{ count($data) }} results of: </span>Keywords</h6>
+                    <h6 class="search-result-display"><span class="font-normal">0 results of : </span>{{$search}}</h6>
                 </div>
                 <div class="col-12 d-md-none">
-                    <h6 class="search-result-display"><span class="font-normal">{{ count($data) }} results of: <br></span>Keywords</h6>
+                    <h6 class="search-result-display"><span class="font-normal">0 results of : <br></span>{{$search}}</h6>
                 </div>
             </div>
             <div class="row justify-content-center">

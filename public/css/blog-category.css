@@ -1,5 +1,8 @@
 .hero-section {
     height: 300px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 .binary-craft-header-line {
     border-bottom: 10px solid #182B45;
@@ -30,6 +33,7 @@
 }
 .hero-sub-title {
     margin-left: 2px;
+    color: #fff;
 }
 .dropdown-month > .show {
     color: #0D66D0;

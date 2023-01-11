@@ -22,7 +22,7 @@ Montivory Blog
 <link rel="stylesheet" type="text/css" href="{{asset('css/slick-custom.css')}}"/>
 <style>
 .hero-section {
-    background-image: url('{{ asset('images/default/Hero-Banner.jpg') }}');
+    background-image: url('{{ $data->herocontent[0]->heroimage }}');
     background-size: cover;
     background-position:center;
     background-repeat:no-repeat;
@@ -30,7 +30,7 @@ Montivory Blog
 
 @media only screen and (max-width: 576px) {
     .hero-section {
-        background:url('{{ asset('images/default/binary-craft-bg.jpg') }}');
+        background:url('{{ $data->herocontent[0]->mobileimage }}');
         background-size: cover;
         background-position:center;
         background-repeat:no-repeat;
@@ -40,11 +40,11 @@ Montivory Blog
 @endsection
 @section('content')
 <!-- Content -->
-<a href="{{route('blogpost',['slug'=>'sample'])}}">
+<a href="{{ $data->herocontent[0]->url }}">
     <section class="hero-section">
         <div class="container-fluid hero-content text-white">
-            <span>Category</span>
-            <h3 class="hero-title">Google’s Helpful Content สิ่งที่คนทำ SEO Marketing ต้องรู้และพลาดไม่ได้</h3>
+            <span>{{$data->herocontent[0]->category}}</span>
+            <h3 class="hero-title">{{ $data->herocontent[0]->title }}</h3>
             <div class="d-grid gap-2 mt-5 d-md-block">
                 <button class="btn btn-readnow" type="button">READ NOW</button>
             </div>
@@ -59,7 +59,7 @@ Montivory Blog
             @foreach ($data->binarycrafts as $item)
                 <div class="col-12 col-md-6">
                     <img src="{{ $item->thumbnail }}" class="img-fluid"/>
-                    <a href="{{route('blogpost',['slug'=>$item->slug])}}" class="binary-craft-link">
+                    <a href="{{ $item->url }}" class="binary-craft-link">
                         <h5 class="binary-craft-title mt-3">
                             {{ $item->title }}
                         </h5>
@@ -89,7 +89,7 @@ Montivory Blog
                                     <img src="{{ $item->thumbnail }}" class="card-img-top" alt="...">
                                 </div>
                                 <div class="col-12">
-                                    <a href="{{route('blogpost',['slug'=>$item->slug])}}" class="content-link">
+                                    <a href="{{$item->url}}" class="content-link">
                                         <h6 class="content-title">{{ $item->title }}</h6>
                                     </a>
                                     <p class="mt-3 display-time">{{ $item->createAt }}</p>
@@ -101,7 +101,7 @@ Montivory Blog
                                     <img src="{{ $item->thumbnail }}" class="card-img-top" alt="...">
                                 </div>
                                 <div class="col-12 col-md-8">
-                                    <a href="{{route('blogpost',['slug'=>$item->slug])}}" class="content-link">
+                                    <a href="{{$item->url}}" class="content-link">
                                     <h6 class="content-title content-title-three-row mt-md-0">{{ $item->title }}</h6>
                                     </a>
                                     <p class="mt-3 display-time">{{ $item->createAt }}</p>
@@ -126,7 +126,7 @@ Montivory Blog
                                     <img src="{{ $item->thumbnail }}" class="card-img-top" alt="...">
                                 </div>
                                 <div class="col-12">
-                                    <a href="{{route('blogpost',['slug'=>$item->slug])}}" class="content-link">
+                                    <a href="{{$item->url}}" class="content-link">
                                         <h6 class="content-title">{{ $item->title }}</h6>
                                     </a>
                                     <p class="mt-3 display-time">{{ $item->createAt }}</p>
@@ -138,7 +138,7 @@ Montivory Blog
                                     <img src="{{ $item->thumbnail }}" class="card-img-top" alt="...">
                                 </div>
                                 <div class="col-12 col-md-8">
-                                    <a href="{{route('blogpost',['slug'=>$item->slug])}}" class="content-link">
+                                    <a href="{{$item->url}}" class="content-link">
                                     <h6 class="content-title content-title-three-row mt-md-0">{{ $item->title }}</h6>
                                     </a>
                                     <p class="mt-3 display-time">{{ $item->createAt }}</p>
@@ -163,7 +163,7 @@ Montivory Blog
                                     <img src="{{ $item->thumbnail }}" class="card-img-top" alt="...">
                                 </div>
                                 <div class="col-12">
-                                    <a href="{{route('blogpost',['slug'=>$item->slug])}}" class="content-link">
+                                    <a href="{{$item->url}}" class="content-link">
                                     <h6 class="content-title content-title-three-row">{{ $item->title }}</h6>
                                     </a>
                                     <p class="mt-3 display-time">{{ $item->createAt }}</p>
@@ -175,7 +175,7 @@ Montivory Blog
                                     <img src="{{ $item->thumbnail }}" class="card-img-top" alt="...">
                                 </div>
                                 <div class="col-12 col-md-6">
-                                    <a href="{{route('blogpost',['slug'=>$item->slug])}}" class="content-link">
+                                    <a href="{{$item->url}}" class="content-link">
                                     <h6 class="content-title content-title-four-row mt-md-0">{{ $item->title }}</h6>
                                     </a>
                                     <p class="mt-3 display-time">{{ $item->createAt }}</p>
@@ -198,7 +198,7 @@ Montivory Blog
                                     <img src="{{ $item->thumbnail }}" class="card-img-top" alt="...">
                                 </div>
                                 <div class="col-12">
-                                    <a href="{{route('blogpost',['slug'=>$item->slug])}}" class="content-link">
+                                    <a href="{{$item->url}}" class="content-link">
                                     <h6 class="content-title content-title-three-row">{{ $item->title }}</h6>
                                     </a>
                                     <p class="mt-3 display-time">{{ $item->createAt }}</p>
@@ -210,7 +210,7 @@ Montivory Blog
                                     <img src="{{ $item->thumbnail }}" class="card-img-top" alt="...">
                                 </div>
                                 <div class="col-12 col-md-6">
-                                    <a href="{{route('blogpost',['slug'=>$item->slug])}}" class="content-link">
+                                    <a href="{{$item->url}}" class="content-link">
                                     <h6 class="content-title content-title-four-row mt-md-0">{{ $item->title }}</h6>
                                     </a>
                                     <p class="mt-3 display-time">{{ $item->createAt }}</p>
@@ -233,7 +233,7 @@ Montivory Blog
                                     <img src="{{ $item->thumbnail }}" class="card-img-top" alt="...">
                                 </div>
                                 <div class="col-12">
-                                    <a href="{{route('blogpost',['slug'=>$item->slug])}}" class="content-link">
+                                    <a href="{{$item->url}}" class="content-link">
                                     <h6 class="content-title content-title-three-row">{{ $item->title }}</h6>
                                     </a>
                                     <p class="mt-3 display-time">{{ $item->createAt }}</p>
@@ -245,7 +245,7 @@ Montivory Blog
                                     <img src="{{ $item->thumbnail }}" class="card-img-top" alt="...">
                                 </div>
                                 <div class="col-12 col-md-6">
-                                    <a href="{{route('blogpost',['slug'=>$item->slug])}}" class="content-link">
+                                    <a href="{{$item->url}}" class="content-link">
                                     <h6 class="content-title content-title-four-row mt-md-0">{{ $item->title }}</h6>
                                     </a>
                                     <p class="mt-3 display-time">{{ $item->createAt }}</p>
@@ -264,8 +264,8 @@ Montivory Blog
     <section class="trending-slide mt-3 pb-2">
         @foreach ($data->research as $item)
         <div>
-            <div class="text-white pb-2 trending-card">
-                <a href="{{route('blogpost',['slug'=>$item->slug])}}" class="content-link">
+            <div class="text-white trending-card">
+                <a href="{{$item->url}}" class="content-link">
                     <img src="{{$item->thumbnail}}" class="img-fluid" alt="...">
                     <div class="slide-img-overlay">
                         <h6 class="content-title slide-content-title content-title-three-row mt-md-0 text-white">{{ $item->title }}</h6>

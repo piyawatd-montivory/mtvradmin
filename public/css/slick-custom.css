@@ -4,6 +4,7 @@
     bottom: 0;
     padding: 46.4px 1rem 0 1rem;
     background: linear-gradient(0deg, rgba(24,43,69,1) 0%, rgba(24,43,69,0) 100%);
+    width: 100%;
 }
 .slide-img-overlay p {
     color: #fff;
