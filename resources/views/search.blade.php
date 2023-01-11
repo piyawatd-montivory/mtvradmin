@@ -216,7 +216,19 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
                 <div class="col-12 col-md-10 mt-4">
                     <h4 class="mb-0 article-like">Article you may like</h4>
                     <div class="row article-like-section">
-                        <div class="col-12 col-md-4 content-block">
+                        @foreach ($relateds->data as $item)
+                            <div class="col-12 col-md-4 content-block">
+                                <img src="{{$item->thumbnail}}" class="card-img-top" alt="...">
+                                <a href="{{$item->categoryurl}}" class="category-link">
+                                    <h6>{{ $item->category }}</h6>
+                                </a>
+                                <a href="{{$item->url}}" class="content-link">
+                                    <h6 class="content-title content-title-three-row">{{ $item->title }}</h6>
+                                </a>
+                                <p class="mt-3 display-time">{{$item->createAt}}</p>
+                            </div>
+                        @endforeach
+                        {{-- <div class="col-12 col-md-4 content-block">
                             <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
                             <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
                                 <h6>Category</h6>
@@ -245,7 +257,7 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
                                 <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
                             </a>
                             <p class="mt-3 display-time">01 Dec 2022</p>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -365,6 +377,7 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
 @section('script')
 <script type="text/javascript">
 
+    @if($data->total > 0)
     $(function(){
         $('.month-select').on('click',function(){
             $('.month-select').removeClass('check-selected');
@@ -536,6 +549,7 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
         }
         console.log(filter)
     }
+    @endif
 
 </script>
 @endsection

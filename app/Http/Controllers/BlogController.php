@@ -131,7 +131,11 @@ class BlogController extends Controller
             $currentPage = $request->page;
         }
         $data = getCdaDataList('',12,1,'','',$search);
-        return view('search',['search'=>$search,'data'=>$data,'page'=>buildPage($data->pages,$currentPage),'currentPage'=>$currentPage]);
+        $relateds = new \stdClass;
+        if($data->total == 0){
+            $relateds =  getCdaDataList('',3,1,'','');
+        }
+        return view('search',['search'=>$search,'data'=>$data,'page'=>buildPage($data->pages,$currentPage),'currentPage'=>$currentPage,'relateds'=>$relateds]);
     }
 
     function noresult()

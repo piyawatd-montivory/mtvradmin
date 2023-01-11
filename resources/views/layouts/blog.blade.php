@@ -35,13 +35,12 @@
                     <div class="container-fluid navbar-second">
                         <div class="row justify-content-center">
                             <div class="col-md-7 col-12">
-                                <div class="input-group mt-3 bg-white custom-search">
-                                    {{-- <span class="search-label">Typing</span> --}}
-                                    <form id="searchform">
-                                    <input type="text" class="form-control form-control-search" id="search" name="search" aria-label="Search">
-                                    </form>
-                                    <button class="btn btn-close btn-close-icon" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
+                                <form id="searchform">
+                                    <div class="input-group mt-3 bg-white custom-search">
+                                        <input type="text" class="form-control form-control-search" id="search" name="search" aria-label="Search">
+                                        <button class="btn btn-close btn-close-icon" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -58,7 +57,7 @@
         // myModal.show()
         $(function(){
             $('#searchform').submit(function(){
-                console.log('in')
+                window.location.href = "/search/"+$('#search').val().trim();
                 return false;
             })
         })
