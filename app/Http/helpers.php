@@ -727,6 +727,7 @@ function getCdaData($slug){
                         $tagObj = new \stdClass;
                         $tagObj->name = $ctag->name;
                         $tagObj->id = $ctag->sys->id;
+                        $tagObj->url = route('tags',['slug'=>$ctag->sys->id]);
                         array_push($itemObj->tags,$tagObj);
                         break;
                     }
