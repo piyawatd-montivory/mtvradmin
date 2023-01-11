@@ -102,7 +102,7 @@ class BlogController extends Controller
         $category->slug = $data->categoryslug;
         $category->title = $data->category;
         $category->url = $data->categoryurl;
-        $relateds =  getCdaDataList($data->categoryid,3,0,$data->id);
+        $relateds =  getCdaDataList($data->categoryid,3,1,$data->id);
         return view('blogpost',['data'=>$data,'category'=>$category,'relateds'=>$relateds->data]);
     }
 

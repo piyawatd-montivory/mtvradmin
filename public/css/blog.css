@@ -333,6 +333,11 @@ hr {
 }
 .form-control-search {
     border:0;
+    border-top-left-radius: 18px !important;
+    border-bottom-left-radius: 18px !important;
+}
+#searchform {
+    width: 95%;
 }
 .btn-close {
     padding-right: 25px;

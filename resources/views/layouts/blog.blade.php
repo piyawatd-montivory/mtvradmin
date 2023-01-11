@@ -36,8 +36,10 @@
                         <div class="row justify-content-center">
                             <div class="col-md-7 col-12">
                                 <div class="input-group mt-3 bg-white custom-search">
-                                    <span class="search-label">Typing</span>
+                                    {{-- <span class="search-label">Typing</span> --}}
+                                    <form id="searchform">
                                     <input type="text" class="form-control form-control-search" id="search" name="search" aria-label="Search">
+                                    </form>
                                     <button class="btn btn-close btn-close-icon" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                             </div>
@@ -54,6 +56,12 @@
     <script>
         // var myModal = new bootstrap.Modal(document.getElementById('searchModal'), {})
         // myModal.show()
+        $(function(){
+            $('#searchform').submit(function(){
+                console.log('in')
+                return false;
+            })
+        })
     </script>
 </body>
 </html>
