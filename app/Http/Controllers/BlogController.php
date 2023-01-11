@@ -35,9 +35,22 @@ class BlogController extends Controller
     function category($slug,Request $request)
     {
         $currentPage = 1;
+        $month = 0;
+        $year = 0;
         if($request->page){
             $currentPage = $request->page;
         }
+        if($request->month){
+            $month = $request->month;
+        }
+        if($request->year){
+            $year = $request->year;
+        }
+
+        // $start = $year.'-01-01T00:00:00Z';
+        // $end = ($year+1).'-01-01T00:00:00Z';
+        // return $start.' '.$end;
+
         $query = 'query categoryCollectionQuery {
             categoryCollection (
                 where:
@@ -87,8 +100,8 @@ class BlogController extends Controller
                 $category->description = '';
             }
         }
-        $data = getCdaDataList($category->sys->id,12,$currentPage);
-        return view('category',['category'=>$category,'data'=>$data,'page'=>buildPage($data->pages,$currentPage),'currentPage'=>$currentPage]);
+        $data = getCdaDataList($category->sys->id,12,$currentPage,'','','',$month,$year);
+        return view('category',['category'=>$category,'data'=>$data,'page'=>buildPage($data->pages,$currentPage),'currentPage'=>$currentPage,'month'=>$month,'year'=>$year]);
     }
 
     function detail($slug)
@@ -132,10 +145,12 @@ class BlogController extends Controller
         }
         $data = getCdaDataList('',12,1,'','',$search);
         $relateds = new \stdClass;
+        $tags = [];
         if($data->total == 0){
             $relateds =  getCdaDataList('',3,1,'','');
+            $tags = randomTags(6);
         }
-        return view('search',['search'=>$search,'data'=>$data,'page'=>buildPage($data->pages,$currentPage),'currentPage'=>$currentPage,'relateds'=>$relateds]);
+        return view('search',['search'=>$search,'data'=>$data,'page'=>buildPage($data->pages,$currentPage),'currentPage'=>$currentPage,'relateds'=>$relateds,'tags'=>$tags]);
     }
 
     function noresult()

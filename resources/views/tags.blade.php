@@ -238,17 +238,18 @@ Montivory Tags : {{ $tags->name }}
                                 </button>
                                 <ul class="dropdown-menu w-100" aria-labelledby="dropdownMonth">
                                 <li><a class="dropdown-item month-select month-select-mobile check-selected" href="javascript:void(0);" data="all">All months</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="january">January</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="february">February</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="march">March</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="april">April</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="may">May</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="june">June</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="july">July</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="august">August</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="september">September</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="november">November</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="december">December</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="1">January</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="2">February</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="3">March</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="4">April</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="5">May</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="6">June</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="7">July</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="8">August</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="9">September</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="10">October</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="11">November</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="12">December</a></li>
                                 </ul>
                             </div>
                         </div>

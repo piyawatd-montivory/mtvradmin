@@ -428,7 +428,7 @@ function createAssetLink($id) {
     return $result;
 }
 
-function getCdaDataList($categoryId,$limit,$page,$excludeid = '',$tag = '',$search = ''){
+function getCdaDataList($categoryId,$limit,$page,$excludeid = '',$tag = '',$search = '',$month = 0,$year = 0){
     $page = ($page - 1) * $limit;
     $result = new \stdClass;
     $result->total = 0;
@@ -468,6 +468,31 @@ function getCdaDataList($categoryId,$limit,$page,$excludeid = '',$tag = '',$sear
         if($search <> ''){
             $contentarrayquery['fields.title[match]'] = $search;
         }
+        // $start = '';
+        // if(($year <> 0) && ($month <> 0)){
+        //     if(($year <> 0) && ($month == 0)){
+        //         $start = $year.'-01-01T00:00:00Z';
+        //         $end = ($year+1).'-01-01T00:00:00Z';
+        //     }
+        //     if(($year == 0) && ($month <> 0)){
+        //         if($month > 9){
+        //             $start = '2019-'.$month.'-01T00:00:00Z';
+        //         }else{
+        //             $start = '2019-0'.$month.'-01T00:00:00Z';
+        //         }
+        //     }
+        //     if(($year <> 0) && ($month <> 0)){
+        //         if($month > 9){
+        //             $start = $year.'-'.$month.'-01T00:00:00Z';
+        //             $end = ($year+1).'-'.$month.'-01T00:00:00Z';
+        //         }else{
+        //             $start = '2019-0'.$month.'-01T00:00:00Z';
+        //         }
+        //     }
+        // }
+        // 2013-01-01T00:00:00Z
+
+
         $contentarrayquery['limit'] = $limit;
         $contentarrayquery['skip'] = $page;
         $contentresponse = Http::withToken(config('app.cdaaccesstoken'))
@@ -721,6 +746,20 @@ function getCdaData($slug){
             $itemObj->createAt = date_format($dt,"d M Y");
             array_push($result->data,$itemObj);
         }
+    }
+    return $result;
+}
+
+function randomTags($size){
+    $tags = getGenerateCustomFile('tag.json');
+    $result = [];
+    for($i = 1;$i <= $size;$i++){
+        $randtag = rand(0,$tags->total);
+        $tagObj = new \stdClass;
+        $tagObj->name = $tags->items[$randtag]->name;
+        $tagObj->id = $tags->items[$randtag]->sys->id;
+        $tagObj->url = route('tags',['slug'=>$tags->items[$randtag]->sys->id]);
+        array_push($result,$tagObj);
     }
     return $result;
 }

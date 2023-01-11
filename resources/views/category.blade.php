@@ -37,7 +37,7 @@ Montivory Category : {{ $category->title }}
         <div class="row filter-block">
             <div class="col-12 d-none d-md-block">
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-5">
                         <div class="dropdown dropdown-month">
                             <button class="btn custom-dropdown dropdown-toggle w-100 text-start dropdownMonth" type="button" id="dropdownMonth" data-bs-toggle="dropdown" aria-expanded="false">
                                 All months
@@ -59,7 +59,7 @@ Montivory Category : {{ $category->title }}
                             </ul>
                         </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col-5">
                         <div class="dropdown dropdown-year">
                             <button class="btn custom-dropdown dropdown-toggle w-100 text-start dropdownYear" type="button" id="dropdownYear" data-bs-toggle="dropdown" aria-expanded="false">
                                 All years
@@ -72,7 +72,7 @@ Montivory Category : {{ $category->title }}
                             </ul>
                         </div>
                     </div>
-                    <div class="col-3">
+                    {{-- <div class="col-3">
                         <div class="dropdown dropdown-year">
                             <button class="btn custom-dropdown dropdown-toggle w-100 text-start" type="button" id="dropdownTag" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                                 All tags
@@ -92,8 +92,8 @@ Montivory Category : {{ $category->title }}
                                 </li>
                             </ul>
                         </div>
-                    </div>
-                    <div class="col-3">
+                    </div> --}}
+                    <div class="col-2">
                         <button class="btn btn-apply px-3" type="button" onclick="filtercontent('desktop');" >APPLY</button>
                     </div>
                 </div>
@@ -118,36 +118,45 @@ Montivory Category : {{ $category->title }}
         </div>
         <div class="row page-row">
             <div class="col-12 text-center d-none d-md-block">
-                <a href="{{ route('category',['slug'=>$category->slug,'page'=>1]) }}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif first-btn">FIRST</a>
-                <a href="{{ route('category',['slug'=>$category->slug,'page'=>$currentPage-1]) }}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif previous-btn">PREVIOUS</a>
+                @php
+                    $params = '';
+                    // if(app('request')->input('page') === null){
+                    //     $params = '?';
+                    // }
+                    // if($month > 0){
+                    //     $params = $params.'&month='.$month.'&year='.$year;
+                    // }
+                @endphp
+                <a href="{{ route('category',['slug'=>$category->slug,'page'=>1]) }}{{$params}}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif first-btn">FIRST</a>
+                <a href="{{ route('category',['slug'=>$category->slug,'page'=>$currentPage-1]) }}{{$params}}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif previous-btn">PREVIOUS</a>
                 @for($i = $page->min;$i <= $page->max;$i++)
                     @if($i == $currentPage)
                         <a href="javascript:void(0);" class="btn btn-page active">{{ $i }}</a>
                     @else
-                        <a href="{{ route('category',['slug'=>$category->slug,'page'=>$i]) }}" class="btn btn-page">{{ $i }}</a>
+                        <a href="{{ route('category',['slug'=>$category->slug,'page'=>$i]) }}{{$params}}" class="btn btn-page">{{ $i }}</a>
                     @endif
                 @endfor
-                <a href="{{ route('category',['slug'=>$category->slug,'page'=>$currentPage+1]) }}" class="btn btn-page btn-page-nav @if(!$page->last) d-none @endif next-btn">NEXT</a>
-                <a href="{{ route('category',['slug'=>$category->slug,'page'=>$data->pages]) }}" class="btn btn-page btn-page-nav @if(!$page->last) d-none @endif last-btn">LAST</a>
+                <a href="{{ route('category',['slug'=>$category->slug,'page'=>$currentPage+1]) }}{{$params}}" class="btn btn-page btn-page-nav @if(!$page->last) d-none @endif next-btn">NEXT</a>
+                <a href="{{ route('category',['slug'=>$category->slug,'page'=>$data->pages]) }}{{$params}}" class="btn btn-page btn-page-nav @if(!$page->last) d-none @endif last-btn">LAST</a>
             </div>
             <div class="col-12 text-center d-md-none">
-                <a href="{{ route('category',['slug'=>$category->slug,'page'=>1]) }}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif first-btn">
+                <a href="{{ route('category',['slug'=>$category->slug,'page'=>1]) }}{{$params}}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif first-btn">
                     <img src="{{ asset('images/icon/btn-first-mb.png')}}"/>
                 </a>
-                <a href="{{ route('category',['slug'=>$category->slug,'page'=>$currentPage-1]) }}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif previous-btn">
+                <a href="{{ route('category',['slug'=>$category->slug,'page'=>$currentPage-1]) }}{{$params}}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif previous-btn">
                     <img src="{{ asset('images/icon/btn-previous-mb.png')}}"/>
                 </a>
                 @for($i = $page->min;$i <= $page->max;$i++)
                     @if($i == $currentPage)
                         <a href="javascript:void(0);" class="btn btn-page active">{{ $i }}</a>
                     @else
-                        <a href="{{ route('category',['slug'=>$category->slug,'page'=>$i]) }}" class="btn btn-page">{{ $i }}</a>
+                        <a href="{{ route('category',['slug'=>$category->slug,'page'=>$i]) }}{{$params}}" class="btn btn-page">{{ $i }}</a>
                     @endif
                 @endfor
-                <a href="{{ route('category',['slug'=>$category->slug,'page'=>$currentPage+1]) }}" class="btn btn-page btn-page-nav next-btn @if(!$page->last) d-none @endif ">
+                <a href="{{ route('category',['slug'=>$category->slug,'page'=>$currentPage+1]) }}{{$params}}" class="btn btn-page btn-page-nav next-btn @if(!$page->last) d-none @endif ">
                     <img src="{{ asset('images/icon/btn-next-mb.png')}}"/>
                 </a>
-                <a href="{{ route('category',['slug'=>$category->slug,'page'=>$data->pages]) }}" class="btn btn-page btn-page-nav last-btn @if(!$page->last) d-none @endif ">
+                <a href="{{ route('category',['slug'=>$category->slug,'page'=>$data->pages]) }}{{$params}}" class="btn btn-page btn-page-nav last-btn @if(!$page->last) d-none @endif ">
                     <img src="{{ asset('images/icon/btn-last-mb.png')}}"/>
                 </a>
             </div>
@@ -201,7 +210,7 @@ Montivory Category : {{ $category->title }}
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-12">
+                        {{-- <div class="col-12">
                             <div class="dropdown dropdown-year">
                                 <button class="btn custom-dropdown dropdown-toggle w-100 text-start ps-0 dropdownTag" type="button" id="dropdownTagMobile" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                                     All tags
@@ -221,7 +230,7 @@ Montivory Category : {{ $category->title }}
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -251,43 +260,43 @@ Montivory Category : {{ $category->title }}
         });
     })
 
-    const tagDropdown = document.getElementById('dropdownTag')
-    tagDropdown.addEventListener('hide.bs.dropdown', function () {
-        let showlabel = ''
-        $.each($('.form-check-input-desktop'),function(index,value){
-            if(value.checked){
-                if(showlabel === ''){
-                    showlabel = $(value).attr('label');
-                }else{
-                    let checklabel = $(value).attr('label');
-                    showlabel = `${showlabel}, ${checklabel}`;
-                }
-            }
-        })
-        if(showlabel === ''){
-            showlabel = 'All tags';
-        }
-        $('#dropdownTag').text(showlabel);
-    })
+    // const tagDropdown = document.getElementById('dropdownTag')
+    // tagDropdown.addEventListener('hide.bs.dropdown', function () {
+    //     let showlabel = ''
+    //     $.each($('.form-check-input-desktop'),function(index,value){
+    //         if(value.checked){
+    //             if(showlabel === ''){
+    //                 showlabel = $(value).attr('label');
+    //             }else{
+    //                 let checklabel = $(value).attr('label');
+    //                 showlabel = `${showlabel}, ${checklabel}`;
+    //             }
+    //         }
+    //     })
+    //     if(showlabel === ''){
+    //         showlabel = 'All tags';
+    //     }
+    //     $('#dropdownTag').text(showlabel);
+    // })
 
-    const tagDropdownMobile = document.getElementById('dropdownTagMobile')
-    tagDropdownMobile.addEventListener('hide.bs.dropdown', function () {
-        let showlabel = ''
-        $.each($('.form-check-input-mobile'),function(index,value){
-            if(value.checked){
-                if(showlabel === ''){
-                    showlabel = $(value).attr('label');
-                }else{
-                    let checklabel = $(value).attr('label');
-                    showlabel = `${showlabel}, ${checklabel}`;
-                }
-            }
-        })
-        if(showlabel === ''){
-            showlabel = 'All tags';
-        }
-        $('#dropdownTagMobile').text(showlabel);
-    })
+    // const tagDropdownMobile = document.getElementById('dropdownTagMobile')
+    // tagDropdownMobile.addEventListener('hide.bs.dropdown', function () {
+    //     let showlabel = ''
+    //     $.each($('.form-check-input-mobile'),function(index,value){
+    //         if(value.checked){
+    //             if(showlabel === ''){
+    //                 showlabel = $(value).attr('label');
+    //             }else{
+    //                 let checklabel = $(value).attr('label');
+    //                 showlabel = `${showlabel}, ${checklabel}`;
+    //             }
+    //         }
+    //     })
+    //     if(showlabel === ''){
+    //         showlabel = 'All tags';
+    //     }
+    //     $('#dropdownTagMobile').text(showlabel);
+    // })
 
     const cleartag = () => {
         $.each($('.form-check-input'),function(index,value){
@@ -296,50 +305,51 @@ Montivory Category : {{ $category->title }}
     }
 
     const filtercontent = (typewindows) => {
-        let filter = {}
-        let tags = []
+        let month = 0;
+        let year = 0;
+        // let tags = []
         if(typewindows === 'desktop')
         {
             $.each($('.month-select-desktop'),function(index,value){
                 if($(value).hasClass('check-selected')){
-                    filter.month = $(value).attr('data');
+                    month = $(value).attr('data');
                 }
             });
             $.each($('.year-select-desktop'),function(index,value){
                 if($(value).hasClass('check-selected')){
-                    filter.year = $(value).attr('data');
+                    year = $(value).attr('data');
                 }
             });
-            $.each($('.form-check-input-desktop'),function(index,value){
-                if(value.checked){
-                    tags.push(value.defaultValue);
-                }
-            })
-            if(tags.length === 0){
-                tags.push("all");
-            }
+            // $.each($('.form-check-input-desktop'),function(index,value){
+            //     if(value.checked){
+            //         tags.push(value.defaultValue);
+            //     }
+            // })
+            // if(tags.length === 0){
+            //     tags.push("all");
+            // }
         }else{
             $.each($('.month-select-mobile'),function(index,value){
                 if($(value).hasClass('check-selected')){
-                    filter.month = $(value).attr('data');
+                    month = $(value).attr('data');
                 }
             });
             $.each($('.year-select-mobile'),function(index,value){
                 if($(value).hasClass('check-selected')){
-                    filter.year = $(value).attr('data');
+                    year = $(value).attr('data');
                 }
             });
-            $.each($('.form-check-input-mobile'),function(index,value){
-                if(value.checked){
-                    tags.push(value.defaultValue);
-                }
-            })
-            if(tags.length === 0){
-                tags.push("all");
-            }
+            // $.each($('.form-check-input-mobile'),function(index,value){
+            //     if(value.checked){
+            //         tags.push(value.defaultValue);
+            //     }
+            // })
+            // if(tags.length === 0){
+            //     tags.push("all");
+            // }
         }
-        filter.tags = tags;
-        console.log(filter)
+        // filter.tags = tags;
+        window.location.href = "/category/{{ $category->slug }}?year="+year+"&month="+month;
     }
 
 </script>

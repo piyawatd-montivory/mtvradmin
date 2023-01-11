@@ -201,7 +201,12 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
             </div>
             <div class="row justify-content-center">
                 <div class="col-12 col-md-10 text-center mt-2">
-                    <a href="#" class="pill btn btn-primary">
+                    @foreach ($tags as $tag)
+                        <a href="{{ route('tags',['slug'=>$tag->id]) }}" class="pill btn btn-primary mb-3">
+                            {{ $tag->name }}
+                        </a>
+                    @endforeach
+                    {{-- <a href="#" class="pill btn btn-primary">
                         Politic
                     </a>
                     <a href="#" class="pill btn btn-primary">
@@ -209,7 +214,7 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
                     </a>
                     <a href="#" class="pill btn btn-primary">
                         Politic
-                    </a>
+                    </a> --}}
                 </div>
             </div>
             <div class="row justify-content-center">
