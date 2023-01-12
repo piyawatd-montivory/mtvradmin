@@ -158,8 +158,7 @@ class ContentController extends Controller
         // mobileimage
         $data->mobileimageid = '';
         $data->mobileimage = '';
-        if(isset($resObj->items[0]->fields->mobileimage))
-        {
+        if(isset($resObj->items[0]->fields->mobileimage)){
             $imgResult = getImageById($resObj->items[0]->fields->mobileimage,$refsAsset);
             $data->mobileimageid = $imgResult->thumbnailid;
             $data->mobileimage = $imgResult->thumbnail;
@@ -392,9 +391,10 @@ class ContentController extends Controller
         // $json->fields->thumbnail->{'en-US'}->sys->id = $data->thumbnail;
 
         //mobile image
-        $json->fields->mobileimage = new \stdClass;
-        $json->fields->mobileimage = createAssetLink($data->mobileimage);
-
+        if($data->mobileimage){
+            $json->fields->mobileimage = new \stdClass;
+            $json->fields->mobileimage = createAssetLink($data->mobileimage);
+        }
         $json->fields->title = new \stdClass;
         $json->fields->title->{'en-US'} = $data->title;
         $json->fields->slug = new \stdClass;
@@ -409,8 +409,10 @@ class ContentController extends Controller
         // $json->fields->heroimage->{'en-US'}->sys->linkType = "Asset";
         // $json->fields->heroimage->{'en-US'}->sys->id = $data->heroimage;
         //og image
-        $json->fields->ogimage = new \stdClass;
-        $json->fields->ogimage = createAssetLink($data->ogimage);
+        if($data->ogimage){
+            $json->fields->ogimage = new \stdClass;
+            $json->fields->ogimage = createAssetLink($data->ogimage);
+        }
         // $json->fields->ogimage->{'en-US'} = new \stdClass;
         // $json->fields->ogimage->{'en-US'}->sys = new \stdClass;
         // $json->fields->ogimage->{'en-US'}->sys->type = "Link";
