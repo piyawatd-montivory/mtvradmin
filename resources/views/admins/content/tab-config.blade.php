@@ -55,8 +55,8 @@
         </select>
     </div>
     <div class="col-12 col-md-1 text-center mt-md-0 mt-2">
-        <button type="button" class="btn btn-outline-primary btn-sm" id="add-tag">Add</button>
-        <button type="button" class="btn btn-outline-primary btn-sm" id="new-tag">New</button>
+        <button type="button" class="btn btn-outline-primary btn-sm mb-2" id="add-tag">Add</button>
+        <button type="button" class="btn btn-outline-primary btn-sm mb-2" id="new-tag">New</button>
     </div>
     <div class="col-12 col-md-6" id="tag-listitem">
         @foreach ($data->tags as $contenttag)

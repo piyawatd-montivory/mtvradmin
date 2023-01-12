@@ -101,6 +101,41 @@
     </div>
 </div>
 
+<div class="modal fade" id="tagsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="TagsModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="browseSingleImageLabel">Tags</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row mb-3 mt-3">
+                <label for="nametag" class="col-sm-2 col-form-label">Name</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="nametag" name="nametag" placeholder="Name">
+                    <div class="invalid-feedback" id="nametag-feedback">
+                        Please provide a valid name.
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="idtag" class="col-sm-2 col-form-label">Id</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="idtag" name="idtag" placeholder="Id">
+                    <div class="invalid-feedback" id="idtag-feedback">
+                        Please provide a valid id.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal" id="modal-tag-close">Close</button>
+            <button type="button" class="btn btn-primary btn-sm" onclick="addTags()" id="modal-tag-add">Add</button>
+        </div>
+      </div>
+    </div>
+</div>
+
 @endsection
 @section('script')
     <script src="{{asset('js/validate.js')}}"></script>
@@ -112,7 +147,9 @@
 
         CKEDITOR.disableAutoInline = true;
         const imageModalEl = document.getElementById('browseSingleImage');
+        const tagModalEl = document.getElementById('tagsModal');
         let imageModal ='';
+        let tagModal ='';
         let browsetype = '';
         let componentid = '';
         let editid = {{count($components)}};
@@ -121,6 +158,7 @@
 
         $( document ).ready(function() {
             imageModal =  new bootstrap.Modal(document.getElementById('browseSingleImage'), {backdrop:true});
+            tagModal =  new bootstrap.Modal(document.getElementById('tagsModal'), {backdrop:true,keyboard:false});
             $( '#category' ).select2( {
                 theme: "bootstrap-5",
                 width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
@@ -206,7 +244,125 @@
             $('.add-component-class').click(function(){
                 addComponent($(this).parent().parent().parent().attr('dataid'));
             })
+            //tag
+            $('#new-tag').click(function(){
+                tagModal.show();
+            })
+            $('#idtag').on('change',function(){
+                let slug = $('#idtag').val();
+                $('#idtag').val(buildSlug(slug));
+            });
         })
+
+        const reporterrortag = (type) => {
+            if(type === 'nametag') {
+                $('#nametag-feedback').text('Please provide a valid name.')
+            }
+            if(type === 'idtag') {
+                $('#idtag-feedback').text('Please provide a valid id.')
+            }
+            if(type === 'checkname') {
+                $('#nametag-feedback').text('This name is already use.')
+            }
+            if(type === 'checkid') {
+                $('#idtag-feedback').text('This id is already use.')
+            }
+        }
+
+        const addTags = () => {
+            let pass = true;
+            let slug = $('#idtag').val();
+            $('#idtag').val(buildSlug(slug));
+            $.each($('.validate'),function(i,obj){
+                if($(obj).val().trim().length === 0){
+                    $(obj).addClass('is-invalid');
+                    reporterrortag($(obj).attr('name'));
+                    pass = false;
+                }else{
+                    $(obj).removeClass('is-invalid');
+                }
+            })
+            if(!checkNameTag()){
+                reporterrortag('checkname');
+                pass = false;
+            }
+            if(!checkIdTag()){
+                reporterrortag('checkid');
+                pass = false;
+            }
+            if(pass){
+                let data = {};
+                data.id = $('#idtag').val();
+                data.version = 0;
+                data.name = $('#nametag').val();
+                $('#modal-tag-add').prop('disabled',true);
+                $('#modal-tag-close').prop('disabled',true);
+                setTimeout(() => {
+                    $.ajax({
+                        url:"{{route('tagscreate')}}",
+                        method:"POST",
+                        headers: {"X-CSRF-TOKEN": "{{ csrf_token() }}"},
+                        data:{data:JSON.stringify(data)},
+                        success:function(response){
+                            // clear error report
+                            $('#modal-tag-add').prop('disabled',false);
+                            $('#modal-tag-close').prop('disabled',false);
+                            $('#nametag').removeClass('is-invalid');
+                            $('#idtag').removeClass('is-invalid');
+                            let itemstr = `
+                                <span class="tag tag-label tag-tag" id="${data.id}" key="${data.name}">
+                                ${data.name}<span class="remove">x</span></span> `;
+                            $('#tag-listitem').append(itemstr);
+                            $('#tag').append(`<option value="${data.id}">${data.name}</option>`);
+                            removeCategory();
+                            tagModal.hide();
+                        }
+                    })
+                },1000);
+            }
+        }
+
+        const checkNameTag = () => {
+            let result = false;
+            $.ajax({
+                url:"{{route('checktagname')}}",
+                method:"post",
+                data:{name:$('#nametag').val()},
+                async: false,
+                cache: false,
+                success:function(response){
+                    if(!response.result){
+                        $('#nametag').val('');
+                        $('#nametag').addClass('is-invalid');
+                    }else{
+                        $('#nametag').removeClass('is-invalid');
+                        result = true;
+                    }
+                }
+            })
+            return result;
+        }
+
+        const checkIdTag = () => {
+            let result = false;
+            $.ajax({
+                    url:"{{route('checktag')}}",
+                    method:"post",
+                    data:{id:$('#idtag').val()},
+                    async: false,
+                    cache: false,
+                    success:function(response){
+                    if(!response.result){
+                        $('#idtag').val('');
+                        $('#idtag').addClass('is-invalid');
+                    }else{
+                        $('#idtag').removeClass('is-invalid');
+                        result = true;
+                    }
+                }
+            })
+            return result;
+        }
 
         const checkSlug = () => {
             let result = false;
