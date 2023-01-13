@@ -394,13 +394,15 @@ function getImageById($id,$refsAsset) {
     $data = new \stdClass;
     $data->thumbnailid = '';
     $data->thumbnail = '';
-    foreach($refsAsset as $ref){
-        if($ref->sys->id == $id->{'en-US'}->sys->id){
-            $data->thumbnailid = $id->{'en-US'}->sys->id;
-            $data->thumbnail = 'https:'.$ref->fields->file->{'en-US'}->url;
-            break;
+    try {
+        foreach($refsAsset as $ref){
+            if($ref->sys->id == $id->{'en-US'}->sys->id){
+                $data->thumbnailid = $id->{'en-US'}->sys->id;
+                $data->thumbnail = 'https:'.$ref->fields->file->{'en-US'}->url;
+                break;
+            }
         }
-    }
+    } catch (Exception $e) {}
     return $data;
 }
 
@@ -408,13 +410,15 @@ function getImageByIdCda($id,$refsAsset) {
     $data = new \stdClass;
     $data->thumbnailid = '';
     $data->thumbnail = '';
-    foreach($refsAsset as $ref){
-        if($ref->sys->id == $id){
-            $data->thumbnailid = $id;
-            $data->thumbnail = 'https:'.$ref->fields->file->url;
-            break;
+    try {
+        foreach($refsAsset as $ref){
+            if($ref->sys->id == $id){
+                $data->thumbnailid = $id;
+                $data->thumbnail = 'https:'.$ref->fields->file->url;
+                break;
+            }
         }
-    }
+    } catch (Exception $e) {}
     return $data;
 }
 
