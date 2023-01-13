@@ -31,12 +31,25 @@ Montivory Tags : {{ $tags->name }}
             <div class="col-12 d-none d-md-block">
                 <div class="row">
                     <div class="col-3">
+                        <div class="dropdown dropdown-year">
+                            <button class="btn custom-dropdown dropdown-toggle w-100 text-start dropdownYear" type="button" id="dropdownYear" data-bs-toggle="dropdown" aria-expanded="false">
+                                All years
+                            </button>
+                            <ul class="dropdown-menu w-100" aria-labelledby="dropdownYear">
+                            <li><a class="dropdown-item year-select year-select-desktop check-selected" href="javascript:void(0);" data="0">All years</a></li>
+                            <li><a class="dropdown-item year-select year-select-desktop" href="javascript:void(0);" data="2022">2022</a></li>
+                            <li><a class="dropdown-item year-select year-select-desktop" href="javascript:void(0);" data="2021">2021</a></li>
+                            <li><a class="dropdown-item year-select year-select-desktop" href="javascript:void(0);" data="2020">2020</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-3">
                         <div class="dropdown dropdown-month">
-                            <button class="btn custom-dropdown dropdown-toggle w-100 text-start dropdownMonth" type="button" id="dropdownMonth" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button class="btn custom-dropdown dropdown-toggle w-100 text-start dropdownMonth disabled" type="button" id="dropdownMonth" data-bs-toggle="dropdown" aria-expanded="false">
                                 All months
                             </button>
                             <ul class="dropdown-menu w-100" id="dropdownMonthList" aria-labelledby="dropdownMonth">
-                                <li><a class="dropdown-item month-select month-select-desktop check-selected" href="javascript:void(0);" data="0">All months</a></li>
+                                <li><a class="dropdown-item month-select month-select-desktop check-selected default-month" href="javascript:void(0);" data="0">All months</a></li>
                                 <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="1">January</a></li>
                                 <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="2">February</a></li>
                                 <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="3">March</a></li>
@@ -49,19 +62,6 @@ Montivory Tags : {{ $tags->name }}
                                 <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="10">October</a></li>
                                 <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="11">November</a></li>
                                 <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="12">December</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="dropdown dropdown-year">
-                            <button class="btn custom-dropdown dropdown-toggle w-100 text-start dropdownYear" type="button" id="dropdownYear" data-bs-toggle="dropdown" aria-expanded="false">
-                                All years
-                            </button>
-                            <ul class="dropdown-menu w-100" aria-labelledby="dropdownYear">
-                            <li><a class="dropdown-item year-select year-select-desktop check-selected" href="javascript:void(0);" data="0">All years</a></li>
-                            <li><a class="dropdown-item year-select year-select-desktop" href="javascript:void(0);" data="2022">2022</a></li>
-                            <li><a class="dropdown-item year-select year-select-desktop" href="javascript:void(0);" data="2021">2021</a></li>
-                            <li><a class="dropdown-item year-select year-select-desktop" href="javascript:void(0);" data="2020">2020</a></li>
                             </ul>
                         </div>
                     </div>
@@ -232,12 +232,25 @@ Montivory Tags : {{ $tags->name }}
                 <div class="col-12">
                     <div class="row">
                         <div class="col-12 mb-3">
+                            <div class="dropdown dropdown-year">
+                                <button class="btn custom-dropdown dropdown-toggle w-100 text-start ps-0 dropdownYear" type="button" id="dropdownYear" data-bs-toggle="dropdown" aria-expanded="false">
+                                    All years
+                                </button>
+                                <ul class="dropdown-menu w-100" aria-labelledby="dropdownYear">
+                                <li><a class="dropdown-item year-select year-select-mobile check-selected" href="javascript:void(0);" data="all">All years</a></li>
+                                <li><a class="dropdown-item year-select year-select-mobile" href="javascript:void(0);" data="2022">2022</a></li>
+                                <li><a class="dropdown-item year-select year-select-mobile" href="javascript:void(0);" data="2021">2021</a></li>
+                                <li><a class="dropdown-item year-select year-select-mobile" href="javascript:void(0);" data="2020">2020</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-3">
                             <div class="dropdown dropdown-month">
-                                <button class="btn custom-dropdown dropdown-toggle w-100 text-start ps-0 dropdownMonth" type="button" id="dropdownMonth" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="btn custom-dropdown dropdown-toggle w-100 text-start ps-0 dropdownMonth disabled" type="button" id="dropdownMonth" data-bs-toggle="dropdown" aria-expanded="false">
                                     All months
                                 </button>
                                 <ul class="dropdown-menu w-100" aria-labelledby="dropdownMonth">
-                                <li><a class="dropdown-item month-select month-select-mobile check-selected" href="javascript:void(0);" data="all">All months</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile check-selected default-month" href="javascript:void(0);" data="all">All months</a></li>
                                 <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="1">January</a></li>
                                 <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="2">February</a></li>
                                 <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="3">March</a></li>
@@ -250,19 +263,6 @@ Montivory Tags : {{ $tags->name }}
                                 <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="10">October</a></li>
                                 <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="11">November</a></li>
                                 <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="12">December</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-12 mb-3">
-                            <div class="dropdown dropdown-year">
-                                <button class="btn custom-dropdown dropdown-toggle w-100 text-start ps-0 dropdownYear" type="button" id="dropdownYear" data-bs-toggle="dropdown" aria-expanded="false">
-                                    All years
-                                </button>
-                                <ul class="dropdown-menu w-100" aria-labelledby="dropdownYear">
-                                <li><a class="dropdown-item year-select year-select-mobile check-selected" href="javascript:void(0);" data="all">All years</a></li>
-                                <li><a class="dropdown-item year-select year-select-mobile" href="javascript:void(0);" data="2022">2022</a></li>
-                                <li><a class="dropdown-item year-select year-select-mobile" href="javascript:void(0);" data="2021">2021</a></li>
-                                <li><a class="dropdown-item year-select year-select-mobile" href="javascript:void(0);" data="2020">2020</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -321,6 +321,14 @@ Montivory Tags : {{ $tags->name }}
         $('.year-select').on('click',function(){
             $('.year-select').removeClass('check-selected');
             $(this).addClass('check-selected');
+            if($(this).text() !== 'All years'){
+                $('.dropdownMonth').removeClass('disabled');
+            }else{
+                $('.dropdownMonth').addClass('disabled');
+                $('.month-select').removeClass('check-selected');
+                $('.default-month').addClass('check-selected');
+                $('.dropdownMonth').text('All months');
+            }
             $('.dropdownYear').text($(this).text());
         });
     })

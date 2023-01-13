@@ -34,12 +34,25 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
                         <div class="col-11">
                             <div class="row">
                                 <div class="col-3">
+                                    <div class="dropdown dropdown-year">
+                                        <button class="btn custom-dropdown dropdown-toggle w-100 text-start dropdownYear" type="button" id="dropdownYear" data-bs-toggle="dropdown" aria-expanded="false">
+                                            All years
+                                        </button>
+                                        <ul class="dropdown-menu w-100" aria-labelledby="dropdownYear">
+                                        <li><a class="dropdown-item year-select year-select-desktop check-selected" href="javascript:void(0);" data="all">All years</a></li>
+                                        <li><a class="dropdown-item year-select year-select-desktop" href="javascript:void(0);" data="2022">2022</a></li>
+                                        <li><a class="dropdown-item year-select year-select-desktop" href="javascript:void(0);" data="2021">2021</a></li>
+                                        <li><a class="dropdown-item year-select year-select-desktop" href="javascript:void(0);" data="2020">2020</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-3">
                                     <div class="dropdown dropdown-month">
-                                        <button class="btn custom-dropdown dropdown-toggle w-100 text-start dropdownMonth" type="button" id="dropdownMonth" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <button class="btn custom-dropdown dropdown-toggle w-100 text-start dropdownMonth disabled" type="button" id="dropdownMonth" data-bs-toggle="dropdown" aria-expanded="false">
                                             All months
                                         </button>
                                         <ul class="dropdown-menu w-100" id="dropdownMonthList" aria-labelledby="dropdownMonth">
-                                        <li><a class="dropdown-item month-select month-select-desktop check-selected" href="javascript:void(0);" data="all">All months</a></li>
+                                        <li><a class="dropdown-item month-select month-select-desktop check-selected default-month" href="javascript:void(0);" data="all">All months</a></li>
                                         <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="january">January</a></li>
                                         <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="february">February</a></li>
                                         <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="march">March</a></li>
@@ -51,19 +64,6 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
                                         <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="september">September</a></li>
                                         <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="november">November</a></li>
                                         <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="december">December</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="dropdown dropdown-year">
-                                        <button class="btn custom-dropdown dropdown-toggle w-100 text-start dropdownYear" type="button" id="dropdownYear" data-bs-toggle="dropdown" aria-expanded="false">
-                                            All years
-                                        </button>
-                                        <ul class="dropdown-menu w-100" aria-labelledby="dropdownYear">
-                                        <li><a class="dropdown-item year-select year-select-desktop check-selected" href="javascript:void(0);" data="all">All years</a></li>
-                                        <li><a class="dropdown-item year-select year-select-desktop" href="javascript:void(0);" data="2022">2022</a></li>
-                                        <li><a class="dropdown-item year-select year-select-desktop" href="javascript:void(0);" data="2021">2021</a></li>
-                                        <li><a class="dropdown-item year-select year-select-desktop" href="javascript:void(0);" data="2020">2020</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -97,7 +97,7 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                {{-- <div class="col-3">
                                     <div class="dropdown dropdown-year">
                                         <button class="btn custom-dropdown dropdown-toggle w-100 text-start" type="button" id="dropdownTagDesktopLabel" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                                             All tags
@@ -117,7 +117,7 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
                                             </li>
                                         </ul>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <div class="col-1">
@@ -282,12 +282,25 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
                 <div class="col-12">
                     <div class="row">
                         <div class="col-12 mb-3">
+                            <div class="dropdown dropdown-year">
+                                <button class="btn custom-dropdown dropdown-toggle w-100 text-start ps-0 dropdownYear" type="button" id="dropdownYear" data-bs-toggle="dropdown" aria-expanded="false">
+                                    All years
+                                </button>
+                                <ul class="dropdown-menu w-100" aria-labelledby="dropdownYear">
+                                <li><a class="dropdown-item year-select year-select-mobile check-selected" href="javascript:void(0);" data="all">All years</a></li>
+                                <li><a class="dropdown-item year-select year-select-mobile" href="javascript:void(0);" data="2022">2022</a></li>
+                                <li><a class="dropdown-item year-select year-select-mobile" href="javascript:void(0);" data="2021">2021</a></li>
+                                <li><a class="dropdown-item year-select year-select-mobile" href="javascript:void(0);" data="2020">2020</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-3">
                             <div class="dropdown dropdown-month">
-                                <button class="btn custom-dropdown dropdown-toggle w-100 text-start ps-0 dropdownMonth" type="button" id="dropdownMonth" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="btn custom-dropdown dropdown-toggle w-100 text-start ps-0 dropdownMonth disabled" type="button" id="dropdownMonth" data-bs-toggle="dropdown" aria-expanded="false">
                                     All months
                                 </button>
                                 <ul class="dropdown-menu w-100" aria-labelledby="dropdownMonth">
-                                <li><a class="dropdown-item month-select month-select-mobile check-selected" href="javascript:void(0);" data="all">All months</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile check-selected default-month" href="javascript:void(0);" data="all">All months</a></li>
                                 <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="january">January</a></li>
                                 <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="february">February</a></li>
                                 <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="march">March</a></li>
@@ -302,19 +315,7 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-12 mb-3">
-                            <div class="dropdown dropdown-year">
-                                <button class="btn custom-dropdown dropdown-toggle w-100 text-start ps-0 dropdownYear" type="button" id="dropdownYear" data-bs-toggle="dropdown" aria-expanded="false">
-                                    All years
-                                </button>
-                                <ul class="dropdown-menu w-100" aria-labelledby="dropdownYear">
-                                <li><a class="dropdown-item year-select year-select-mobile check-selected" href="javascript:void(0);" data="all">All years</a></li>
-                                <li><a class="dropdown-item year-select year-select-mobile" href="javascript:void(0);" data="2022">2022</a></li>
-                                <li><a class="dropdown-item year-select year-select-mobile" href="javascript:void(0);" data="2021">2021</a></li>
-                                <li><a class="dropdown-item year-select year-select-mobile" href="javascript:void(0);" data="2020">2020</a></li>
-                                </ul>
-                            </div>
-                        </div>
+
                         <div class="col-12">
                             <div class="dropdown dropdown-category">
                                 <button class="btn custom-dropdown dropdown-toggle w-100 text-start ps-0 dropdownCategory" type="button" id="dropdownCategoryMobileLabel" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
@@ -345,7 +346,7 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-12">
+                        {{-- <div class="col-12">
                             <div class="dropdown">
                                 <button class="btn custom-dropdown dropdown-toggle w-100 text-start ps-0 dropdownTag" type="button" id="dropdownTagMobileLabel" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                                     All tags
@@ -365,7 +366,7 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -392,6 +393,14 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
         $('.year-select').on('click',function(){
             $('.year-select').removeClass('check-selected');
             $(this).addClass('check-selected');
+            if($(this).text() !== 'All years'){
+                $('.dropdownMonth').removeClass('disabled');
+            }else{
+                $('.dropdownMonth').addClass('disabled');
+                $('.month-select').removeClass('check-selected');
+                $('.default-month').addClass('check-selected');
+                $('.dropdownMonth').text('All months');
+            }
             $('.dropdownYear').text($(this).text());
         });
     })
@@ -434,43 +443,43 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
         $('#dropdownCategoryMobileLabel').text(showlabel);
     })
 
-    const tagDropdownDesktop = document.getElementById('dropdownTagDesktopLabel')
-    tagDropdownDesktop.addEventListener('hide.bs.dropdown', function () {
-        let showlabel = ''
-        $.each($('#dropdownTagDesktop a .form-check-input'),function(index,value){
-            if(value.checked){
-                if(showlabel === ''){
-                    showlabel = $(value).attr('label');
-                }else{
-                    let checklabel = $(value).attr('label');
-                    showlabel = `${showlabel}, ${checklabel}`;
-                }
-            }
-        })
-        if(showlabel === ''){
-            showlabel = 'All tags';
-        }
-        $('#dropdownTagDesktopLabel').text(showlabel);
-    })
+    // const tagDropdownDesktop = document.getElementById('dropdownTagDesktopLabel')
+    // tagDropdownDesktop.addEventListener('hide.bs.dropdown', function () {
+    //     let showlabel = ''
+    //     $.each($('#dropdownTagDesktop a .form-check-input'),function(index,value){
+    //         if(value.checked){
+    //             if(showlabel === ''){
+    //                 showlabel = $(value).attr('label');
+    //             }else{
+    //                 let checklabel = $(value).attr('label');
+    //                 showlabel = `${showlabel}, ${checklabel}`;
+    //             }
+    //         }
+    //     })
+    //     if(showlabel === ''){
+    //         showlabel = 'All tags';
+    //     }
+    //     $('#dropdownTagDesktopLabel').text(showlabel);
+    // })
 
-    const tagDropdownMobile = document.getElementById('dropdownTagMobileLabel')
-    tagDropdownMobile.addEventListener('hide.bs.dropdown', function () {
-        let showlabel = ''
-        $.each($('#dropdownTagMobile a .form-check-input'),function(index,value){
-            if(value.checked){
-                if(showlabel === ''){
-                    showlabel = $(value).attr('label');
-                }else{
-                    let checklabel = $(value).attr('label');
-                    showlabel = `${showlabel}, ${checklabel}`;
-                }
-            }
-        })
-        if(showlabel === ''){
-            showlabel = 'All tags';
-        }
-        $('#dropdownTagMobileLabel').text(showlabel);
-    })
+    // const tagDropdownMobile = document.getElementById('dropdownTagMobileLabel')
+    // tagDropdownMobile.addEventListener('hide.bs.dropdown', function () {
+    //     let showlabel = ''
+    //     $.each($('#dropdownTagMobile a .form-check-input'),function(index,value){
+    //         if(value.checked){
+    //             if(showlabel === ''){
+    //                 showlabel = $(value).attr('label');
+    //             }else{
+    //                 let checklabel = $(value).attr('label');
+    //                 showlabel = `${showlabel}, ${checklabel}`;
+    //             }
+    //         }
+    //     })
+    //     if(showlabel === ''){
+    //         showlabel = 'All tags';
+    //     }
+    //     $('#dropdownTagMobileLabel').text(showlabel);
+    // })
 
     const clearselect = (typeclear) => {
         if(typeclear === 'tag'){
@@ -516,14 +525,14 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
             if(filter.category.length === 0){
                 filter.category.push("all");
             }
-            $.each($('#dropdownTagDesktop a .form-check-input'),function(index,value){
-                if(value.checked){
-                    filter.tags.push(value.defaultValue);
-                }
-            })
-            if(filter.tags.length === 0){
-                filter.tags.push("all");
-            }
+            // $.each($('#dropdownTagDesktop a .form-check-input'),function(index,value){
+            //     if(value.checked){
+            //         filter.tags.push(value.defaultValue);
+            //     }
+            // })
+            // if(filter.tags.length === 0){
+            //     filter.tags.push("all");
+            // }
         }else{
             $.each($('.month-select-mobile'),function(index,value){
                 if($(value).hasClass('check-selected')){
@@ -543,14 +552,14 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
             if(filter.category.length === 0){
                 filter.category.push("all");
             }
-            $.each($('#dropdownTagMobile a .form-check-input'),function(index,value){
-                if(value.checked){
-                    filter.tags.push(value.defaultValue);
-                }
-            })
-            if(filter.tags.length === 0){
-                filter.tags.push("all");
-            }
+            // $.each($('#dropdownTagMobile a .form-check-input'),function(index,value){
+            //     if(value.checked){
+            //         filter.tags.push(value.defaultValue);
+            //     }
+            // })
+            // if(filter.tags.length === 0){
+            //     filter.tags.push("all");
+            // }
         }
         console.log(filter)
     }
