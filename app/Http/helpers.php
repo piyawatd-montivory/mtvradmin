@@ -460,49 +460,61 @@ function getCdaDataList($categoryId,$limit,$page,$excludeid = '',$tag = '',$sear
     }else{
         $contentarrayquery = array("content_type"=>"content");
         $contentarrayquery['select'] = "sys.id,sys.createdAt,fields.title,fields.slug,fields.thumbnail,fields.heroimage,fields.mobileimage,fields.category";
-        if($categoryId <> ''){
-            $contentarrayquery['fields.category.sys.id'] = $categoryId;
+        if(count($categoryId) > 0){
+            $categorystr = '';
+            foreach($categoryId as $cateitem){
+                if($categorystr == ''){
+                    $categorystr = $cateitem;
+                }else{
+                    $categorystr = $categorystr.','.$cateitem;
+                }
+            }
+            $contentarrayquery['fields.category.sys.id[in]'] = $categorystr;
         }
         if($excludeid <> ''){
             $contentarrayquery['sys.id[nin]'] = $excludeid;
         }
         if($tag <> ''){
-            $contentarrayquery['metadata.tags.sys.id[all]'] = $tag;
+            $contentarrayquery['metadata.tags.sys.id[in]'] = $tag;
         }
         if($search <> ''){
             $contentarrayquery['fields.title[match]'] = $search;
         }
-        // $start = '';
-        // if(($year <> 0) && ($month <> 0)){
-        //     if(($year <> 0) && ($month == 0)){
-        //         $start = $year.'-01-01T00:00:00Z';
-        //         $end = ($year+1).'-01-01T00:00:00Z';
-        //     }
-        //     if(($year == 0) && ($month <> 0)){
-        //         if($month > 9){
-        //             $start = '2019-'.$month.'-01T00:00:00Z';
-        //         }else{
-        //             $start = '2019-0'.$month.'-01T00:00:00Z';
-        //         }
-        //     }
-        //     if(($year <> 0) && ($month <> 0)){
-        //         if($month > 9){
-        //             $start = $year.'-'.$month.'-01T00:00:00Z';
-        //             $end = ($year+1).'-'.$month.'-01T00:00:00Z';
-        //         }else{
-        //             $start = '2019-0'.$month.'-01T00:00:00Z';
-        //         }
-        //     }
-        // }
-        // 2013-01-01T00:00:00Z
-
-
+        $start = '';
+        $end = '';
+        if($year > 0){
+            if($month > 0){
+                if($month == 12){
+                    $end = ($year+1).'-01-01T00:00:00Z';
+                }else{
+                    $nextmonth = $month + 1;
+                    if($nextmonth > 9){
+                        $end = $year.'-'.$nextmonth.'-01T00:00:00Z';
+                    }else{
+                        $end = $year.'-0'.$nextmonth.'-01T00:00:00Z';
+                    }
+                }
+                if($month > 9){
+                    $start = $year.'-'.$month.'-01T00:00:00Z';
+                }else{
+                    $start = $year.'-0'.$month.'-01T00:00:00Z';
+                }
+            }else{
+                $start = $year.'-01-01T00:00:00Z';
+                $end = ($year+1).'-01-01T00:00:00Z';
+            }
+            if($end == ''){
+                $contentarrayquery['sys.createdAt[gte]'] = $start;
+            }else{
+                $contentarrayquery['sys.createdAt[gte]'] = $start;
+                $contentarrayquery['sys.createdAt[lt]'] = $end;
+            }
+        }
         $contentarrayquery['limit'] = $limit;
         $contentarrayquery['skip'] = $page;
         $contentresponse = Http::withToken(config('app.cdaaccesstoken'))
         ->get(getCtCdaUrl().'/entries',$contentarrayquery);
         $contentresult = $contentresponse->object();
-        // $contentAsset = $contentresult->includes->Asset;
         $result->total = $contentresult->total;
         foreach($contentresult->items as $item){
             $itemObj = new \stdClass;
@@ -863,6 +875,68 @@ function renderContent($components) {
             }
             echo $data;
         }
+    }
+}
+
+function getFeCategory(){
+    $result = [];
+    $cate = new \stdClass;
+    $cate->name = 'Binary Craft';
+    $cate->slug = 'binary-craft';
+    $cate->id = '7dHUF3e7w2hlepZrYFqElu';
+    array_push($result,$cate);
+    $cate = new \stdClass;
+    $cate->name = 'Business';
+    $cate->slug = 'business';
+    $cate->id = '3MM9Y8CV9dlTmCEfxvjYKt';
+    array_push($result,$cate);
+    $cate = new \stdClass;
+    $cate->name = 'Creative';
+    $cate->slug = 'creative';
+    $cate->id = 'wU47nGJOS11QOsx34Ec8M';
+    array_push($result,$cate);
+    $cate = new \stdClass;
+    $cate->name = 'Data and Tech';
+    $cate->slug = 'data-and-tech';
+    $cate->id = '20cSGbk3xUXJAeL924bhE3';
+    array_push($result,$cate);
+    $cate = new \stdClass;
+    $cate->name = 'Privacy';
+    $cate->slug = 'privacy';
+    $cate->id = '6x6Hu9HD10xS1RVgRr1g93';
+    array_push($result,$cate);
+    $cate = new \stdClass;
+    $cate->name = 'Research';
+    $cate->slug = 'research';
+    $cate->id = '3l6y4L0LBQ3WO0gDZbTcdN';
+    array_push($result,$cate);
+    $cate = new \stdClass;
+    $cate->name = 'Trending';
+    $cate->slug = 'trending';
+    $cate->id = '7dHUF3e7w2hlepZrYFqElu';
+    array_push($result,$cate);
+    return $result;
+}
+
+function getYears($start = 2019){
+    $years = [];
+    for($i = date('Y');$i >= $start;$i--){
+        array_push($years,$i);
+    }
+    return $years;
+}
+
+function getMonths(){
+    $months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    return $months;
+}
+
+function getMonthName($month){
+    if($month == 0){
+        return "All months";
+    }else{
+        $months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+        return $months[$month-1];
     }
 }
 ?>

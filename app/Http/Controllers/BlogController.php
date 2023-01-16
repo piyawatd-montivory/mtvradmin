@@ -16,19 +16,19 @@ class BlogController extends Controller
     function index()
     {
         $data = new \stdClass;
-        $data->herocontent = getCdaDataList("",1,1)->data;
+        $data->herocontent = getCdaDataList([],1,1)->data;
         // return $this->getCdaDataList("",1,0);
         $excludeid = '';
         if(count($data->herocontent) > 0){
             $excludeid = $data->herocontent[0]->id;
         }
-        $data->binarycrafts = getCdaDataList("7dHUF3e7w2hlepZrYFqElu",2,1,$excludeid)->data;
-        $data->business = getCdaDataList("3MM9Y8CV9dlTmCEfxvjYKt",3,1,$excludeid)->data;
-        $data->dataandtech = getCdaDataList("20cSGbk3xUXJAeL924bhE3",3,1,$excludeid)->data;
-        $data->creative = getCdaDataList("wU47nGJOS11QOsx34Ec8M",3,1,$excludeid)->data;
-        $data->privacy = getCdaDataList("6x6Hu9HD10xS1RVgRr1g93",3,1,$excludeid)->data;
-        $data->research = getCdaDataList("3l6y4L0LBQ3WO0gDZbTcdN",3,1,$excludeid)->data;
-        $data->trending = getCdaDataList("7dHUF3e7w2hlepZrYFqElu",6,1,$excludeid)->data;
+        $data->binarycrafts = getCdaDataList(["7dHUF3e7w2hlepZrYFqElu"],2,1,$excludeid)->data;
+        $data->business = getCdaDataList(["3MM9Y8CV9dlTmCEfxvjYKt"],3,1,$excludeid)->data;
+        $data->dataandtech = getCdaDataList(["20cSGbk3xUXJAeL924bhE3"],3,1,$excludeid)->data;
+        $data->creative = getCdaDataList(["wU47nGJOS11QOsx34Ec8M"],3,1,$excludeid)->data;
+        $data->privacy = getCdaDataList(["6x6Hu9HD10xS1RVgRr1g93"],3,1,$excludeid)->data;
+        $data->research = getCdaDataList(["3l6y4L0LBQ3WO0gDZbTcdN"],3,1,$excludeid)->data;
+        $data->trending = getCdaDataList(["7dHUF3e7w2hlepZrYFqElu"],6,1,$excludeid)->data;
         return view('blog',['data'=>$data]);
     }
 
@@ -46,11 +46,6 @@ class BlogController extends Controller
         if($request->year){
             $year = $request->year;
         }
-
-        // $start = $year.'-01-01T00:00:00Z';
-        // $end = ($year+1).'-01-01T00:00:00Z';
-        // return $start.' '.$end;
-
         $query = 'query categoryCollectionQuery {
             categoryCollection (
                 where:
@@ -100,7 +95,7 @@ class BlogController extends Controller
                 $category->description = '';
             }
         }
-        $data = getCdaDataList($category->sys->id,12,$currentPage,'','','',$month,$year);
+        $data = getCdaDataList([$category->sys->id],12,$currentPage,'','','',$month,$year);
         return view('category',['category'=>$category,'data'=>$data,'page'=>buildPage($data->pages,$currentPage),'currentPage'=>$currentPage,'month'=>$month,'year'=>$year]);
     }
 
@@ -115,15 +110,54 @@ class BlogController extends Controller
         $category->slug = $data->categoryslug;
         $category->title = $data->category;
         $category->url = $data->categoryurl;
-        $relateds =  getCdaDataList($data->categoryid,3,1,$data->id);
+        $relateds =  getCdaDataList([$data->categoryid],3,1,$data->id);
         return view('blogpost',['data'=>$data,'category'=>$category,'relateds'=>$relateds->data]);
     }
 
     function tags($slug,Request $request)
     {
         $currentPage = 1;
+        $month = 0;
+        $year = 0;
+        $categoryArray = [];
+        $categoryIdArray = [];
+        if($request->category){
+            $categoryArray = explode(',',$request->category);
+            $category = $request->category;
+            foreach(explode(',',$request->category) as $cateName){
+                switch($cateName){
+                    case 'binarycrafts':
+                        array_push($categoryIdArray,"7dHUF3e7w2hlepZrYFqElu");
+                        break;
+                    case 'business':
+                        array_push($categoryIdArray,"3MM9Y8CV9dlTmCEfxvjYKt");
+                        break;
+                    case 'data-and-tech':
+                        array_push($categoryIdArray,"20cSGbk3xUXJAeL924bhE3");
+                        break;
+                    case 'creative':
+                        array_push($categoryIdArray,"wU47nGJOS11QOsx34Ec8M");
+                        break;
+                    case 'privacy':
+                        array_push($categoryIdArray,"6x6Hu9HD10xS1RVgRr1g93");
+                        break;
+                    case 'research':
+                        array_push($categoryIdArray,"3l6y4L0LBQ3WO0gDZbTcdN");
+                        break;
+                    case 'trending':
+                        array_push($categoryIdArray,"7dHUF3e7w2hlepZrYFqElu");
+                        break;
+                }
+            }
+        }
         if($request->page){
             $currentPage = $request->page;
+        }
+        if($request->month){
+            $month = $request->month;
+        }
+        if($request->year){
+            $year = $request->year;
         }
         $tags = new \stdClass;
         foreach(getGenerateCustomFile('tag.json')->items as $tag){
@@ -133,24 +167,63 @@ class BlogController extends Controller
                 break;
             }
         }
-        $data = getCdaDataList('',12,$currentPage,'',$slug);
-        return view('tags',['tags'=>$tags,'data'=>$data,'page'=>buildPage($data->pages,$currentPage),'currentPage'=>$currentPage]);
+        $data = getCdaDataList($categoryIdArray,12,$currentPage,'',$slug,'',$month,$year);
+        return view('tags',['tags'=>$tags,'data'=>$data,'page'=>buildPage($data->pages,$currentPage),'currentPage'=>$currentPage,'month'=>$month,'year'=>$year,'categoryfilter'=>$categoryArray]);
     }
 
     function search($search,Request $request)
     {
         $currentPage = 1;
+        $month = 0;
+        $year = 0;
         if($request->page){
             $currentPage = $request->page;
         }
-        $data = getCdaDataList('',12,1,'','',$search);
+        if($request->month){
+            $month = $request->month;
+        }
+        if($request->year){
+            $year = $request->year;
+        }
+        $categoryArray = [];
+        $categoryIdArray = [];
+        if($request->category){
+            $categoryArray = explode(',',$request->category);
+            $category = $request->category;
+            foreach(explode(',',$request->category) as $cateName){
+                switch($cateName){
+                    case 'binarycrafts':
+                        array_push($categoryIdArray,"7dHUF3e7w2hlepZrYFqElu");
+                        break;
+                    case 'business':
+                        array_push($categoryIdArray,"3MM9Y8CV9dlTmCEfxvjYKt");
+                        break;
+                    case 'data-and-tech':
+                        array_push($categoryIdArray,"20cSGbk3xUXJAeL924bhE3");
+                        break;
+                    case 'creative':
+                        array_push($categoryIdArray,"wU47nGJOS11QOsx34Ec8M");
+                        break;
+                    case 'privacy':
+                        array_push($categoryIdArray,"6x6Hu9HD10xS1RVgRr1g93");
+                        break;
+                    case 'research':
+                        array_push($categoryIdArray,"3l6y4L0LBQ3WO0gDZbTcdN");
+                        break;
+                    case 'trending':
+                        array_push($categoryIdArray,"7dHUF3e7w2hlepZrYFqElu");
+                        break;
+                }
+            }
+        }
+        $data = getCdaDataList($categoryIdArray,12,1,'','',$search,$month,$year);
         $relateds = new \stdClass;
         $tags = [];
         if($data->total == 0){
-            $relateds =  getCdaDataList('',3,1,'','');
+            $relateds =  getCdaDataList([],3,1,'','');
             $tags = randomTags(6);
         }
-        return view('search',['search'=>$search,'data'=>$data,'page'=>buildPage($data->pages,$currentPage),'currentPage'=>$currentPage,'relateds'=>$relateds,'tags'=>$tags]);
+        return view('search',['search'=>$search,'data'=>$data,'page'=>buildPage($data->pages,$currentPage),'currentPage'=>$currentPage,'relateds'=>$relateds,'tags'=>$tags,'month'=>$month,'year'=>$year,'categoryfilter'=>$categoryArray]);
     }
 
     function noresult()

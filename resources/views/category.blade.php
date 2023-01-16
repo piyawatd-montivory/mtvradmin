@@ -40,35 +40,30 @@ Montivory Category : {{ $category->title }}
                     <div class="col-3">
                         <div class="dropdown dropdown-year">
                             <button class="btn custom-dropdown dropdown-toggle w-100 text-start dropdownYear" type="button" id="dropdownYear" data-bs-toggle="dropdown" aria-expanded="false">
-                                All years
+                                @if($year == 0)
+                                    All years
+                                @else
+                                    {{$year}}
+                                @endif
                             </button>
                             <ul class="dropdown-menu w-100" aria-labelledby="dropdownYear">
-                            <li><a class="dropdown-item year-select year-select-desktop check-selected" href="javascript:void(0);" data="0">All years</a></li>
-                            <li><a class="dropdown-item year-select year-select-desktop" href="javascript:void(0);" data="2022">2022</a></li>
-                            <li><a class="dropdown-item year-select year-select-desktop" href="javascript:void(0);" data="2021">2021</a></li>
-                            <li><a class="dropdown-item year-select year-select-desktop" href="javascript:void(0);" data="2020">2020</a></li>
+                            <li><a class="dropdown-item year-select year-select-desktop @if($year == 0) check-selected @endif" href="javascript:void(0);" data="0">All years</a></li>
+                            @foreach (getYears() as $iyear)
+                                <li><a class="dropdown-item year-select year-select-desktop @if($year == $iyear) check-selected @endif" href="javascript:void(0);" data="{{ $iyear }}">{{ $iyear }}</a></li>
+                            @endforeach
                             </ul>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="dropdown dropdown-month">
-                            <button class="btn disabled custom-dropdown dropdown-toggle w-100 text-start dropdownMonth" type="button" id="dropdownMonth" data-bs-toggle="dropdown" aria-expanded="false">
-                                All months
+                            <button class="btn @if($year == 0) disabled @endif custom-dropdown dropdown-toggle w-100 text-start dropdownMonth" type="button" id="dropdownMonth" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ getMonthName($month) }}
                             </button>
                             <ul class="dropdown-menu w-100" id="dropdownMonthList" aria-labelledby="dropdownMonth">
-                            <li><a class="dropdown-item month-select month-select-desktop check-selected default-month" href="javascript:void(0);" data="0">All months</a></li>
-                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="1">January</a></li>
-                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="2">February</a></li>
-                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="3">March</a></li>
-                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="4">April</a></li>
-                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="5">May</a></li>
-                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="6">June</a></li>
-                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="7">July</a></li>
-                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="8">August</a></li>
-                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="9">September</a></li>
-                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="10">October</a></li>
-                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="11">November</a></li>
-                            <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="12">December</a></li>
+                            <li><a class="dropdown-item month-select month-select-desktop @if($month == 0) check-selected @endif default-month" href="javascript:void(0);" data="0">All months</a></li>
+                            @foreach (getMonths() as $imonth)
+                                <li><a class="dropdown-item month-select month-select-desktop @if($month == ($loop->index + 1)) check-selected @endif" href="javascript:void(0);" data="{{$loop->index + 1}}">{{$imonth}}</a></li>
+                            @endforeach
                             </ul>
                         </div>
                     </div>
@@ -99,12 +94,12 @@ Montivory Category : {{ $category->title }}
             <div class="col-12 text-center d-none d-md-block">
                 @php
                     $params = '';
-                    // if(app('request')->input('page') === null){
-                    //     $params = '?';
-                    // }
-                    // if($month > 0){
-                    //     $params = $params.'&month='.$month.'&year='.$year;
-                    // }
+                    if($year > 0){
+                        $params = '&year='.$year;
+                        if($month > 0){
+                            $params = $params.'&month='.$month;
+                        }
+                    }
                 @endphp
                 <a href="{{ route('category',['slug'=>$category->slug,'page'=>1]) }}{{$params}}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif first-btn">FIRST</a>
                 <a href="{{ route('category',['slug'=>$category->slug,'page'=>$currentPage-1]) }}{{$params}}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif previous-btn">PREVIOUS</a>
@@ -157,35 +152,30 @@ Montivory Category : {{ $category->title }}
                         <div class="col-12 mb-3">
                             <div class="dropdown dropdown-year">
                                 <button class="btn custom-dropdown dropdown-toggle w-100 text-start ps-0 dropdownYear" type="button" id="dropdownYear" data-bs-toggle="dropdown" aria-expanded="false">
+                                    @if($year == 0)
                                     All years
+                                    @else
+                                    {{$year}}
+                                    @endif
                                 </button>
                                 <ul class="dropdown-menu w-100" aria-labelledby="dropdownYear">
-                                <li><a class="dropdown-item year-select year-select-mobile check-selected" href="javascript:void(0);" data="all">All years</a></li>
-                                <li><a class="dropdown-item year-select year-select-mobile" href="javascript:void(0);" data="2022">2022</a></li>
-                                <li><a class="dropdown-item year-select year-select-mobile" href="javascript:void(0);" data="2021">2021</a></li>
-                                <li><a class="dropdown-item year-select year-select-mobile" href="javascript:void(0);" data="2020">2020</a></li>
+                                <li><a class="dropdown-item year-select year-select-mobile @if($year == 0) check-selected @endif" href="javascript:void(0);" data="all">All years</a></li>
+                                @foreach (getYears() as $iyear)
+                                    <li><a class="dropdown-item year-select year-select-mobile @if($year == $iyear) check-selected @endif" href="javascript:void(0);" data="{{ $iyear }}">{{ $iyear }}</a></li>
+                                @endforeach
                                 </ul>
                             </div>
                         </div>
                         <div class="col-12 mb-3">
                             <div class="dropdown dropdown-month">
-                                <button class="btn disabled custom-dropdown dropdown-toggle w-100 text-start ps-0 dropdownMonth" type="button" id="dropdownMonth" data-bs-toggle="dropdown" aria-expanded="false">
-                                    All months
+                                <button class="btn  @if($month == 0) disabled @endif  custom-dropdown dropdown-toggle w-100 text-start ps-0 dropdownMonth" type="button" id="dropdownMonth" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ getMonthName($month) }}
                                 </button>
                                 <ul class="dropdown-menu w-100" aria-labelledby="dropdownMonth">
-                                <li><a class="dropdown-item month-select month-select-mobile check-selected default-month" href="javascript:void(0);" data="0">All months</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="1">January</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="2">February</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="3">March</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="4">April</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="5">May</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="6">June</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="7">July</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="8">August</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="9">September</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="10">October</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="11">November</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="12">December</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile  @if($month == 0) check-selected @endif default-month" href="javascript:void(0);" data="0">All months</a></li>
+                                @foreach (getMonths() as $imonth)
+                                    <li><a class="dropdown-item month-select month-select-mobile @if($month == ($loop->index + 1)) check-selected @endif" href="javascript:void(0);" data="{{ $loop->index + 1}}">{{$imonth}}</a></li>
+                                @endforeach
                                 </ul>
                             </div>
                         </div>
@@ -226,44 +216,6 @@ Montivory Category : {{ $category->title }}
         });
     })
 
-    // const tagDropdown = document.getElementById('dropdownTag')
-    // tagDropdown.addEventListener('hide.bs.dropdown', function () {
-    //     let showlabel = ''
-    //     $.each($('.form-check-input-desktop'),function(index,value){
-    //         if(value.checked){
-    //             if(showlabel === ''){
-    //                 showlabel = $(value).attr('label');
-    //             }else{
-    //                 let checklabel = $(value).attr('label');
-    //                 showlabel = `${showlabel}, ${checklabel}`;
-    //             }
-    //         }
-    //     })
-    //     if(showlabel === ''){
-    //         showlabel = 'All tags';
-    //     }
-    //     $('#dropdownTag').text(showlabel);
-    // })
-
-    // const tagDropdownMobile = document.getElementById('dropdownTagMobile')
-    // tagDropdownMobile.addEventListener('hide.bs.dropdown', function () {
-    //     let showlabel = ''
-    //     $.each($('.form-check-input-mobile'),function(index,value){
-    //         if(value.checked){
-    //             if(showlabel === ''){
-    //                 showlabel = $(value).attr('label');
-    //             }else{
-    //                 let checklabel = $(value).attr('label');
-    //                 showlabel = `${showlabel}, ${checklabel}`;
-    //             }
-    //         }
-    //     })
-    //     if(showlabel === ''){
-    //         showlabel = 'All tags';
-    //     }
-    //     $('#dropdownTagMobile').text(showlabel);
-    // })
-
     const cleartag = () => {
         $.each($('.form-check-input'),function(index,value){
             $(value).prop("checked",false);
@@ -271,51 +223,51 @@ Montivory Category : {{ $category->title }}
     }
 
     const filtercontent = (typewindows) => {
-        let month = 0;
-        let year = 0;
+        let params = '';
         // let tags = []
         if(typewindows === 'desktop')
         {
-            $.each($('.month-select-desktop'),function(index,value){
-                if($(value).hasClass('check-selected')){
-                    month = $(value).attr('data');
-                }
-            });
             $.each($('.year-select-desktop'),function(index,value){
                 if($(value).hasClass('check-selected')){
-                    year = $(value).attr('data');
+                    if($(value).attr('data') > 0){
+                        params = '?year='+$(value).attr('data');
+                    }
                 }
             });
-            // $.each($('.form-check-input-desktop'),function(index,value){
-            //     if(value.checked){
-            //         tags.push(value.defaultValue);
-            //     }
-            // })
-            // if(tags.length === 0){
-            //     tags.push("all");
-            // }
-        }else{
-            $.each($('.month-select-mobile'),function(index,value){
+            $.each($('.month-select-desktop'),function(index,value){
                 if($(value).hasClass('check-selected')){
-                    month = $(value).attr('data');
+                    if($(value).attr('data') > 0){
+                        if(params === ''){
+                            params = '?';
+                        }else{
+                            params = params+'&';
+                        }
+                        params = params+'month='+$(value).attr('data');
+                    }
                 }
             });
+        }else{
             $.each($('.year-select-mobile'),function(index,value){
                 if($(value).hasClass('check-selected')){
-                    year = $(value).attr('data');
+                    if($(value).attr('data') > 0){
+                        params = '?year='+$(value).attr('data');
+                    }
                 }
             });
-            // $.each($('.form-check-input-mobile'),function(index,value){
-            //     if(value.checked){
-            //         tags.push(value.defaultValue);
-            //     }
-            // })
-            // if(tags.length === 0){
-            //     tags.push("all");
-            // }
+            $.each($('.month-select-mobile'),function(index,value){
+                if($(value).hasClass('check-selected')){
+                    if($(value).attr('data') > 0){
+                        if(params === ''){
+                            params = '?';
+                        }else{
+                            params = params+'&';
+                        }
+                        params = params+'month='+$(value).attr('data');
+                    }
+                }
+            });
         }
-        // filter.tags = tags;
-        window.location.href = "/category/{{ $category->slug }}?year="+year+"&month="+month;
+        window.location.href = "/category/{{ $category->slug }}"+params;
     }
 
 </script>

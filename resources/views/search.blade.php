@@ -31,97 +31,86 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
                 <div class="col-12 col-md-10 d-none d-md-block">
                     <h6 class="search-result-display"><span class="font-normal">{{ $data->total }} results of : </span>{{$search}}</h6>
                     <div class="row">
-                        <div class="col-11">
-                            <div class="row">
-                                <div class="col-3">
-                                    <div class="dropdown dropdown-year">
-                                        <button class="btn custom-dropdown dropdown-toggle w-100 text-start dropdownYear" type="button" id="dropdownYear" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="dropdown dropdown-year">
+                                    <button class="btn custom-dropdown dropdown-toggle w-100 text-start dropdownYear" type="button" id="dropdownYear" data-bs-toggle="dropdown" aria-expanded="false">
+                                        @if($year == 0)
                                             All years
-                                        </button>
-                                        <ul class="dropdown-menu w-100" aria-labelledby="dropdownYear">
-                                        <li><a class="dropdown-item year-select year-select-desktop check-selected" href="javascript:void(0);" data="all">All years</a></li>
-                                        <li><a class="dropdown-item year-select year-select-desktop" href="javascript:void(0);" data="2022">2022</a></li>
-                                        <li><a class="dropdown-item year-select year-select-desktop" href="javascript:void(0);" data="2021">2021</a></li>
-                                        <li><a class="dropdown-item year-select year-select-desktop" href="javascript:void(0);" data="2020">2020</a></li>
-                                        </ul>
-                                    </div>
+                                        @else
+                                            {{$year}}
+                                        @endif
+                                    </button>
+                                    <ul class="dropdown-menu w-100" aria-labelledby="dropdownYear">
+                                    <li><a class="dropdown-item year-select year-select-desktop @if($year == 0) check-selected @endif" href="javascript:void(0);" data="0">All years</a></li>
+                                    @foreach (getYears() as $iyear)
+                                        <li><a class="dropdown-item year-select year-select-desktop @if($year == $iyear) check-selected @endif" href="javascript:void(0);" data="{{ $iyear }}">{{ $iyear }}</a></li>
+                                    @endforeach
+                                    </ul>
                                 </div>
-                                <div class="col-3">
-                                    <div class="dropdown dropdown-month">
-                                        <button class="btn custom-dropdown dropdown-toggle w-100 text-start dropdownMonth disabled" type="button" id="dropdownMonth" data-bs-toggle="dropdown" aria-expanded="false">
-                                            All months
-                                        </button>
-                                        <ul class="dropdown-menu w-100" id="dropdownMonthList" aria-labelledby="dropdownMonth">
-                                        <li><a class="dropdown-item month-select month-select-desktop check-selected default-month" href="javascript:void(0);" data="all">All months</a></li>
-                                        <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="january">January</a></li>
-                                        <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="february">February</a></li>
-                                        <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="march">March</a></li>
-                                        <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="april">April</a></li>
-                                        <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="may">May</a></li>
-                                        <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="june">June</a></li>
-                                        <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="july">July</a></li>
-                                        <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="august">August</a></li>
-                                        <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="september">September</a></li>
-                                        <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="november">November</a></li>
-                                        <li><a class="dropdown-item month-select month-select-desktop" href="javascript:void(0);" data="december">December</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="dropdown dropdown-year">
-                                        <button class="btn custom-dropdown dropdown-toggle w-100 text-start" type="button" id="dropdownCategoryDesktopLabel" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                                            All categories
-                                        </button>
-                                        <ul class="dropdown-menu w-100" aria-labelledby="dropdownCategoryDesktopLabel" id="dropdownCategoryDesktop">
-                                            <li>
-                                                <a class="dropdown-item tag-clear" href="javascript:clearselect('category');">CLEAR</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item tag-select"><input type="checkbox" class="form-check-input" value="binary-craft" label="Binary Craft">Binary Craft</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item tag-select"><input type="checkbox" class="form-check-input" value="business" label="Business">Business</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item tag-select"><input type="checkbox" class="form-check-input" value="creative" label="Creative">Creative</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item tag-select"><input type="checkbox" class="form-check-input" value="data-and-tech" label="Data and Tech">Data and Tech</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item tag-select"><input type="checkbox" class="form-check-input" value="privacy" label="Privacy">Privacy</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item tag-select"><input type="checkbox" class="form-check-input" value="research" label="Research">Research</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                {{-- <div class="col-3">
-                                    <div class="dropdown dropdown-year">
-                                        <button class="btn custom-dropdown dropdown-toggle w-100 text-start" type="button" id="dropdownTagDesktopLabel" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                                            All tags
-                                        </button>
-                                        <ul class="dropdown-menu w-100" aria-labelledby="dropdownTagDesktopLabel" id="dropdownTagDesktop">
-                                            <li>
-                                                <a class="dropdown-item tag-clear" href="javascript:clearselect('tag');">CLEAR</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item tag-select" data="all"><input type="checkbox" class="form-check-input" value="valtag1" label="Tag 1">Tag 1</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item tag-select" data="all"><input type="checkbox" class="form-check-input" value="tag2" label="Tag 2">Tag 2</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item tag-select" data="all"><input type="checkbox" class="form-check-input" value="tag3" label="Tag 3">Tag 3</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div> --}}
                             </div>
-                        </div>
-                        <div class="col-1">
-                            <button class="btn btn-apply px-3" type="button" onclick="filtercontent('desktop');" >APPLY</button>
+                            <div class="col-3">
+                                <div class="dropdown dropdown-month">
+                                    <button class="btn @if($year == 0) disabled @endif custom-dropdown dropdown-toggle w-100 text-start dropdownMonth" type="button" id="dropdownMonth" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{ getMonthName($month) }}
+                                    </button>
+                                    <ul class="dropdown-menu w-100" id="dropdownMonthList" aria-labelledby="dropdownMonth">
+                                    <li><a class="dropdown-item month-select month-select-desktop @if($month == 0) check-selected @endif default-month" href="javascript:void(0);" data="0">All months</a></li>
+                                    @foreach (getMonths() as $imonth)
+                                        <li><a class="dropdown-item month-select month-select-desktop @if($month == ($loop->index + 1)) check-selected @endif" href="javascript:void(0);" data="{{$loop->index + 1}}">{{$imonth}}</a></li>
+                                    @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="dropdown dropdown-year">
+                                    <button class="btn custom-dropdown dropdown-toggle w-100 text-start" type="button" id="dropdownCategory" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                                        @php
+                                        $cateLabel = 'All categories';
+                                        if(count($categoryfilter) > 0){
+                                            $cateLabel = '';
+                                            foreach (getFeCategory() as $cateFilter)
+                                            {
+                                                foreach ($categoryfilter as $cateSel){
+                                                    if($cateSel == $cateFilter->slug)
+                                                    {
+                                                        if($cateLabel == ''){
+                                                            $cateLabel = $cateFilter->name;
+                                                        }else{
+                                                            $cateLabel = $cateLabel.', '.$cateFilter->name;
+                                                        }
+                                                    }
+                                                }
+
+                                            }
+                                        }
+                                        @endphp
+                                        {{ $cateLabel }}
+                                    </button>
+                                    <ul class="dropdown-menu w-100" aria-labelledby="dropdownCategory">
+                                        <li>
+                                            <a class="dropdown-item tag-clear" href="javascript:clearcategory();">CLEAR</a>
+                                        </li>
+                                        @foreach (getFeCategory() as $cateFilter)
+                                            @php
+                                            $sel = false;
+                                            foreach ($categoryfilter as $cateSel){
+                                                if($cateSel == $cateFilter->slug){
+                                                    $sel = true;
+                                                    break;
+                                                }
+                                            }
+                                            @endphp
+                                            <li>
+                                                <a class="dropdown-item tag-select" data="{{$cateFilter->slug}}"><input type="checkbox" class="form-check-input form-check-input-desktop" value="{{$cateFilter->slug}}" label="{{$cateFilter->name}}" @if($sel) checked @endif>{{$cateFilter->name}}</a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <button class="btn btn-apply px-3" type="button" onclick="filtercontent('desktop');" >APPLY</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -149,36 +138,56 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
             </div>
             <div class="row page-row">
                 <div class="col-12 text-center d-none d-md-block">
-                    <a href="{{ route('search',['search'=>$search,'page'=>1]) }}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif first-btn">FIRST</a>
-                    <a href="{{ route('search',['search'=>$search,'page'=>$currentPage-1]) }}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif previous-btn">PREVIOUS</a>
+                    @php
+                    $params = '';
+                    if($year > 0){
+                        $params = '&year='.$year;
+                        if($month > 0){
+                            $params = $params.'&month='.$month;
+                        }
+                    }
+                    if(count($categoryfilter) > 0){
+                        $cateLabel = '';
+                        foreach ($categoryfilter as $cateSel){
+                            if($cateLabel == ''){
+                                $cateLabel = $cateFilter->name;
+                            }else{
+                                $cateLabel = $cateLabel.', '.$cateFilter->name;
+                            }
+                        }
+                        $params = $params.'&category='.$cateLabel;
+                    }
+                    @endphp
+                    <a href="{{ route('search',['search'=>$search,'page'=>1]) }}{{$params}}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif first-btn">FIRST</a>
+                    <a href="{{ route('search',['search'=>$search,'page'=>$currentPage-1]) }}{{$params}}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif previous-btn">PREVIOUS</a>
                     @for($i = $page->min;$i <= $page->max;$i++)
                         @if($i == $currentPage)
                             <a href="javascript:void(0);" class="btn btn-page active">{{ $i }}</a>
                         @else
-                            <a href="{{ route('search',['search'=>$search,'page'=>$i]) }}" class="btn btn-page">{{ $i }}</a>
+                            <a href="{{ route('search',['search'=>$search,'page'=>$i]) }}{{$params}}" class="btn btn-page">{{ $i }}</a>
                         @endif
                     @endfor
-                    <a href="{{ route('search',['search'=>$search,'page'=>$currentPage+1]) }}" class="btn btn-page btn-page-nav @if(!$page->last) d-none @endif next-btn">NEXT</a>
-                    <a href="{{ route('search',['search'=>$search,'page'=>$data->pages]) }}" class="btn btn-page btn-page-nav @if(!$page->last) d-none @endif last-btn">LAST</a>
+                    <a href="{{ route('search',['search'=>$search,'page'=>$currentPage+1]) }}{{$params}}" class="btn btn-page btn-page-nav @if(!$page->last) d-none @endif next-btn">NEXT</a>
+                    <a href="{{ route('search',['search'=>$search,'page'=>$data->pages]) }}{{$params}}" class="btn btn-page btn-page-nav @if(!$page->last) d-none @endif last-btn">LAST</a>
                 </div>
                 <div class="col-12 text-center d-md-none">
-                    <a href="{{ route('search',['search'=>$search,'page'=>1]) }}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif first-btn">
+                    <a href="{{ route('search',['search'=>$search,'page'=>1]) }}{{$params}}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif first-btn">
                         <img src="{{ asset('images/icon/btn-first-mb.png')}}"/>
                     </a>
-                    <a href="{{ route('search',['search'=>$search,'page'=>$currentPage-1]) }}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif previous-btn">
+                    <a href="{{ route('search',['search'=>$search,'page'=>$currentPage-1]) }}{{$params}}" class="btn btn-page btn-page-nav @if(!$page->first) d-none @endif previous-btn">
                         <img src="{{ asset('images/icon/btn-previous-mb.png')}}"/>
                     </a>
                     @for($i = $page->min;$i <= $page->max;$i++)
                         @if($i == $currentPage)
                             <a href="javascript:void(0);" class="btn btn-page active">{{ $i }}</a>
                         @else
-                            <a href="{{ route('search',['search'=>$search,'page'=>$i]) }}" class="btn btn-page">{{ $i }}</a>
+                            <a href="{{ route('search',['search'=>$search,'page'=>$i]) }}{{$params}}" class="btn btn-page">{{ $i }}</a>
                         @endif
                     @endfor
-                    <a href="{{ route('search',['search'=>$search,'page'=>$currentPage+1]) }}" class="btn btn-page btn-page-nav next-btn @if(!$page->last) d-none @endif ">
+                    <a href="{{ route('search',['search'=>$search,'page'=>$currentPage+1]) }}{{$params}}" class="btn btn-page btn-page-nav next-btn @if(!$page->last) d-none @endif ">
                         <img src="{{ asset('images/icon/btn-next-mb.png')}}"/>
                     </a>
-                    <a href="{{ route('search',['search'=>$search,'page'=>$data->pages]) }}" class="btn btn-page btn-page-nav last-btn @if(!$page->last) d-none @endif ">
+                    <a href="{{ route('search',['search'=>$search,'page'=>$data->pages]) }}{{$params}}" class="btn btn-page btn-page-nav last-btn @if(!$page->last) d-none @endif ">
                         <img src="{{ asset('images/icon/btn-last-mb.png')}}"/>
                     </a>
                 </div>
@@ -206,15 +215,6 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
                             {{ $tag->name }}
                         </a>
                     @endforeach
-                    {{-- <a href="#" class="pill btn btn-primary">
-                        Politic
-                    </a>
-                    <a href="#" class="pill btn btn-primary">
-                        Politic
-                    </a>
-                    <a href="#" class="pill btn btn-primary">
-                        Politic
-                    </a> --}}
                 </div>
             </div>
             <div class="row justify-content-center">
@@ -233,36 +233,6 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
                                 <p class="mt-3 display-time">{{$item->createAt}}</p>
                             </div>
                         @endforeach
-                        {{-- <div class="col-12 col-md-4 content-block">
-                            <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
-                            <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
-                                <h6>Category</h6>
-                            </a>
-                            <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                                <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
-                            </a>
-                            <p class="mt-3 display-time">01 Dec 2022</p>
-                        </div>
-                        <div class="col-12 col-md-4 content-block">
-                            <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
-                            <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
-                                <h6>Category</h6>
-                            </a>
-                            <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                                <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
-                            </a>
-                            <p class="mt-3 display-time">01 Dec 2022</p>
-                        </div>
-                        <div class="col-12 col-md-4 content-block">
-                            <img src="{{asset('images/default/ArticleTeaser.jpg')}}" class="card-img-top" alt="...">
-                            <a href="{{route('category',['slug'=>'sample'])}}" class="category-link">
-                                <h6>Category</h6>
-                            </a>
-                            <a href="{{route('blogpost',['slug'=>'sample'])}}" class="content-link">
-                                <h6 class="content-title content-title-three-row">Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article Article Title Article Title Article Title Article Title Article Title Article Title Article Title Article</h6>
-                            </a>
-                            <p class="mt-3 display-time">01 Dec 2022</p>
-                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -284,89 +254,63 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
                         <div class="col-12 mb-3">
                             <div class="dropdown dropdown-year">
                                 <button class="btn custom-dropdown dropdown-toggle w-100 text-start ps-0 dropdownYear" type="button" id="dropdownYear" data-bs-toggle="dropdown" aria-expanded="false">
+                                    @if($year == 0)
                                     All years
+                                    @else
+                                    {{$year}}
+                                    @endif
                                 </button>
                                 <ul class="dropdown-menu w-100" aria-labelledby="dropdownYear">
-                                <li><a class="dropdown-item year-select year-select-mobile check-selected" href="javascript:void(0);" data="all">All years</a></li>
-                                <li><a class="dropdown-item year-select year-select-mobile" href="javascript:void(0);" data="2022">2022</a></li>
-                                <li><a class="dropdown-item year-select year-select-mobile" href="javascript:void(0);" data="2021">2021</a></li>
-                                <li><a class="dropdown-item year-select year-select-mobile" href="javascript:void(0);" data="2020">2020</a></li>
+                                <li><a class="dropdown-item year-select year-select-mobile @if($year == 0) check-selected @endif" href="javascript:void(0);" data="all">All years</a></li>
+                                @foreach (getYears() as $iyear)
+                                    <li><a class="dropdown-item year-select year-select-mobile @if($year == $iyear) check-selected @endif" href="javascript:void(0);" data="{{ $iyear }}">{{ $iyear }}</a></li>
+                                @endforeach
                                 </ul>
                             </div>
                         </div>
                         <div class="col-12 mb-3">
                             <div class="dropdown dropdown-month">
-                                <button class="btn custom-dropdown dropdown-toggle w-100 text-start ps-0 dropdownMonth disabled" type="button" id="dropdownMonth" data-bs-toggle="dropdown" aria-expanded="false">
-                                    All months
+                                <button class="btn  @if($month == 0) disabled @endif  custom-dropdown dropdown-toggle w-100 text-start ps-0 dropdownMonth" type="button" id="dropdownMonth" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ getMonthName($month) }}
                                 </button>
                                 <ul class="dropdown-menu w-100" aria-labelledby="dropdownMonth">
-                                <li><a class="dropdown-item month-select month-select-mobile check-selected default-month" href="javascript:void(0);" data="all">All months</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="january">January</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="february">February</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="march">March</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="april">April</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="may">May</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="june">June</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="july">July</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="august">August</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="september">September</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="november">November</a></li>
-                                <li><a class="dropdown-item month-select month-select-mobile" href="javascript:void(0);" data="december">December</a></li>
+                                <li><a class="dropdown-item month-select month-select-mobile  @if($month == 0) check-selected @endif default-month" href="javascript:void(0);" data="0">All months</a></li>
+                                @foreach (getMonths() as $imonth)
+                                    <li><a class="dropdown-item month-select month-select-mobile @if($month == ($loop->index + 1)) check-selected @endif" href="javascript:void(0);" data="{{ $loop->index + 1}}">{{$imonth}}</a></li>
+                                @endforeach
                                 </ul>
                             </div>
                         </div>
-
                         <div class="col-12">
                             <div class="dropdown dropdown-category">
-                                <button class="btn custom-dropdown dropdown-toggle w-100 text-start ps-0 dropdownCategory" type="button" id="dropdownCategoryMobileLabel" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                                <button class="btn custom-dropdown dropdown-toggle w-100 text-start ps-0 dropdownCategory" type="button" id="dropdownCategoryMobile" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                                     All categories
                                 </button>
-                                <ul class="dropdown-menu w-100" aria-labelledby="dropdownCategoryMobile" id="dropdownCategoryMobile">
+                                <ul class="dropdown-menu w-100" aria-labelledby="dropdownCategoryMobile">
                                     <li>
-                                        <a class="dropdown-item tag-clear" href="javascript:clearselect('category');">CLEAR</a>
+                                        <a class="dropdown-item tag-clear" href="javascript:clearcategory();">CLEAR</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item tag-select"><input type="checkbox" class="form-check-input" value="binary-craft" label="Binary Craft">Binary Craft</a>
+                                        <a class="dropdown-item tag-select" data="all"><input type="checkbox" class="form-check-input form-check-input-mobile" value="binary-craft" label="Binary Craft">Binary Craft</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item tag-select"><input type="checkbox" class="form-check-input" value="business" label="Business">Business</a>
+                                        <a class="dropdown-item tag-select" data="all"><input type="checkbox" class="form-check-input form-check-input-mobile" value="business" label="Business">Business</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item tag-select"><input type="checkbox" class="form-check-input" value="creative" label="Creative">Creative</a>
+                                        <a class="dropdown-item tag-select" data="all"><input type="checkbox" class="form-check-input form-check-input-mobile" value="creative" label="Creative">Creative</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item tag-select"><input type="checkbox" class="form-check-input" value="data-and-tech" label="Data and Tech">Data and Tech</a>
+                                        <a class="dropdown-item tag-select" data="all"><input type="checkbox" class="form-check-input form-check-input-mobile" value="data-and-tech" label="Data and Tech">Data and Tech</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item tag-select"><input type="checkbox" class="form-check-input" value="privacy" label="Privacy">Privacy</a>
+                                        <a class="dropdown-item tag-select" data="all"><input type="checkbox" class="form-check-input form-check-input-mobile" value="privacy" label="Privacy">Privacy</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item tag-select"><input type="checkbox" class="form-check-input" value="research" label="Research">Research</a>
+                                        <a class="dropdown-item tag-select" data="all"><input type="checkbox" class="form-check-input form-check-input-mobile" value="research" label="Research">Research</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
-                        {{-- <div class="col-12">
-                            <div class="dropdown">
-                                <button class="btn custom-dropdown dropdown-toggle w-100 text-start ps-0 dropdownTag" type="button" id="dropdownTagMobileLabel" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                                    All tags
-                                </button>
-                                <ul class="dropdown-menu w-100" aria-labelledby="dropdownTagMobileLabel" id="dropdownTagMobile">
-                                    <li>
-                                        <a class="dropdown-item tag-clear" href="javascript:clearselect('tag');">CLEAR</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item tag-select"><input type="checkbox" class="form-check-input" value="valtag1" label="Tag 1">Tag 1</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item tag-select"><input type="checkbox" class="form-check-input" value="tag2" label="Tag 2">Tag 2</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item tag-select"><input type="checkbox" class="form-check-input" value="tag3" label="Tag 3">Tag 3</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -405,10 +349,10 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
         });
     })
 
-    const dropdownCategoryDesktop = document.getElementById('dropdownCategoryDesktopLabel')
-    dropdownCategoryDesktop.addEventListener('hide.bs.dropdown', function () {
+    const categoryDropdown = document.getElementById('dropdownCategory')
+    categoryDropdown.addEventListener('hide.bs.dropdown', function () {
         let showlabel = ''
-        $.each($('#dropdownCategoryDesktop a .form-check-input'),function(index,value){
+        $.each($('.form-check-input-desktop'),function(index,value){
             if(value.checked){
                 if(showlabel === ''){
                     showlabel = $(value).attr('label');
@@ -421,13 +365,13 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
         if(showlabel === ''){
             showlabel = 'All categories';
         }
-        $('#dropdownCategoryDesktopLabel').text(showlabel);
+        $('#dropdownCategory').text(showlabel);
     })
 
-    const dropdownCategoryMobile = document.getElementById('dropdownCategoryMobileLabel')
-    dropdownCategoryMobile.addEventListener('hide.bs.dropdown', function () {
+    const categoryDropdownMobile = document.getElementById('dropdownCategoryMobile')
+    categoryDropdownMobile.addEventListener('hide.bs.dropdown', function () {
         let showlabel = ''
-        $.each($('#dropdownCategoryMobile a .form-check-input'),function(index,value){
+        $.each($('.form-check-input-mobile'),function(index,value){
             if(value.checked){
                 if(showlabel === ''){
                     showlabel = $(value).attr('label');
@@ -440,128 +384,86 @@ Montivory @if($data->total > 0) Search : {{$search}} @else Not Found @endif
         if(showlabel === ''){
             showlabel = 'All categories';
         }
-        $('#dropdownCategoryMobileLabel').text(showlabel);
+        $('#dropdownCategoryMobile').text(showlabel);
     })
 
-    // const tagDropdownDesktop = document.getElementById('dropdownTagDesktopLabel')
-    // tagDropdownDesktop.addEventListener('hide.bs.dropdown', function () {
-    //     let showlabel = ''
-    //     $.each($('#dropdownTagDesktop a .form-check-input'),function(index,value){
-    //         if(value.checked){
-    //             if(showlabel === ''){
-    //                 showlabel = $(value).attr('label');
-    //             }else{
-    //                 let checklabel = $(value).attr('label');
-    //                 showlabel = `${showlabel}, ${checklabel}`;
-    //             }
-    //         }
-    //     })
-    //     if(showlabel === ''){
-    //         showlabel = 'All tags';
-    //     }
-    //     $('#dropdownTagDesktopLabel').text(showlabel);
-    // })
-
-    // const tagDropdownMobile = document.getElementById('dropdownTagMobileLabel')
-    // tagDropdownMobile.addEventListener('hide.bs.dropdown', function () {
-    //     let showlabel = ''
-    //     $.each($('#dropdownTagMobile a .form-check-input'),function(index,value){
-    //         if(value.checked){
-    //             if(showlabel === ''){
-    //                 showlabel = $(value).attr('label');
-    //             }else{
-    //                 let checklabel = $(value).attr('label');
-    //                 showlabel = `${showlabel}, ${checklabel}`;
-    //             }
-    //         }
-    //     })
-    //     if(showlabel === ''){
-    //         showlabel = 'All tags';
-    //     }
-    //     $('#dropdownTagMobileLabel').text(showlabel);
-    // })
-
-    const clearselect = (typeclear) => {
-        if(typeclear === 'tag'){
-            $.each($('#dropdownTagDesktop a .form-check-input'),function(index,value){
-                $(value).prop("checked",false);
-            });
-            $.each($('#dropdownTagMobile a .form-check-input'),function(index,value){
-                $(value).prop("checked",false);
-            });
-        }
-        if(typeclear === 'category'){
-            $.each($('#dropdownCategoryDesktop a .form-check-input'),function(index,value){
-                $(value).prop("checked",false);
-            });
-            $.each($('#dropdownCategoryMobile a .form-check-input'),function(index,value){
-                $(value).prop("checked",false);
-            });
-        }
-
+    const clearcategory = () => {
+        $.each($('.form-check-input'),function(index,value){
+            $(value).prop("checked",false);
+        });
     }
 
     const filtercontent = (typewindows) => {
-        let filter = {}
-        filter.tags = []
-        filter.category = []
+        let category = '';
+        let params = '';
         if(typewindows === 'desktop')
         {
-            $.each($('.month-select-desktop'),function(index,value){
-                if($(value).hasClass('check-selected')){
-                    filter.month = $(value).attr('data');
-                }
-            });
             $.each($('.year-select-desktop'),function(index,value){
                 if($(value).hasClass('check-selected')){
-                    filter.year = $(value).attr('data');
+                    if($(value).attr('data') > 0){
+                        params = '?year='+$(value).attr('data');
+                    }
                 }
             });
-            $.each($('#dropdownCategoryDesktop a .form-check-input'),function(index,value){
+            $.each($('.month-select-desktop'),function(index,value){
+                if($(value).hasClass('check-selected')){
+                    if($(value).attr('data') > 0){
+                        if(params === ''){
+                            params = '?';
+                        }else{
+                            params = params+'&';
+                        }
+                        params = params+'month='+$(value).attr('data');
+                    }
+                }
+            });
+            $.each($('.form-check-input-desktop'),function(index,value){
                 if(value.checked){
-                    filter.category.push(value.defaultValue);
+                    if(category === ''){
+                        category = value.defaultValue;
+                    }else{
+                        category += ','+value.defaultValue;
+                    }
                 }
             })
-            if(filter.category.length === 0){
-                filter.category.push("all");
-            }
-            // $.each($('#dropdownTagDesktop a .form-check-input'),function(index,value){
-            //     if(value.checked){
-            //         filter.tags.push(value.defaultValue);
-            //     }
-            // })
-            // if(filter.tags.length === 0){
-            //     filter.tags.push("all");
-            // }
         }else{
-            $.each($('.month-select-mobile'),function(index,value){
-                if($(value).hasClass('check-selected')){
-                    filter.month = $(value).attr('data');
-                }
-            });
             $.each($('.year-select-mobile'),function(index,value){
                 if($(value).hasClass('check-selected')){
-                    filter.year = $(value).attr('data');
+                    if($(value).attr('data') > 0){
+                        params = '?year='+$(value).attr('data');
+                    }
                 }
             });
-            $.each($('#dropdownCategoryMobile a .form-check-input'),function(index,value){
+            $.each($('.month-select-mobile'),function(index,value){
+                if($(value).hasClass('check-selected')){
+                    if($(value).attr('data') > 0){
+                        if(params === ''){
+                            params = '?';
+                        }else{
+                            params = params+'&';
+                        }
+                        params = params+'month='+$(value).attr('data');
+                    }
+                }
+            });
+            $.each($('.form-check-input-mobile'),function(index,value){
                 if(value.checked){
-                    filter.category.push(value.defaultValue);
+                    if(category === ''){
+                        category = value.defaultValue;
+                    }else{
+                        category += ','+value.defaultValue;
+                    }
                 }
             })
-            if(filter.category.length === 0){
-                filter.category.push("all");
-            }
-            // $.each($('#dropdownTagMobile a .form-check-input'),function(index,value){
-            //     if(value.checked){
-            //         filter.tags.push(value.defaultValue);
-            //     }
-            // })
-            // if(filter.tags.length === 0){
-            //     filter.tags.push("all");
-            // }
         }
-        console.log(filter)
+        if(category !== ''){
+            if(params === ''){
+                params = '?category='+category;
+            }else{
+                params = params+'&category='+category;
+            }
+        }
+        window.location.href = "/search/{{ $search }}"+params;
     }
     @endif
 
