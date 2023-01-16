@@ -64,10 +64,10 @@
                 © 2022 Montivory
             </div>
             <div class="col-12 col-md-6 text-md-end text-center text-white pb-5">
-                <a href="#" class="social-link px-2"><img src="{{ asset('images/icon/social-facebook.png')}}"/></a>
-                <a href="#" class="social-link px-2"><img src="{{ asset('images/icon/social-twitter.png')}}"/></a>
-                <a href="#" class="social-link px-2"><img src="{{ asset('images/icon/social-instagram.png')}}"/></a>
-                <a href="#" class="social-link px-2"><img src="{{ asset('images/icon/social-linkedin.png')}}"/></a>
+                <a href="https://web.facebook.com/montivory" class="social-link px-2" target="_blank"><img src="{{ asset('images/icon/social-facebook.png')}}"/></a>
+                <a href="https://twitter.com/montivoryth" class="social-link px-2" target="_blank"><img src="{{ asset('images/icon/social-twitter.png')}}"/></a>
+                <a href="https://www.instagram.com/montivory.th" class="social-link px-2" target="_blank"><img src="{{ asset('images/icon/social-instagram.png')}}"/></a>
+                <a href="https://www.linkedin.com/company/montivory" class="social-link px-2" target="_blank"><img src="{{ asset('images/icon/social-linkedin.png')}}"/></a>
             </div>
         </div>
     </div>

@@ -258,7 +258,7 @@ Montivory Blog
         </div>
     </div>
 </section>
-<div class="container pb-4">
+<div class="container slider-block">
     <h4 class="content-main-title text-center"><a href="{{route('category',['slug'=>'trending'])}}">Trending</a></h4>
     <p class="text-center">Keep up with the latest trending articles</p>
     <section class="trending-slide mt-3 pb-2">

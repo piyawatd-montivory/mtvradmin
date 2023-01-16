@@ -46,6 +46,6 @@
         <input type="hidden" id="mobileimage" name="mobileimage" class="form-control" value="{{$data->mobileimageid}}">
     </div>
     <div class="col-5">
-        <img id="displaymobileimage" class="img-mobileimage @if($data->mobileimageid == '') d-none @endif" src="@if($data->mobileimageid != '') {{$data->mobileimage}} @endif"/>
+        <img id="displaymobileimage" class="img-thumbnail @if($data->mobileimageid == '') d-none @endif" src="@if($data->mobileimageid != '') {{$data->mobileimage}} @endif"/>
     </div>
 </div>

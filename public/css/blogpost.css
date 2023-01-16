@@ -1,3 +1,6 @@
+.breadcrumb-item a:hover {
+    color: #0850A6;
+}
 .content-detail-block h3 {
     line-height: 58px;
 }
@@ -89,3 +92,13 @@ hr {
 .related-articles-section {
     padding-bottom: 54px;
 }
+@media only screen and (max-width: 576px)
+{
+    .published-label {
+        font-size: 14px;
+    }
+    .share-label {
+        font-size: 14px;
+      }
+}
+

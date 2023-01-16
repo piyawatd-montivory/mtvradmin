@@ -37,7 +37,10 @@
                             <div class="col-md-7 col-12">
                                 <form id="searchform">
                                     <div class="input-group mt-3 bg-white custom-search">
-                                        <input type="text" class="form-control form-control-search" id="search" name="search" aria-label="Search">
+                                        <span class="input-group-text" id="icon-search">
+                                            <img src="{{asset('images/icon/search.png')}}" class="icon-search"/>
+                                        </span>
+                                        <input type="text" class="form-control form-control-search" id="search" name="search" aria-label="Search" placeholder="ค้นหา...">
                                         <button class="btn btn-close btn-close-icon" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                 </form>

@@ -38,6 +38,9 @@ h6 {
     font-size: 20px;
     font-weight: 700!important;
 }
+.bg-light {
+    background-color: #fff!important;
+}
 .binary-craft-header {
     font-family: 'IBM Plex Sans Thai', sans-serif!important;
 }
@@ -48,6 +51,7 @@ h6 {
     height: 30px;
 }
 .nav-link {
+    font-family: 'IBM Plex Sans Thai', sans-serif!important;
     font-size: 14px;
     color: #1E222A;
     font-weight: 700;
@@ -59,6 +63,15 @@ h6 {
     padding-right: 0!important;
     padding-bottom: 3px!important;
     margin-left: .5rem!important;
+}
+#icon-search {
+    background-color: #fff;
+    border: none;
+    border-top-left-radius: 18px;
+    border-bottom-left-radius: 18px;
+}
+.icon-search {
+    height: 30px;
 }
 .category-active {
     color: #fff!important;
@@ -75,7 +88,7 @@ h6 {
     height: 70px;
 }
 .navbar-second-item ul {
-    width: 810px;
+    width: 745px;
     height: 70px;
 }
 .nav-item {
@@ -333,8 +346,8 @@ hr {
 }
 .form-control-search {
     border:0;
-    border-top-left-radius: 18px !important;
-    border-bottom-left-radius: 18px !important;
+    /* border-top-left-radius: 18px !important;
+    border-bottom-left-radius: 18px !important; */
 }
 .btn-close {
     padding-right: 25px;
@@ -416,6 +429,12 @@ hr {
 }
 .slide-content-title {
     height: 74px;
+}
+.slider-block {
+    padding-bottom: 70px!important;
+}
+.category-link h6 {
+    font-size: 14px;
 }
 @media only screen and (max-width: 576px) {
     .navbar-second-item ul {
