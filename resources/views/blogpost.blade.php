@@ -82,7 +82,7 @@ Montivory : {{ $data->title }}
                     <div class="col-12">
                         <strong class="info-title">Tags:</strong>
                         @foreach ($data->tags as $tag)
-                            <a href="{{ $tag->url }}" class="btn tag-link mb-3">{{ $tag->name }}</a>
+                            <a href="{{ $tag->url }}" class="btn tag-link">{{ $tag->name }}</a>
                         @endforeach
                     </div>
                 </div>
