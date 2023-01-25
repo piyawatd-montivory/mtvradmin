@@ -730,8 +730,8 @@ function getCdaData($slug){
                 }
             }
             //reference
-            if(isset($item->reference)){
-                $itemObj->reference = $item->reference;
+            if(isset($item->fields->reference)){
+                $itemObj->reference = $item->fields->reference;
             }else{
                 $itemObj->reference = [];
             }
