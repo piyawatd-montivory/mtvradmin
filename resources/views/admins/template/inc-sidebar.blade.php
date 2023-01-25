@@ -19,6 +19,10 @@
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-newspaper"></i></div>
                     Page Content
                 </a>
+                <a class="nav-link @if (Route::currentRouteName() === 'imagesindex') active @endif" href="{{ route('imagesindex')}}">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-image"></i></div>
+                    Images
+                </a>
                 <a class="nav-link @if (Route::currentRouteName() === 'tagsindex') active @endif" href="{{ route('tagsindex')}}">
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-tags"></i></div>
                     Tags

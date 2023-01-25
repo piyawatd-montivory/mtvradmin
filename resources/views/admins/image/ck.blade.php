@@ -151,14 +151,24 @@
                                 processData: false,
                                 headers: {"X-CSRF-TOKEN": "{{ csrf_token() }}"},
                                 success: function(response){
-                                    $('#progress').addClass('d-none');
-                                    $('#complete').removeClass('d-none');
-                                    $('#btn_upload').removeClass('d-none');
-                                    $('#fileupload').val('');
-                                    $('#title').val('');
-                                    $('#description').val('');
-                                    window.opener.CKEDITOR.tools.callFunction( {{ $CKEditorFuncNum }}, response.url );
-                                    window.close();
+                                    let resurl = response.url;
+                                    $.ajax({
+                                        url:'{{route('imagepublished')}}',
+                                        method:"post",
+                                        async: false,
+                                        cache: false,
+                                        data:{id:response.id},
+                                        success:function(response){
+                                            $('#progress').addClass('d-none');
+                                            $('#complete').removeClass('d-none');
+                                            $('#btn_upload').removeClass('d-none');
+                                            $('#fileupload').val('');
+                                            $('#title').val('');
+                                            $('#description').val('');
+                                            window.opener.CKEDITOR.tools.callFunction( {{ $CKEditorFuncNum }}, resurl );
+                                            window.close();
+                                        }
+                                    })
                                 },
                             })
                         },1000);

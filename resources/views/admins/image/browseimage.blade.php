@@ -151,22 +151,31 @@
                                 processData: false,
                                 headers: {"X-CSRF-TOKEN": "{{ csrf_token() }}"},
                                 success: function(response){
-                                    $('#progress').addClass('d-none');
-                                    $('#complete').removeClass('d-none');
-                                    $('#btn_upload').removeClass('d-none');
-                                    $('#fileupload').val('');
-                                    $('#title').val('');
-                                    $('#description').val('');
-                                    @if($type == 'single')
-                                        let imageObj = {}
-                                        imageObj.id = response.id;
-                                        imageObj.url = response.url;
-                                        imageObj.title = response.title;
-                                        imageObj.description = response.description;
-                                        parent.selImageSuccess(imageObj);
-                                    @else
-                                        loadImage(1);
-                                    @endif
+                                    $.ajax({
+                                        url:'{{route('imagepublished')}}',
+                                        method:"post",
+                                        async: false,
+                                        cache: false,
+                                        data:{id:response.id},
+                                        success:function(pubresponse){
+                                            $('#progress').addClass('d-none');
+                                            $('#complete').removeClass('d-none');
+                                            $('#btn_upload').removeClass('d-none');
+                                            $('#fileupload').val('');
+                                            $('#title').val('');
+                                            $('#description').val('');
+                                            @if($type == 'single')
+                                                let imageObj = {}
+                                                imageObj.id = response.id;
+                                                imageObj.url = response.url;
+                                                imageObj.title = response.title;
+                                                imageObj.description = response.description;
+                                                parent.selImageSuccess(imageObj);
+                                            @else
+                                                loadImage(1);
+                                            @endif
+                                        }
+                                    })
                                 },
                             })
                         },1000)

@@ -22,6 +22,16 @@ class ImageController extends Controller
         return view('admins.image.index');
     }
 
+    function new(Request $request)
+    {
+        return view('admins.image.new');
+    }
+
+    function edit(Request $request)
+    {
+        return view('admins.image.edit');
+    }
+
     function ck(Request $request)
     {
         return view('admins.image.ck',['CKEditorFuncNum' => $request->input('CKEditorFuncNum')]);
@@ -130,12 +140,12 @@ class ImageController extends Controller
         }
         $response = Http::withToken(config('app.cmaaccesstoken'))
         ->get(getCtUrl().'/assets/'.$assetsId);
-        // Published Assets
-        $response = Http::withHeaders([
-            'X-Contentful-Version' => $response->json('sys.version')
-        ])
-        ->withToken(config('app.cmaaccesstoken'))
-        ->put(getCtUrl().'/assets/'.$assetsId.'/published');
+        // // Published Assets
+        // $response = Http::withHeaders([
+        //     'X-Contentful-Version' => $response->json('sys.version')
+        // ])
+        // ->withToken(config('app.cmaaccesstoken'))
+        // ->put(getCtUrl().'/assets/'.$assetsId.'/published');
         $resObj = $response->object();
         $result = new \stdClass;
         $result->id = $resObj->sys->id;
@@ -144,6 +154,91 @@ class ImageController extends Controller
         $result->description = $resObj->fields->description->{'en-US'};
         $result->url = 'https:'.$resObj->fields->file->{'en-US'}->url;
         return $result;
+    }
+
+    function published(Request $request) {
+        foreach(explode(',', $request->id) as $id){
+            $response = Http::withToken(config('app.cmaaccesstoken'))
+            ->get(getCtUrl().'/assets/'.$id);
+            // Published Assets
+            $response = Http::withHeaders([
+                'X-Contentful-Version' => $response->json('sys.version')
+            ])
+            ->withToken(config('app.cmaaccesstoken'))
+            ->put(getCtUrl().'/assets/'.$id.'/published');
+        }
+        return ['result'=>true];
+    }
+
+    function unpublished(Request $request) {
+        foreach(explode(',', $request->id) as $id){
+            $response = Http::withToken(config('app.cmaaccesstoken'))
+            ->get(getCtUrl().'/assets/'.$id);
+            // Published Assets
+            $response = Http::withHeaders([
+                'X-Contentful-Version' => $response->json('sys.version')
+            ])
+            ->withToken(config('app.cmaaccesstoken'))
+            ->delete(getCtUrl().'/assets/'.$id.'/published');
+        }
+        return ['result'=>true];
+    }
+
+    function archived(Request $request) {
+        foreach(explode(',', $request->id) as $id){
+            $response = Http::withToken(config('app.cmaaccesstoken'))
+            ->get(getCtUrl().'/assets/'.$id);
+            // Published Assets
+            $response = Http::withHeaders([
+                'X-Contentful-Version' => $response->json('sys.version')
+            ])
+            ->withToken(config('app.cmaaccesstoken'))
+            ->put(getCtUrl().'/assets/'.$id.'/archived');
+        }
+        return ['result'=>true];
+    }
+
+    function unarchived(Request $request) {
+        foreach(explode(',', $request->id) as $id){
+            $response = Http::withToken(config('app.cmaaccesstoken'))
+            ->get(getCtUrl().'/assets/'.$id);
+            // Published Assets
+            $response = Http::withHeaders([
+                'X-Contentful-Version' => $response->json('sys.version')
+            ])
+            ->withToken(config('app.cmaaccesstoken'))
+            ->delete(getCtUrl().'/assets/'.$id.'/archived');
+        }
+        return ['result'=>true];
+    }
+
+    function delete(Request $request) {
+        foreach(explode(',', $request->id) as $id){
+            //get data
+            $response = Http::withToken(config('app.cmaaccesstoken'))
+            ->get(getCtUrl().'/assets/'.$id);
+            $data = $response->object();
+            $version = $data->sys->version;
+            if(isset($data->sys->publishedAt)){
+                // Published Assets
+                $updateResponse = Http::withHeaders([
+                    'X-Contentful-Version' => $version
+                ])
+                ->withToken(config('app.cmaaccesstoken'))
+                ->delete(getCtUrl().'/assets/'.$id.'/published');
+                $version = $updateResponse->json('sys.version');
+            }else{
+                if(isset($item->sys->archivedAt)){
+                    $data->status = 'archive';
+                }
+            }
+            $deleteResponse = Http::withHeaders([
+                'X-Contentful-Version' => $version
+            ])
+            ->withToken(config('app.cmaaccesstoken'))
+            ->delete(getCtUrl().'/assets/'.$id);
+        }
+        return ['result'=>true];
     }
 
     function uploadprofile(Request $request) {
@@ -253,6 +348,108 @@ class ImageController extends Controller
             ->withToken(config('app.cmaaccesstoken'))
             ->put(getCtUrl().'/assets/'.$item->sys->id.'/published');
         }
+        return $result;
+    }
+
+    function list(Request $request) {
+        $columns = array(
+            0 => 'fields.id',
+            1 => 'fields.file',
+            2 => 'fields.title',
+            3 => 'sys.createdAt'
+        );
+
+
+        $limit = $request->input('length');
+        $start = $request->input('start');
+
+
+        $search = $request->input('search.value');
+
+        $fieldorder = $columns[$request->input('order.0.column')];
+        if($request->input('order.0.dir') == 'desc'){
+            $fieldorder = '-'.$fieldorder;
+        }
+
+        $arrayquery = array("mimetype_group"=>"image");
+        if($request->status == 'all'){
+            $arrayquery['sys.archivedAt[exists]'] = 'false';
+        }
+        if($request->status == 'draft'){
+            $arrayquery['sys.publishedAt[exists]'] = 'false';
+            $arrayquery['sys.archivedAt[exists]'] = 'false';
+        }
+        if($request->status == 'publish'){
+            $arrayquery['sys.publishedAt[exists]'] = 'true';
+        }
+        if($request->status == 'archive'){
+            $arrayquery['sys.archivedAt[exists]'] = 'true';
+        }
+        $arrayquery['fields.title[match]'] = $search;
+        // $arrayquery['metadata.tags.sys.id[nin]'] = 'profileimage,defaultimage';
+        $arrayquery['order'] = $fieldorder;
+        $arrayquery['limit'] = $limit;
+        $arrayquery['skip'] = $start;
+
+        $response = Http::withToken(config('app.cmaaccesstoken'))
+        ->get(getCtUrl().'/assets',$arrayquery);
+
+        $resObj = $response->object();
+
+        $totalData = $resObj->total;
+
+        $result = new \stdClass;
+        $result->draw = intval($request->input('draw'));
+        $result->recordsTotal = intval($totalData);
+        $result->recordsFiltered = intval($totalData);
+        $result->data = [];
+        $uPermission = authuser()->permission;
+        foreach($resObj->items as $item) {
+            $data = new \stdClass;
+            $data->id = $item->sys->id;
+            $data->version = $item->sys->version;
+            $data->title = $item->fields->title->{'en-US'};
+            $data->file = 'https:'.$item->fields->file->{'en-US'}->url;
+            $createAt = explode(".",$item->sys->createdAt);
+            $dt = date_create_from_format('Y-m-d\TH:i:s', $createAt[0]);
+            date_add($dt,date_interval_create_from_date_string("7 hours"));
+            $data->createat = date_format($dt,"d / m / Y H:i");
+            //status
+            $data->status = 'draft';
+            if(isset($item->sys->publishedAt)){
+                $data->status = 'change';
+                if($item->sys->publishedAt == $item->sys->updatedAt){
+                    $data->status = 'publish';
+                }
+            }else{
+                if(isset($item->sys->archivedAt)){
+                    $data->status = 'archive';
+                }
+            }
+            $data->publishtool = false;
+            $data->unpublishtool = false;
+            $data->updatetool = false;
+            $data->archivetool = false;
+            $data->unarchivetool = false;
+            $data->deletetool = false;
+            $data->updatetool = true;
+            switch($data->status){
+                case 'publish':
+                    $data->unpublishtool = true;
+                    break;
+                case 'draft':
+                    $data->publishtool = true;
+                    $data->archivetool = true;
+                    $data->deletetool = true;
+                    break;
+                case 'archive':
+                    $data->deletetool = true;
+                    $data->unarchivetool = true;
+                    break;
+            }
+            array_push($result->data,$data);
+        }
+        // return authuser();
         return $result;
     }
 }

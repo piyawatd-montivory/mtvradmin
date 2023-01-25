@@ -137,13 +137,21 @@ Route::prefix('admins')->group(function () {
         Route::get('/list', [ContactController::class, 'list'])->name('contactlist');
     });
     Route::prefix('images')->middleware([EnsureSignin::class])->group(function () {
-        Route::get('/', [ImageController::class, 'index'])->name('imageindex');
+        Route::get('/', [ImageController::class, 'index'])->name('imagesindex');
+        Route::get('/new', [ImageController::class, 'new'])->name('imagesnew');
+        Route::get('/edit/{id}', [ImageController::class, 'edit'])->name('imageedit');
         Route::get('/ck', [ImageController::class, 'ck'])->name('imageck');
         Route::get('/browse', [ImageController::class, 'browseimage'])->name('imagebrowse');
         Route::get('/loadimage', [ImageController::class, 'loadimage'])->name('imageckloadimage');
+        Route::get('/list', [ImageController::class, 'list'])->name('imagelist');
         Route::post('/upload', [ImageController::class, 'upload'])->name('imageupload');
+        Route::put('/updatestatus/{id}', [ImageController::class, 'updatestatus'])->name('imageupdatestatus');
         Route::post('/uploadprofile', [ImageController::class, 'uploadprofile'])->name('imageuploadprofile');
-        Route::get('/new', [ImageController::class, 'new'])->name('imagenew');
+        Route::post('/delete', [ImageController::class, 'delete'])->name('imagedelete');
+        Route::post('/published', [ImageController::class, 'published'])->name('imagepublished');
+        Route::post('/unpublished', [ImageController::class, 'unpublished'])->name('imageunpublished');
+        Route::post('/archived', [ImageController::class, 'archived'])->name('imagearchived');
+        Route::post('/unarchived', [ImageController::class, 'unarchived'])->name('imageunarchived');
     });
     // Route::prefix('filemanager')->group(function () {
     //     Route::get('/images', [FileManagerController::class, 'images'])->name('manageimages');
