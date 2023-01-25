@@ -8,17 +8,12 @@
             <div class="col-6 col-md-2 mb-3">
                 <ul class="footer-menu">
                     <li>
-                        <a href="#" class="align-middle link-footer">
+                        <a href="{{ route('home') }}" class="align-middle link-footer">
                             <strong>HOME</strong>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="align-middle link-footer">
-                            About us
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="align-middle link-footer">
+                        <a href="{{ route('career') }}" class="align-middle link-footer">
                             Career
                         </a>
                     </li>
@@ -27,32 +22,32 @@
             <div class="col-6 col-md-7 mb-3">
                 <ul class="footer-menu">
                     <li>
-                        <a href="#" class="align-middle link-footer">
+                        <a href="{{ route('blog') }}" class="align-middle link-footer">
                             <strong>READ.MONTIVORY</strong>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="align-middle link-footer">
+                        <a href="{{route('category',['slug'=>'binary-craft'])}}" class="align-middle link-footer">
                             Binary Craft
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="align-middle link-footer">
+                        <a href="{{route('category',['slug'=>'business'])}}" class="align-middle link-footer">
                             Business
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="align-middle link-footer">
+                        <a href="{{route('category',['slug'=>'data-and-tech'])}}" class="align-middle link-footer">
                             Data and Tech
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="align-middle link-footer">
+                        <a href="{{route('category',['slug'=>'creative'])}}" class="align-middle link-footer">
                             Creative
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="align-middle link-footer">
+                        <a href="{{route('category',['slug'=>'research'])}}" class="align-middle link-footer">
                             Research
                         </a>
                     </li>
