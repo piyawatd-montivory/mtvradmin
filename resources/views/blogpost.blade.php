@@ -45,7 +45,7 @@ Montivory : {{ $data->title }}
                     <div class="col-12 col-md-6">
                         <p class="published-label">Published:{{ $data->createAt }}</p>
                     </div>
-                    <div class="col-12 col-md-6 text-md-end">
+                    <div class="col-12 col-md-6 text-md-end mb-3">
                         <span class="share-label">Share</span>
                         <div class="fb-share-button" data-href="{{ $data->url }}" data-layout="button" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($data->url) }}&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
                         {{-- <a href="#" class="social-link px-2"><img src="{{ asset('images/icon/instagram-b.png')}}"/></a> --}}
@@ -78,11 +78,11 @@ Montivory : {{ $data->title }}
                 </div>
                 @endif
                 @if(count($data->tags) > 0)
-                <div class="row pb-3">
+                <div class="row">
                     <div class="col-12">
                         <strong class="info-title">Tags:</strong>
                         @foreach ($data->tags as $tag)
-                            <a href="{{ $tag->url }}" class="btn tag-link">{{ $tag->name }}</a>
+                            <a href="{{ $tag->url }}" class="btn tag-link mb-3">{{ $tag->name }}</a>
                         @endforeach
                     </div>
                 </div>
