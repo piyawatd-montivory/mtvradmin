@@ -202,7 +202,7 @@ Images
                     orderable: false,
                     targets:   5,
                     render: function(data){
-                        let toolsstr = `<a href="/admins/contents/edit/${data.id}" class="btn btn-outline-primary btn-sm">Edit</a> `;
+                        let toolsstr = `<a href="/admins/images/edit/${data.id}" class="btn btn-outline-primary btn-sm">Edit</a> `;
                         if(data.archivetool){
                             toolsstr = toolsstr+`<a href="javascript:archivedata('${data.id}','${data.title}');" class="btn btn-sm btn-outline-warning">Archive</a> `;
                         }

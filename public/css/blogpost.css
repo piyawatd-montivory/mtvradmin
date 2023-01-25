@@ -25,6 +25,10 @@
     margin-top: 16px;
     margin-bottom: 0;
 }
+.content-detail-block img {
+    width: 100%;
+    height: auto;
+}
 .tag-link {
     color: #1E222A;
     /* background-color: #212529; */

@@ -27,8 +27,11 @@ class ImageController extends Controller
         return view('admins.image.new');
     }
 
-    function edit(Request $request)
+    function edit($id,Request $request)
     {
+        $response = Http::withToken(config('app.cmaaccesstoken'))
+        ->get(getCtUrl().'/assets/'.$id);
+        return $response->object();
         return view('admins.image.edit');
     }
 
