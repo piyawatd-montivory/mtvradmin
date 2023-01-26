@@ -140,6 +140,8 @@ Route::prefix('admins')->group(function () {
         Route::get('/', [ImageController::class, 'index'])->name('imagesindex');
         Route::get('/new', [ImageController::class, 'new'])->name('imagesnew');
         Route::get('/edit/{id}', [ImageController::class, 'edit'])->name('imageedit');
+        Route::post('/update', [ImageController::class, 'update'])->name('imageupdate');
+        Route::post('/updatenewimage', [ImageController::class, 'updatenewimage'])->name('imageupdatenewimage');
         Route::get('/ck', [ImageController::class, 'ck'])->name('imageck');
         Route::get('/browse', [ImageController::class, 'browseimage'])->name('imagebrowse');
         Route::get('/loadimage', [ImageController::class, 'loadimage'])->name('imageckloadimage');

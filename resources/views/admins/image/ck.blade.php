@@ -118,8 +118,8 @@
                     }
                 });
                 $('#btn_upload').on('click',function(){
-                    var fd = new FormData();
-                    var files = $('#fileupload')[0].files;
+                    let fd = new FormData();
+                    let files = $('#fileupload')[0].files;
                     // Check file selected or not
                     if(checkSelectFile('fileupload')){
                         //check file image

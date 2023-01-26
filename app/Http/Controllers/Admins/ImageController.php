@@ -31,8 +31,8 @@ class ImageController extends Controller
     {
         $response = Http::withToken(config('app.cmaaccesstoken'))
         ->get(getCtUrl().'/assets/'.$id);
-        return $response->object();
-        return view('admins.image.edit');
+        // return $response->object();
+        return view('admins.image.edit',["data"=>$response->object()]);
     }
 
     function ck(Request $request)
@@ -157,6 +157,93 @@ class ImageController extends Controller
         $result->description = $resObj->fields->description->{'en-US'};
         $result->url = 'https:'.$resObj->fields->file->{'en-US'}->url;
         return $result;
+    }
+
+    function update(Request $request)
+    {
+        $data = json_decode($request->data);
+        // Create Assets
+        $assets = new \stdClass;
+        $assets->fields = new \stdClass;
+        $assets->fields->title = new \stdClass;
+        $assets->fields->title->{'en-US'} = $data->title;
+        $assets->fields->description = new \stdClass;
+        $assets->fields->description->{'en-US'} = $data->description;
+        $assets->fields->file = new \stdClass;
+        $assets->fields->file->{'en-US'} = new \stdClass;
+        $assets->fields->file->{'en-US'}->contentType = $data->contentType;
+        $assets->fields->file->{'en-US'}->fileName = $data->filename;
+        $assets->fields->file->{'en-US'}->url = $data->url;
+        $version = intval($data->version);
+        //update assets
+        $response = Http::withBody(json_encode($assets), 'application/vnd.contentful.management.v1+json')
+        ->withHeaders([
+            'Content-Type' => 'application/vnd.contentful.management.v1+json',
+            'X-Contentful-Version' => $version
+        ])
+        ->withToken(config('app.cmaaccesstoken'))
+        ->put(getCtUrl().'/assets/'.$data->id);;
+        return ['result'=>true];
+    }
+
+    function updatenewimage(Request $request) {
+        $uploadedFile = $request->file('fileupload');
+        $filenameElements = explode('.', $uploadedFile->getClientOriginalName());
+        $extension = array_pop($filenameElements);
+        $filename = implode('.', $filenameElements);
+        // upload
+        $fp = fopen($uploadedFile, 'r');
+        $ReadBinary = fread($fp,filesize($uploadedFile ));
+        fclose($fp);
+        $FileData = addslashes($ReadBinary);
+        //upload image
+        $response = Http::withBody(
+            $ReadBinary, 'application/octet-stream'
+        )
+        ->withHeaders(['Content-Type' => 'application/octet-stream'])
+        ->withToken(config('app.cmaaccesstoken'))
+        ->post('https://'.config('app.uploadurl').'/spaces/'.config('app.spaceid').'/uploads');
+        $uploadRes = $response->object();
+        // Create Assets
+        $assets = new \stdClass;
+        $assets->fields = new \stdClass;
+        $assets->fields->title = new \stdClass;
+        $assets->fields->title->{'en-US'} = $request->title;
+        $assets->fields->description = new \stdClass;
+        $assets->fields->description->{'en-US'} = $request->description;
+        $assets->fields->file = new \stdClass;
+        $assets->fields->file->{'en-US'} = new \stdClass;
+        if ($extension == 'png') {
+            $assets->fields->file->{'en-US'}->contentType = "image/png";
+        }else if($extension == 'jpg'){
+            $assets->fields->file->{'en-US'}->contentType = "image/jpg";
+        }else{
+            $assets->fields->file->{'en-US'}->contentType = "image/jpeg";
+        }
+        $assets->fields->file->{'en-US'}->fileName = $filename;
+        $assets->fields->file->{'en-US'}->uploadFrom = new \stdClass;
+        $assets->fields->file->{'en-US'}->uploadFrom->sys = new \stdClass;
+        $assets->fields->file->{'en-US'}->uploadFrom->sys->type = 'Link';
+        $assets->fields->file->{'en-US'}->uploadFrom->sys->linkType = 'Upload';
+        $assets->fields->file->{'en-US'}->uploadFrom->sys->id = $uploadRes->sys->id;
+
+        $assetsId = $request->id;
+        $version = intval($request->version);
+        //update assets
+        $response = Http::withBody(json_encode($assets), 'application/vnd.contentful.management.v1+json')
+        ->withHeaders([
+            'Content-Type' => 'application/vnd.contentful.management.v1+json',
+            'X-Contentful-Version' => $version
+        ])
+        ->withToken(config('app.cmaaccesstoken'))
+        ->put(getCtUrl().'/assets/'.$assetsId);
+        // Process Asset
+        $response = Http::withHeaders([
+            'X-Contentful-Version' => $response->json('sys.version')
+        ])
+        ->withToken(config('app.cmaaccesstoken'))
+        ->put(getCtUrl().'/assets/'.$assetsId.'/files/en-US/process');
+        return ['result'=>true];
     }
 
     function published(Request $request) {
@@ -438,6 +525,10 @@ class ImageController extends Controller
             $data->updatetool = true;
             switch($data->status){
                 case 'publish':
+                    $data->unpublishtool = true;
+                    break;
+                case 'change':
+                    $data->publishtool = true;
                     $data->unpublishtool = true;
                     break;
                 case 'draft':
