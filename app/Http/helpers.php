@@ -79,6 +79,33 @@ function getCtGraphqlUrl(){
     return 'https://'.config('app.graphqlurl').'/content/v1/spaces/'.config('app.spaceid').'/environments/'.config('app.ctenv');
 }
 
+function uploadImageContentful($uploadedFile){
+    $filenameElements = explode('.', $uploadedFile->getClientOriginalName());
+    $extension = array_pop($filenameElements);
+    $filename = implode('.', $filenameElements);
+    // upload
+    $fp = fopen($uploadedFile, 'r');
+    $ReadBinary = fread($fp,filesize($uploadedFile ));
+    fclose($fp);
+    $FileData = addslashes($ReadBinary);
+    //upload image
+    $response = Http::withBody(
+        $ReadBinary, 'application/octet-stream'
+    )
+    ->withHeaders(['Content-Type' => 'application/octet-stream'])
+    ->withToken(config('app.cmaaccesstoken'))
+    ->post('https://'.config('app.uploadurl').'/spaces/'.config('app.spaceid').'/uploads');
+    return $response->object();
+}
+
+function processImageContentful($assetsId,$version){
+    $response = Http::withHeaders([
+        'X-Contentful-Version' => $version
+    ])
+    ->withToken(config('app.cmaaccesstoken'))
+    ->put(getCtUrl().'/assets/'.$assetsId.'/files/en-US/process');
+}
+
 if (! function_exists('generateuuid')) {
     function generateuuid(){
         return $uuid = str_replace("-","",Str::uuid()->toString());

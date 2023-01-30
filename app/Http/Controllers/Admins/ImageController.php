@@ -74,22 +74,7 @@ class ImageController extends Controller
     }
 
     function upload(Request $request) {
-        $uploadedFile = $request->file('fileupload');
-        $filenameElements = explode('.', $uploadedFile->getClientOriginalName());
-        $extension = array_pop($filenameElements);
-        $filename = implode('.', $filenameElements);
-        // upload
-        $fp = fopen($uploadedFile, 'r');
-        $ReadBinary = fread($fp,filesize($uploadedFile ));
-        fclose($fp);
-        $FileData = addslashes($ReadBinary);
-        $response = Http::withBody(
-            $ReadBinary, 'application/octet-stream'
-        )
-        ->withHeaders(['Content-Type' => 'application/octet-stream'])
-        ->withToken(config('app.cmaaccesstoken'))
-        ->post('https://'.config('app.uploadurl').'/spaces/'.config('app.spaceid').'/uploads');
-        $uploadRes = $response->object();
+        $uploadRes = uploadImageContentful($request->file('fileupload'));
         // Create Assets
         $assets = new \stdClass;
         $assets->fields = new \stdClass;
@@ -133,22 +118,12 @@ class ImageController extends Controller
             $assetsVersion = intval($response->json('sys.version'));
         }
         // Process Asset
-        $response = Http::withHeaders([
-            'X-Contentful-Version' => $assetsVersion
-        ])
-        ->withToken(config('app.cmaaccesstoken'))
-        ->put(getCtUrl().'/assets/'.$assetsId.'/files/en-US/process');
+        $response = processImageContentful($assetsId,$assetsVersion);
         if($response->status() <> 204){
             return false;
         }
         $response = Http::withToken(config('app.cmaaccesstoken'))
         ->get(getCtUrl().'/assets/'.$assetsId);
-        // // Published Assets
-        // $response = Http::withHeaders([
-        //     'X-Contentful-Version' => $response->json('sys.version')
-        // ])
-        // ->withToken(config('app.cmaaccesstoken'))
-        // ->put(getCtUrl().'/assets/'.$assetsId.'/published');
         $resObj = $response->object();
         $result = new \stdClass;
         $result->id = $resObj->sys->id;
@@ -186,24 +161,10 @@ class ImageController extends Controller
         return ['result'=>true];
     }
 
+
+
     function updatenewimage(Request $request) {
-        $uploadedFile = $request->file('fileupload');
-        $filenameElements = explode('.', $uploadedFile->getClientOriginalName());
-        $extension = array_pop($filenameElements);
-        $filename = implode('.', $filenameElements);
-        // upload
-        $fp = fopen($uploadedFile, 'r');
-        $ReadBinary = fread($fp,filesize($uploadedFile ));
-        fclose($fp);
-        $FileData = addslashes($ReadBinary);
-        //upload image
-        $response = Http::withBody(
-            $ReadBinary, 'application/octet-stream'
-        )
-        ->withHeaders(['Content-Type' => 'application/octet-stream'])
-        ->withToken(config('app.cmaaccesstoken'))
-        ->post('https://'.config('app.uploadurl').'/spaces/'.config('app.spaceid').'/uploads');
-        $uploadRes = $response->object();
+        $uploadRes = uploadImageContentful($request->file('fileupload'));
         // Create Assets
         $assets = new \stdClass;
         $assets->fields = new \stdClass;
@@ -238,11 +199,7 @@ class ImageController extends Controller
         ->withToken(config('app.cmaaccesstoken'))
         ->put(getCtUrl().'/assets/'.$assetsId);
         // Process Asset
-        $response = Http::withHeaders([
-            'X-Contentful-Version' => $response->json('sys.version')
-        ])
-        ->withToken(config('app.cmaaccesstoken'))
-        ->put(getCtUrl().'/assets/'.$assetsId.'/files/en-US/process');
+        $response = processImageContentful($assetsId,$response->json('sys.version'));
         return ['result'=>true];
     }
 
@@ -332,22 +289,7 @@ class ImageController extends Controller
     }
 
     function uploadprofile(Request $request) {
-        $uploadedFile = $request->file('fileupload');
-        $filenameElements = explode('.', $uploadedFile->getClientOriginalName());
-        $extension = array_pop($filenameElements);
-        $filename = implode('.', $filenameElements);
-        // upload
-        $fp = fopen($uploadedFile, 'r');
-        $ReadBinary = fread($fp,filesize($uploadedFile ));
-        fclose($fp);
-        $FileData = addslashes($ReadBinary);
-        $response = Http::withBody(
-            $ReadBinary, 'application/octet-stream'
-        )
-        ->withHeaders(['Content-Type' => 'application/octet-stream'])
-        ->withToken(config('app.cmaaccesstoken'))
-        ->post('https://'.config('app.uploadurl').'/spaces/'.config('app.spaceid').'/uploads');
-        $uploadRes = $response->object();
+        $uploadRes = uploadImageContentful($request->file('fileupload'));
         //Tags Object
         $profiletag = new \stdClass;
         $profiletag->sys = new \stdClass;
@@ -401,11 +343,7 @@ class ImageController extends Controller
             $assetsVersion = intval($response->json('sys.version'));
         }
         // Process Asset
-        $response = Http::withHeaders([
-            'X-Contentful-Version' => $assetsVersion
-        ])
-        ->withToken(config('app.cmaaccesstoken'))
-        ->put(getCtUrl().'/assets/'.$assetsId.'/files/en-US/process');
+        $response = processImageContentful($assetsId,$assetsVersion);
         if($response->status() <> 204){
             return false;
         }
