@@ -32,6 +32,9 @@ use App\Http\Middleware\EnsureSignin;
 */
 
 Route::get('/', [WebController::class, 'index'])->name('home');
+Route::get('/info', function () {
+    return phpinfo();
+});
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 Route::get('/category/{slug}', [BlogController::class, 'category'])->name('category');
 Route::get('/tags/{slug}', [BlogController::class, 'tags'])->name('tags');
