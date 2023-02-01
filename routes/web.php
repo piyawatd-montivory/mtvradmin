@@ -85,6 +85,8 @@ Route::prefix('admins')->group(function () {
         Route::post('/unpublished', [ContentController::class, 'unpublished'])->name('unpublished');
         Route::post('/archived', [ContentController::class, 'archived'])->name('archived');
         Route::post('/unarchived', [ContentController::class, 'unarchived'])->name('unarchived');
+        Route::post('/scheduled', [ContentController::class, 'scheduled'])->name('scheduled');
+        Route::post('/delscheduled', [ContentController::class, 'delscheduled'])->name('delscheduled');
     });
     Route::prefix('pagecontents')->middleware([EnsureSignin::class])->group(function () {
         Route::get('/', [PagecontentController::class, 'index'])->name('pagecontentindex');

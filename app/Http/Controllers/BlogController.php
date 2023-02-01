@@ -231,182 +231,144 @@ class BlogController extends Controller
         return view('search',['data'=>[]]);
     }
 
-    function importblog() {
-        // return getgenerateCustomFile('wpdata.json');
-        $dataLists = getgenerateCustomFile('wpdata.json');
-        foreach($dataLists as $item){
-            $json = new \stdClass;
-            $json->fields = new \stdClass;
-            //category
-            $categoryRef = [];
-            foreach($item->category as $category){
-                $cateObj = new \stdClass;
-                $cateObj->sys = new \stdClass;
-                $cateObj->sys->type = "Link";
-                $cateObj->sys->linkType = "Entry";
-                switch($category){
-                    case 'research':
-                        $cateObj->sys->id = '3l6y4L0LBQ3WO0gDZbTcdN';
-                        break;
-                    case 'privacy':
-                        $cateObj->sys->id = '6x6Hu9HD10xS1RVgRr1g93';
-                        break;
-                    case 'data-and-tech':
-                        $cateObj->sys->id = '20cSGbk3xUXJAeL924bhE3';
-                        break;
-                    case 'creative':
-                        $cateObj->sys->id = 'wU47nGJOS11QOsx34Ec8M';
-                        break;
-                    case 'business':
-                        $cateObj->sys->id = '3MM9Y8CV9dlTmCEfxvjYKt';
-                        break;
-                    case 'binary-craft':
-                        $cateObj->sys->id = '7dHUF3e7w2hlepZrYFqElu';
-                        break;
-                    case 'news':
-                        $cateObj->sys->id = '3aYdoENwDP0ebNE5Tk0COA';
-                        break;
-                    case 'hidden':
-                        $cateObj->sys->id = '52wT4E4qkJKz6WPAflRAsQ';
-                        break;
-                }
-                array_push($categoryRef,$cateObj);
-            }
-            $json->fields->category = new \stdClass;
-            $json->fields->category->{'en-US'} = $categoryRef;
-            //tag
-            $keywords = '';
-            $json->metadata = new \stdClass;
-            $json->metadata->tags = [];
-            foreach($item->tags as $tag){
-                $ctag = new \stdClass;
-                $ctag->sys = new \stdClass;
-                $ctag->sys->type = "Link";
-                $ctag->sys->linkType = "Tag";
-                $ctag->sys->id = $tag->id;
-                array_push($json->metadata->tags,$ctag);
-                if($keywords == ''){
-                    $keywords = $tag->name;
-                }else{
-                    $keywords = $keywords.','.$tag->name;
-                }
-            }
-            //pseudonym
-            $json->fields->pseudonym = new \stdClass;
-            $json->fields->pseudonym->{'en-US'} = [];
-            $pseudonymObj = new \stdClass;
-            $pseudonymObj->sys = new \stdClass;
-            $pseudonymObj->sys->type = "Link";
-            $pseudonymObj->sys->linkType = "Entry";
-            $pseudonymObj->sys->id = '7vV7RldkauS1N38DFwyljf';
-            array_push($json->fields->pseudonym->{'en-US'},$pseudonymObj);
-            //thumbnail
-            $json->fields->thumbnail = new \stdClass;
-            $json->fields->thumbnail = createAssetLink('6ON2Fh4DxVmOh7VSkz3gYv');
-            //mobile image
-            $json->fields->mobileimage = new \stdClass;
-            $json->fields->mobileimage = createAssetLink('5hQ4G7bHGJk2jWnMseH95H');
-            $json->fields->title = new \stdClass;
-            $json->fields->title->{'en-US'} = $item->title;
-            $json->fields->slug = new \stdClass;
-            $json->fields->slug->{'en-US'} = $item->slug;
-            $json->fields->excerpt = new \stdClass;
-            $json->fields->excerpt->{'en-US'} = $item->excerpt;
-            $json->fields->heroimage = new \stdClass;
-            $json->fields->heroimage->{'en-US'} = new \stdClass;
-            $json->fields->heroimage = createAssetLink('3Xl0L4hqwT0GjBo815ouoQ');
-            //og image
-            $json->fields->ogimage = new \stdClass;
-            $json->fields->ogimage = createAssetLink('3Xl0L4hqwT0GjBo815ouoQ');
-            //og title
-            $json->fields->ogtitle = new \stdClass;
-            $json->fields->ogtitle->{'en-US'} = isset($item->seotitle)?$item->seotitle:'';
-            //og description
-            $json->fields->ogdescription = new \stdClass;
-            $json->fields->ogdescription->{'en-US'} = isset($item->seodescription)?$item->seodescription:'';
-            //keyword
-            $json->fields->keyword = new \stdClass;
-            $json->fields->keyword->{'en-US'} = $keywords;
-            // content
-            $contentArray = [];
-            $contentJson = new \stdClass;
-            $contentJson->content = $item->content;
-            $contentJson->display = true;
-            $contentJson->component = 'content';
-            array_push($contentArray,$contentJson);
-            $json->fields->content = new \stdClass;
-            $json->fields->content->{'en-US'} = $contentArray;
-            // reference
-            $json->fields->reference = new \stdClass;
-            $json->fields->reference->{'en-US'} = [];
-            $json->fields->owner = new \stdClass;
-            $json->fields->owner->{'en-US'} = 'editor@montivory.com';
-            // echo $item->title."<br>";
-            // $response = Http::withBody(json_encode($json), 'application/vnd.contentful.management.v1+json')
-            // ->withHeaders([
-            //     'X-Contentful-Content-Type' => 'content',
-            //     'Content-Type' => 'application/vnd.contentful.management.v1+json'
-            // ])
-            // ->withToken(config('app.cmaaccesstoken'))
-            // ->post(getCtUrl().'/entries');
-            // $resObj = $response->object();
-            // $response = Http::withHeaders([
-            //     'X-Contentful-Version' => intval($resObj->sys->version)
-            // ])
-            // ->withToken(config('app.cmaaccesstoken'))
-            // ->put(getCtUrl().'/entries/'.$resObj->sys->id.'/published');
+    function generateCsvFile($filename,$data) {
+        if (!file_exists(public_path('/assets/data/'))) {
+            mkdir(public_path('/assets/data/'), 0777, true);
         }
+        $fp = fopen(public_path('/assets/data/') . $filename,"wb");
+        fwrite($fp,$data);
+        fclose($fp);
+    }
 
+    function generateFBData() {
+        $dataLists = getgenerateCustomFile('fb.json');
+        $dataArray = "id|authorId|authorName|authorUrl|comments|commentsSentimentPositive|commentsSentimentNeutral|commentsSentimentNegative|contentType|createdTime|deleted|hidden|interactions|interactionsPerkFans|mediaType|origin|pageId|pageName|pageUrl|postAttributionStatus|postAttributionType|postLabels|profileId|published|reactions|reactionsAnger|reactionsHaha|reactionsLike|reactionsLove|reactionsSorry|reactionsWow|sentiment|shares|spam|url|video|content\n";
+        foreach($dataLists->data->posts as $item){
+            $textcsv = $item->id;
+            $textcsv = $textcsv.'|'.$item->authorId;
+            $textcsv = $textcsv.'|'.$item->author->name;
+            $textcsv = $textcsv.'|'.$item->author->url;
+            $textcsv = $textcsv.'|'.$item->comments;
+            $textcsv = $textcsv.'|'.$item->comments_sentiment->positive;
+            $textcsv = $textcsv.'|'.$item->comments_sentiment->neutral;
+            $textcsv = $textcsv.'|'.$item->comments_sentiment->negative;
+            $textcsv = $textcsv.'|'.$item->content_type;
+            $textcsv = $textcsv.'|'.$item->created_time;
+            $textcsv = $textcsv.'|'.$item->deleted;
+            $textcsv = $textcsv.'|'.$item->hidden;
+            $textcsv = $textcsv.'|'.$item->interactions;
+            $textcsv = $textcsv.'|'.$item->interactions_per_1k_fans;
+            $textcsv = $textcsv.'|'.$item->media_type;
+            $textcsv = $textcsv.'|'.$item->origin;
+            $textcsv = $textcsv.'|'.$item->page->id;
+            $textcsv = $textcsv.'|'.$item->page->name;
+            $textcsv = $textcsv.'|'.$item->page->url;
+            $textcsv = $textcsv.'|'.$item->post_attribution->status;
+            $textcsv = $textcsv.'|'.$item->post_attribution->type;
+            $textcsv = $textcsv.'|'.json_encode($item->post_labels);
+            $textcsv = $textcsv.'|'.$item->profileId;
+            $textcsv = $textcsv.'|'.$item->published;
+            $textcsv = $textcsv.'|'.$item->reactions;
+            $textcsv = $textcsv.'|'.$item->reactions_by_type->anger;
+            $textcsv = $textcsv.'|'.$item->reactions_by_type->haha;
+            $textcsv = $textcsv.'|'.$item->reactions_by_type->like;
+            $textcsv = $textcsv.'|'.$item->reactions_by_type->love;
+            $textcsv = $textcsv.'|'.$item->reactions_by_type->sorry;
+            $textcsv = $textcsv.'|'.$item->reactions_by_type->wow;
+            $textcsv = $textcsv.'|'.$item->sentiment;
+            $textcsv = $textcsv.'|'.$item->shares;
+            $textcsv = $textcsv.'|'.$item->spam;
+            $textcsv = $textcsv.'|'.$item->url;
+            $textcsv = $textcsv.'|'.json_encode($item->video);
+            $textcsv = $textcsv.'|'.str_replace("\n","",$item->content)."\n";
+            $dataArray = $dataArray.$textcsv;
+            // $dataArray = $dataArray.",".$item->content."\n";
+        }
+        $this->generateCsvFile('fbdata.csv',$dataArray);
+    }
 
-        // $xml=simplexml_load_file("/Applications/MAMP/htdocs/mtvradmin/public/files/readmontivory.xml") or die("Error: Cannot create object");
-        // $dataArray = [];
-        // $tagsArray = [];
-        // $categoryArray = [];
-        // foreach($xml as $key=>$value)
-        // {
-        //     $data = new \stdClass;
-        //     $data->title = $value->title."";
-        //     $data->slug = $value->post_name."";
-        //     $data->excerpt = $value->excerpt."";
-        //     $data->content = $value->content."";
-        //     $data->category = [];
-        //     $data->tags = [];
-        //     foreach ($value->category as $category) {
-        //         if($category['domain'] == 'category'){
-        //             array_push($data->category,$category['nicename']."");
-        //             array_push($categoryArray,$category['nicename']."");
-        //         }else{
-        //             $tag = new \stdClass;
-        //             $tag->id = $category['nicename']."";
-        //             $tag->name = $category."";
-        //             array_push($data->tags,$tag);
-        //             $found = false;
-        //             foreach($tagsArray as $tags){
-        //                 if($tag->id == $tags->id){
-        //                     $found = true;
-        //                     break;
-        //                 }
-        //             }
-        //             if(!$found){
-        //                 array_push($tagsArray,$tag);
-        //             }
-        //         }
-        //     }
-        //     foreach ($value->postmeta as $meta) {
-        //         if($meta->meta_key."" == "mfn-meta-seo-title"){
-        //             $data->seotitle = $meta->meta_value."";
-        //         }
-        //         if($meta->meta_key."" == "mfn-meta-seo-description"){
-        //             $data->seodescription = $meta->meta_value."";
-        //         }
-        //     }
-        //     array_push($dataArray,$data);
-        // }
-        // generateCustomFile('wpdata.json',$dataArray);
-        // return $categoryArray;
-        // return $tagsArray;
-        // return $dataArray;
-        // return getGenerateCustomFile('wptags.json');
+    function generateInstagramData() {
+        $dataLists = getgenerateCustomFile('instagram.json');
+        $dataArray = "id|authorId|authorName|authorUrl|comments|commentsSentimentPositive|commentsSentimentNeutral|commentsSentimentNegative|contentType|createdTime|interactions|interactionsPerkFans|likes|mediaType|pageId|pageName|pageUrl|postAttribution|postLabels|profileId|sentiment|url|attachments|content\n";
+        foreach($dataLists->data->posts as $item){
+            $textcsv = $item->id;
+            $textcsv = $textcsv.'|'.$item->authorId;
+            $textcsv = $textcsv.'|'.$item->author->name;
+            $textcsv = $textcsv.'|'.$item->author->url;
+            $textcsv = $textcsv.'|'.$item->comments;
+            $textcsv = $textcsv.'|'.$item->comments_sentiment->positive;
+            $textcsv = $textcsv.'|'.$item->comments_sentiment->neutral;
+            $textcsv = $textcsv.'|'.$item->comments_sentiment->negative;
+            $textcsv = $textcsv.'|'.$item->content_type;
+            $textcsv = $textcsv.'|'.$item->created_time;
+            $textcsv = $textcsv.'|'.$item->interactions;
+            $textcsv = $textcsv.'|'.$item->interactions_per_1k_fans;
+            $textcsv = $textcsv.'|'.$item->likes;
+            $textcsv = $textcsv.'|'.$item->media_type;
+            $textcsv = $textcsv.'|'.$item->page->id;
+            $textcsv = $textcsv.'|'.$item->page->name;
+            $textcsv = $textcsv.'|'.$item->page->url;
+            $textcsv = $textcsv.'|'.$item->post_attribution;
+            $textcsv = $textcsv.'|'.json_encode($item->post_labels);
+            $textcsv = $textcsv.'|'.$item->profileId;
+            $textcsv = $textcsv.'|'.$item->sentiment;
+            $textcsv = $textcsv.'|'.$item->url;
+            $textcsv = $textcsv.'|'.json_encode($item->attachments);
+            $textcsv = $textcsv.'|'.str_replace("\n","",$item->content)."\n";
+            $dataArray = $dataArray.$textcsv;
+        }
+        $this->generateCsvFile('instagramdata.csv',$dataArray);
+    }
+
+    function generateYoutubeData() {
+        $dataLists = getgenerateCustomFile('youtube.json');
+        $dataArray = "id|authorId|authorName|authorUrl|channelId|channelName|channelUrl|comments|createdTime|dislikes|duration|insightsEngagement|interactions|interactionsPerkFans|likes|mediaType|profileId|url|videoViewTime|video_views|post_labels|description\n";
+        foreach($dataLists->data->posts as $item){
+            $textcsv = $item->id;
+            $textcsv = $textcsv.'|'.$item->authorId;
+            $textcsv = $textcsv.'|'.$item->author->name;
+            $textcsv = $textcsv.'|'.$item->author->url;
+            $textcsv = $textcsv.'|'.$item->channel->id;
+            $textcsv = $textcsv.'|'.$item->channel->name;
+            $textcsv = $textcsv.'|'.$item->channel->url;
+            $textcsv = $textcsv.'|'.$item->comments;
+            $textcsv = $textcsv.'|'.$item->created_time;
+            $textcsv = $textcsv.'|'.$item->dislikes;
+            $textcsv = $textcsv.'|'.$item->duration;
+            $textcsv = $textcsv.'|'.$item->insights_engagement;
+            $textcsv = $textcsv.'|'.$item->interactions;
+            $textcsv = $textcsv.'|'.$item->interactions_per_1k_fans;
+            $textcsv = $textcsv.'|'.$item->likes;
+            $textcsv = $textcsv.'|'.$item->media_type;
+            $textcsv = $textcsv.'|'.$item->profileId;
+            $textcsv = $textcsv.'|'.$item->url;
+            $textcsv = $textcsv.'|'.$item->video_view_time;
+            $textcsv = $textcsv.'|'.$item->video_views;
+            $textcsv = $textcsv.'|'.json_encode($item->post_labels);
+            $textcsv = $textcsv.'|'.str_replace("\n","",$item->description)."\n";
+            $dataArray = $dataArray.$textcsv;
+        }
+        $this->generateCsvFile('youtubedata.csv',$dataArray);
+        return true;
+    }
+
+    function generateTwitterData() {
+        $dataLists = getgenerateCustomFile('twitter.json');
+        $dataArray = "id|origin|postLabels|profile|profileId\n";
+        foreach($dataLists->data->posts as $item){
+            $textcsv = $item->id;
+            $textcsv = $textcsv.'|'.$item->origin;
+            $textcsv = $textcsv.'|'.json_encode($item->post_labels);
+            $textcsv = $textcsv.'|'.$item->profile->id;
+            $textcsv = $textcsv.'|'.$item->profileId."\n";
+            $dataArray = $dataArray.$textcsv;
+        }
+        $this->generateCsvFile('twitterdata.csv',$dataArray);
+        return true;
+    }
+
+    function importblog() {
+        // return $this->generateTwitterData();
     }
 }
 ?>

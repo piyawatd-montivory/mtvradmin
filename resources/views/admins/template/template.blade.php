@@ -88,6 +88,8 @@
             const alertModal = new bootstrap.Modal('#alertModal');
 
             function showAlert(type = true,message = 'default text',redirect = false,url = '',intraveltime = 2000){
+                $('#alert-header').removeClass('alert-success');
+                $('#alert-header').removeClass('alert-danger');
                 processModal.hide();
                 if(type){
                     $('#alert-header').addClass('alert-success');

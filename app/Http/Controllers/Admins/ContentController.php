@@ -63,11 +63,37 @@ class ContentController extends Controller
         array_push($components,$body);
         $reference = [];
         $data->tags = [];
-        return view('admins.content.form',['data'=>$data,'tags'=>getTags(),'categories'=>$categories,'components'=>$components,'publiccredits'=>getPseudonym('',false,true),'pseudonyms'=>authuser()->pseudonyms,'reference'=>$reference]);
+        $dt = now();
+        date_add($dt,date_interval_create_from_date_string("1 days"));
+        $data->scdate = date_format($dt,"d/m/Y");
+        $data->sctime = '00:00';
+        return view('admins.content.form',['data'=>$data,'tags'=>getTags(),'categories'=>$categories,'components'=>$components,'publiccredits'=>getPseudonym('',false,true),'pseudonyms'=>authuser()->pseudonyms,'reference'=>$reference,'scheduleds'=>[]]);
     }
 
     public function edit($id)
     {
+        $arrayquery = array("entity.sys.id"=>$id);
+        $arrayquery['environment.sys.id'] = config('app.ctenv');
+        $arrayquery['order'] = '-sys.createdAt';
+        $scres = Http::withToken(config('app.cmaaccesstoken'))
+        ->get('https://'.config('app.cmaurl').'/spaces/'.config('app.spaceid').'/scheduled_actions',$arrayquery);
+        $sclists = [];
+        foreach($scres->object()->items as $item){
+            if($item->sys->status == 'scheduled'){
+                $scitem = new \stdClass;
+                $scitem->id = $item->sys->id;
+                $createAt = explode(".",$item->sys->createdAt);
+                $dt = date_create_from_format('Y-m-d\TH:i:s', $createAt[0]);
+                date_add($dt,date_interval_create_from_date_string("7 hours"));
+                $scitem->createat = date_format($dt,"d / m / Y H:i");
+                $scsystime = explode(".",$item->scheduledFor->datetime);
+                $scdt = date_create_from_format('Y-m-d\TH:i:s', $scsystime[0]);
+                date_add($scdt,date_interval_create_from_date_string("7 hours"));
+                $scitem->datetime = date_format($scdt,"d / m / Y H:i");
+                $scitem->action = $item->action;
+                array_push($sclists,$scitem);
+            }
+        }
         $response = Http::withToken(config('app.cmaaccesstoken'))
         ->get(getCtUrl().'/entries/'.$id.'/references?include=10');
         $resObj = $response->object();
@@ -188,7 +214,11 @@ class ContentController extends Controller
         if(isset($resObj->items[0]->sys->archivedAt)){
             $data->status = 'archive';
         }
-        return view('admins.content.form',['data'=>$data,'tags'=>$tags,'categories'=>$categories,'components'=>$resObj->items[0]->fields->content->{'en-US'},'publiccredits'=>$allpseudonyms,'pseudonyms'=>$pseudonyms,'reference'=>isset($resObj->items[0]->fields->reference->{'en-US'})?$resObj->items[0]->fields->reference->{'en-US'}:[]]);
+        $dt = now();
+        date_add($dt,date_interval_create_from_date_string("1 days"));
+        $data->scdate = date_format($dt,"d/m/Y");
+        $data->sctime = '00:00';
+        return view('admins.content.form',['data'=>$data,'tags'=>$tags,'categories'=>$categories,'components'=>$resObj->items[0]->fields->content->{'en-US'},'publiccredits'=>$allpseudonyms,'pseudonyms'=>$pseudonyms,'reference'=>isset($resObj->items[0]->fields->reference->{'en-US'})?$resObj->items[0]->fields->reference->{'en-US'}:[],'scheduleds'=>$sclists]);
     }
 
     public function preview($id)
@@ -331,7 +361,7 @@ class ContentController extends Controller
         }
     }
 
-    function create(Request $request)
+    public function create(Request $request)
     {
         $data = json_decode($request->data);
         $categories = getCategory();
@@ -472,6 +502,59 @@ class ContentController extends Controller
             $resObj->status = 'archive';
         }
         return $resObj;
+    }
+
+    public function scheduled(Request $request){
+        $scdate = $request->scdate;
+        $sctime = $request->sctime;
+        $dt = date_create_from_format('d/m/Y H:i', $scdate.' '.$sctime);
+        date_add($dt,date_interval_create_from_date_string("-7 hours"));
+        $json = new \stdClass;
+        $json->entity = new \stdClass;
+        $json->entity->sys = new \stdClass;
+        $json->entity->sys->type = "Link";
+        $json->entity->sys->linkType = "Entry";
+        $json->entity->sys->id = $request->id;
+        //environment
+        $json->environment = new \stdClass;
+        $json->environment->sys = new \stdClass;
+        $json->environment->sys->type = "Link";
+        $json->environment->sys->linkType = "Environment";
+        $json->environment->sys->id = config('app.ctenv');
+        //scheduled
+        $json->scheduledFor = new \stdClass;
+        $json->scheduledFor->datetime = date_format($dt,"Y-m-d")."T".date_format($dt,"H:i").":00.000Z";
+        $json->scheduledFor->timezone = "Asia/Bangkok";
+        $json->action = $request->action;
+        $response = Http::withBody(json_encode($json), 'application/vnd.contentful.management.v1+json')
+        ->withHeaders([
+            'Content-Type' => 'application/vnd.contentful.management.v1+json'
+        ])
+        ->withToken(config('app.cmaaccesstoken'))
+        ->post('https://'.config('app.cmaurl').'/spaces/'.config('app.spaceid').'/scheduled_actions');
+        if($response->status() <> 201){
+            return ['result'=>false,'message'=>$response->object()];
+        }
+        $resObj = $response->object();
+        $result = new \stdClass;
+        $result->result = true;
+        $result->id = $resObj->sys->id;
+        $createAt = explode(".",$resObj->sys->createdAt);
+        $dt = date_create_from_format('Y-m-d\TH:i:s', $createAt[0]);
+        date_add($dt,date_interval_create_from_date_string("7 hours"));
+        $result->createat = date_format($dt,"d / m / Y H:i");
+        $scsystime = explode(".",$resObj->scheduledFor->datetime);
+        $scdt = date_create_from_format('Y-m-d\TH:i:s', $scsystime[0]);
+        date_add($scdt,date_interval_create_from_date_string("7 hours"));
+        $result->datetime = date_format($scdt,"d / m / Y H:i");
+        $result->action = $request->action;
+        return $result;
+    }
+
+    public function delscheduled(Request $request){
+        $response = Http::withToken(config('app.cmaaccesstoken'))
+        ->delete('https://'.config('app.cmaurl').'/spaces/'.config('app.spaceid').'/scheduled_actions/'.$request->id.'?environment.sys.id='.config('app.ctenv'));
+        return $response->object();
     }
 
     public function published(Request $request){

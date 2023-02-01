@@ -6,12 +6,13 @@
 
 @endsection
 @section('stylesheet')
-<link href="{{asset('css/sorttheme.css')}}" rel="stylesheet">
+{{-- <link href="{{asset('css/sorttheme.css')}}" rel="stylesheet"> --}}
 <link href="{{asset('css/tags.css')}}" rel="stylesheet" />
 <link href="{{asset('css/jquery-confirm.css')}}" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 <link href="{{asset('css/form.css')}}" rel="stylesheet" />
+<link href="{{asset('css/gijgo.css')}}" rel="stylesheet" />
 @endsection
 @section('content')
 <div class="container-fluid mt-3">
@@ -136,29 +137,79 @@
     </div>
 </div>
 
+<div class="modal fade" id="scheduledModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="scheduledModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="browseSingleImageLabel">Scheduled</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row mb-3 mt-3">
+                <div class="col-md-10 offset-md-2">
+                    <div class="form-check form-check-inline @if($data->status <> 'draft') d-none @endif">
+                        <input class="form-check-input" type="radio" name="typescheduled" id="typescheduledpublish" value="publish" @if($data->status == 'draft') checked @endif>
+                        <label class="form-check-label" for="typescheduledpublish">Publish</label>
+                    </div>
+                    <div class="form-check form-check-inline @if($data->status <> 'publish') d-none @endif">
+                        <input class="form-check-input" type="radio" name="typescheduled" id="typescheduledunpublish" value="unpublish" @if($data->status == 'publish') checked @endif>
+                        <label class="form-check-label" for="typescheduledunpublish">Unpublish</label>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="datepicker" class="col-2 form-label">Date</label>
+                <div class="col-4">
+                    <input id="datepicker" class="form-control" value="{{ $data->scdate }}"/>
+                </div>
+                <div class="col-4">
+                    <input id="timepicker" class="form-control" value="{{ $data->sctime }}"/>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal" id="modal-tag-close">Close</button>
+            <button type="button" class="btn btn-primary btn-sm" onclick="addScheduled()" id="modal-tag-add">Add</button>
+        </div>
+      </div>
+    </div>
+</div>
+
 @endsection
 @section('script')
     <script src="{{asset('js/validate.js')}}"></script>
     <script src="{{asset('js/Sortable.min.js')}}"></script>
     <script src="{{asset('js/jquery-confirm.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{{asset('js/gijgo.js')}}"></script>
     <script src="//cdn.ckeditor.com/4.19.1/full/ckeditor.js"></script>
     <script type="text/javascript">
 
         CKEDITOR.disableAutoInline = true;
         const imageModalEl = document.getElementById('browseSingleImage');
         const tagModalEl = document.getElementById('tagsModal');
+        const scheduledModalEl = document.getElementById('scheduledModal')
         let imageModal ='';
         let tagModal ='';
+        let scheduledModal = '';
         let browsetype = '';
         let componentid = '';
         let editid = {{count($components)}};
         let cversion = {{$data->version}};
         let refid = {{count($reference)}};
+        let datepicker = $('#datepicker').datepicker({
+            uiLibrary: 'bootstrap5',
+            format: 'dd/mm/yyyy'
+        });
+        let timepicker = $('#timepicker').timepicker({
+            uiLibrary: 'bootstrap5',
+            modal:false
+        });
 
         $( document ).ready(function() {
             imageModal =  new bootstrap.Modal(document.getElementById('browseSingleImage'), {backdrop:true});
             tagModal =  new bootstrap.Modal(document.getElementById('tagsModal'), {backdrop:true,keyboard:false});
+            scheduledModal =  new bootstrap.Modal(document.getElementById('scheduledModal'), {backdrop:true,keyboard:false});
             $( '#category' ).select2( {
                 theme: "bootstrap-5",
                 width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
@@ -194,6 +245,9 @@
                 $('#iframeBrowseImage').attr('src',"{{ route('imagebrowse')}}?type=single");
                 imageModal.show();
             })
+            $('#scheduled-btn').on('click',function(){
+                scheduledModal.show();
+            })
             $('#ref-btn').on('click',function(){
                 addreference();
             })
@@ -209,7 +263,6 @@
             $('#add-pcredit').on('click',function(){
                 addCredit();
             })
-
             $('#title').on('change',function(){
                 if($('#slug').val().trim().length == 0){
                     $('#slug').val(buildSlug($('#title').val()));
@@ -252,7 +305,70 @@
                 let slug = $('#idtag').val();
                 $('#idtag').val(buildSlug(slug));
             });
+            bindDelScheduled();
         })
+
+        const addScheduled = () => {
+            scheduledModal.hide();
+            processModal.show();
+            setTimeout(() => {
+                $.ajax({
+                    url:"{{route('scheduled')}}",
+                    async: false,
+                    cache: false,
+                    method:"POST",
+                    headers: {"X-CSRF-TOKEN": "{{ csrf_token() }}"},
+                    data:{id:"{{$data->id}}",scdate:datepicker.val(),sctime:timepicker.val(),action:$('input[name="typescheduled"]:checked').val()},
+                    success:function(response){
+                        if(response.result){
+                            showAlert(true,'Create scheduled successful',false,1000);
+                            let tdstr = `
+                            <tr>
+                                <th scope="row">${response.action}</th>
+                                <td>${response.datetime}</td>
+                                <td>${response.createat}</td>
+                                <td>
+                                    <a class="btn btn-outline-danger del-schedule btn-sm" id="${response.id}">Delete</a>
+                                </td>
+                            </tr>
+                            `;
+                            $('#scheduled-list').append(tdstr);
+                            bindDelScheduled();
+                        }else{
+                            showAlert(false,'Can not add scheduled.',false,1000);
+                        }
+                    }
+                })
+            },1000);
+        }
+
+        const deleteScheduled = (scEl) => {
+            processModal.show();
+            setTimeout(() => {
+                $.ajax({
+                    url:"{{route('delscheduled')}}",
+                    async: false,
+                    cache: false,
+                    method:"POST",
+                    headers: {"X-CSRF-TOKEN": "{{ csrf_token() }}"},
+                    data:{id:scEl.id},
+                    success:function(response){
+                        showAlert(true,'Cancel scheduled successful',false,1000)
+                        $(scEl).parent().parent().remove();
+                    }
+                })
+            },1000);
+        }
+
+        const bindDelScheduled = () => {
+            $('.del-schedule').unbind('click');
+            $('.del-schedule').on('click',function(){
+                if (confirm("Cancel scheduled!") == true) {
+                    deleteScheduled(this);
+                }
+            })
+        }
+
 
         const reporterrortag = (type) => {
             if(type === 'nametag') {
