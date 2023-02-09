@@ -47,7 +47,7 @@ Montivory : {{ $data->title }}
                     </div>
                     <div class="col-12 col-md-6 text-md-end mb-3">
                         <span class="share-label">Share</span>
-                        <div class="fb-share-button" data-href="{{ $data->url }}" data-layout="button" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($data->url) }}&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
+                        <a href="https://www.facebook.com/dialog/share?app_id=570634668210667&display=popup&href={{ urlencode($data->url) }}&redirect_uri={{ urlencode($data->url) }}" class="social-link px-2"><img src="{{ asset('images/icon/facebook-b.png')}}"/></a>
                         {{-- <a href="#" class="social-link px-2"><img src="{{ asset('images/icon/instagram-b.png')}}"/></a> --}}
                         <script type="IN/Share" data-url="{{ $data->url }}"></script>
                         <a href="https://twitter.com/share?ref_src={{ $data->url }}" class="twitter-share-button" data-show-count="false">Tweet</a>
@@ -122,14 +122,5 @@ Montivory : {{ $data->title }}
 @endsection
 @section('script')
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v15.0&appId=570634668210667&autoLogAppEvents=1" nonce="pxdOYwTy"></script>
 <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
-<script type="text/javascript">
-    let cssLink = document.createElement("link");
-    cssLink.href = "{{asset('/css/fixtwitter.css')}}";
-    cssLink.rel = "stylesheet";
-    cssLink.type = "text/css";
-    frames['twitter-widget-0'].document.head.appendChild(cssLink);
-
-</script>
 @endsection

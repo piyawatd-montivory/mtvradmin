@@ -367,8 +367,54 @@ class BlogController extends Controller
         return true;
     }
 
+    function generateListeningData($platform) {
+        $dataLists = getgenerateCustomFile($platform.'.json');
+        $dataArray = "id|authorId|authorName|authorUrl|profileId|createdTime|contentType|comments|interactions|shares|mentions|platform|postLabels|potentialImpressions|sentiment|language|country|listeningQueries|message\n";
+        // return $dataLists->data->posts;
+        foreach($dataLists->data->posts as $item){
+            $textcsv = $item->id;
+            $textcsv = $textcsv.'|'.$item->authorId;
+            if(isset($item->author)){
+                $textcsv = $textcsv.'|'.$item->author->name;
+                $textcsv = $textcsv.'|'.$item->author->url;
+            }else{
+                $textcsv = $textcsv.'||';
+            }
+            $textcsv = $textcsv.'|'.$item->profileId;
+            $textcsv = $textcsv.'|'.$item->created_time;
+            $textcsv = $textcsv.'|'.$item->content_type;
+            $textcsv = $textcsv.'|'.$item->comments;
+            $textcsv = $textcsv.'|'.$item->interactions;
+            if(isset($item->shares)){
+                $textcsv = $textcsv.'|'.$item->shares;
+            }else{
+                $textcsv = $textcsv.'|';
+            }
+            $textcsv = $textcsv.'|'.json_encode($item->mentions);
+            $textcsv = $textcsv.'|'.$item->platform;
+            $textcsv = $textcsv.'|'.json_encode($item->post_labels);
+            $textcsv = $textcsv.'|'.$item->potential_impressions;
+            $textcsv = $textcsv.'|'.$item->sentiment;
+            $textcsv = $textcsv.'|'.$item->language;
+            if(isset($item->country)){
+                $textcsv = $textcsv.'|'.$item->country;
+            }else{
+                $textcsv = $textcsv.'|';
+            }
+
+            $textcsv = $textcsv.'|'.json_encode($item->listening_queries);
+            $textcsv = $textcsv.'|'.str_replace("\n","",$item->message)."\n";
+            $dataArray = $dataArray.$textcsv;
+        }
+        $this->generateCsvFile($platform.'data.csv',$dataArray);
+    }
+
     function importblog() {
-        // return $this->generateTwitterData();
+        // $this->generateListeningData('fb');
+        // return $this->generateListeningData('instagram');
+        // return $this->generateListeningData('youtube');
+        return $this->generateListeningData('twitter');
+        return true;
     }
 }
 ?>
