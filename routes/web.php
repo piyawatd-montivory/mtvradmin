@@ -32,9 +32,6 @@ use App\Http\Middleware\EnsureSignin;
 */
 
 Route::get('/', [WebController::class, 'index'])->name('home');
-Route::get('/info', function () {
-    return phpinfo();
-});
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 Route::get('/category/{slug}', [BlogController::class, 'category'])->name('category');
 Route::get('/tags/{slug}', [BlogController::class, 'tags'])->name('tags');
@@ -46,6 +43,11 @@ Route::get('/career', [WebController::class, 'career'])->name('career');
 Route::get('/career/{alias}', [WebController::class, 'careerdetail'])->name('careerdetail');
 Route::get('/careerfinish', [WebController::class, 'careerfinish'])->name('careerfinish');
 Route::get('/cachedata', [ConfigController::class, 'index'])->name('cachedata');
+Route::prefix('sample')->group(function () {
+    Route::get('/ocr',function(){
+        return view('sample.ocr');
+    });
+});
 Route::prefix('admins')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->middleware([EnsureSignin::class])->name('dashboard');
     Route::get('/signin', [LoginController::class, 'signin'])->name('signin');
