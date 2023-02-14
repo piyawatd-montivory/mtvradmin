@@ -859,7 +859,15 @@ function renderContent($components) {
                     $data = $component->content;
                     break;
                 case 'blockquote':
-                    $data = "<blockquote class='blockquote'>".$component->title."<br>".$component->content."<br>".$component->credit."</blockquote>";
+                    $data = "<div class='blockquote'>";
+                    if($component->title <> ''){
+                        $data = $data."<h1 class=\"quotetitle\">".$component->title."</h1>";
+                    }
+                    $data = $data."<p class=\"quotecontent\">".$component->content."</p>";
+                    if($component->credit <> ''){
+                        $data = $data."<span class=\"quotecredit\">".$component->credit."</span>";
+                    }
+                    $data = $data."</div>";
                     break;
                 case 'image-left':
                     $data = "<div class='row image-block'>
